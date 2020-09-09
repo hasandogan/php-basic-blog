@@ -4,12 +4,6 @@ $sql = "SELECT * FROM categories";
 $result = mysqli_query($link,$sql);
 
 
-session_start();
-
-if (isset($_SESSION['user_type']) != 'admin') {
-
-    header('location: ../index.php');
-}
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -17,6 +11,7 @@ if (isset($_SESSION['user_type']) != 'admin') {
 <?php require 'layout/header.php';
 require 'layout/sidebar.php';
 ?>
+
 <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
         <?php require 'layout/topbar.php' ?>
@@ -64,15 +59,15 @@ require 'layout/sidebar.php';
                                     <td><?php echo $row['content'] ?></td>
                                     <td><?php echo $row['meta_desc'] ?></td>
                                     <td><?php echo $row['meta_key'] ?></td>
-                                    <td><a href="categoriesedit.php?edit=<?php echo $row['id'] ?>">edit</a></td>
-                                    <td><a href="conf/categories.php?delete=<?php echo $row['id'] ?>">delete</a></td>
+                                    <td><a href="editcategories/<?php echo $row['id'] ?>">edit</a></td>
+                                    <td><a href="categoriesedit/delete/<?php echo $row['id'] ?>">delete</a></td>
                                 </tr>
                                 <?php
                             } ?>
                             </tbody>
                         </table>
                     </div>
-                    <button type="button" class="btn btn-success"><a href="categoriesadd.php">Add New categories</a>
+                    <button type="button" class="btn btn-success"><a href="/admin/categoriesadd">Add New categories</a>
                     </button>
                 </div>
             </div>

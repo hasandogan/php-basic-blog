@@ -4,9 +4,8 @@ $sql = "Select * From user";
 $result = mysqli_query($link, $sql);
 session_start();
 if (isset($_SESSION['user_type']) != 'admin') {
-    header('location: ../index.php');
+    header('location: ../');
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,15 +61,15 @@ require 'layout/sidebar.php';
                                     <td><?php echo $row['username']; ?></td>
                                     <td><?php echo $row['email']; ?></td>
                                     <td><?php echo $row['pass']; ?></td>
-                                    <td><a href="useredit.php?id=<?php echo $row['id'] ?>">edit</a></td>
-                                    <td><a href="conf/userconf.php?id=<?php echo $row['id'] ?>">delete</a></td>
+                                    <td><a href="useredit.php?id=<?php echo $row['id'] ?>">todo</a></td>
+                                    <td><a href="conf/userconf.php?id=<?php echo $row['id'] ?>">todo</a></td>
 
                                 </tr>
                             <?php } ?>
                             </tbody>
                         </table>
                     </div>
-                    <button type="button" class="btn btn-success"><a href="usernew.php">Add New User</button>
+                    <button type="button" class="btn btn-success"><a href="newuser">Add New User</button>
                 </div>
             </div>
         </div>

@@ -1,11 +1,10 @@
 <?php
 require 'Layout/header.php';
 ?>
-
-<link rel="stylesheet" href="css/login.css">
+<link rel="stylesheet" href="../css/login.css">
 <div class="login-box">
     <h2>Login</h2>
-    <form action="registerdb.php" method="POST">
+    <form action="../registerdb.php" method="POST">
         <div class="user-box">
             <input type="text" name="username" required="">
             <label>User Name</label>

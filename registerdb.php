@@ -12,7 +12,7 @@ if (mysqli_query($link, $sql)) {
     if (isset($_SESSION['user_type']) == 'admin') {
 
         header('location: admin/user.php');
-    }else{
+    } else {
         header('Location: index.php');
     }
 } else {

@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'connect.php';
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
@@ -14,11 +13,12 @@ if (isset($_POST['login'])) {
 
 
         if ($result > 0) {
+            session_start();
             $_SESSION['username'] = $username;
-            header('location: index.php');
+            header('location: /');
 
         } else {
-            header('location: /login.php');
+            header('location: /login');
         }
     }
 

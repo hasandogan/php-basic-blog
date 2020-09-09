@@ -4,11 +4,11 @@ require 'layout/sidebar.php';
 ?>
 <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
-<?php require 'layout/topbar.php'; ?>
-        <link rel="stylesheet" href="css/login.css">
+        <?php require 'layout/topbar.php'; ?>
+        <link rel="stylesheet" href="../css/login.css">
         <div class="login-box">
             <h2>Login</h2>
-            <form action="../registerdb.php" method="POST">
+            <form action="../../registerdb.php" method="POST">
                 <div class="user-box">
                     <input type="text" name="username" required="">
                     <label>User Name</label>

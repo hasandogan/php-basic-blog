@@ -2,6 +2,7 @@ body {
     position: relative;
     background: #efefee;
     min-height: 45rem;
+    padding-top: 80px;
     padding-bottom: 80px;
 }
 
@@ -166,7 +167,7 @@ html {height:100%}
 /* ARTICLE SHOW PAGE */
 
 .show-article-container {
-    width: 100%;
+    padding: 30px;
     background-color: #fff;
 }
 
@@ -175,9 +176,13 @@ html {height:100%}
     border-radius: 3px;
 }
 
+.show-article-head {
+    display: flex;
+}
+
 .show-article-img {
-    width: 250px;
-    height: auto;
+    width: 400px;
+    height: 400px;
     border-radius: 5px;
 }
 

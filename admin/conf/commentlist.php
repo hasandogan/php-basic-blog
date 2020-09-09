@@ -10,7 +10,7 @@ if (isset($_GET['id'])){
     $sql = "UPDATE comments SET confirmed='$ok' WHERE id='$id'";
     if(mysqli_query($link,$sql)){
 
-        header('location: ../comment.php');
+        header('location: /admin/commentlist');
     }else{
         echo 'hatalı sql';
     }
@@ -20,7 +20,7 @@ if (isset($_GET['delete'])){
     $id = $_GET['delete'];
     $sql = "Delete FROM comments where id='$id'";
     if($query = mysqli_query($link,$sql)){
-        header('location: /admin/comment.php');
+        header('location: /admin/commentlist');
     }
     else{
         echo "Error: " . $sql . "<br>" . mysqli_error($link);
