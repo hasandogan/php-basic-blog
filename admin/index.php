@@ -37,6 +37,9 @@ switch ($pathArray[0]) {
     case 'articleupdate':
         require __DIR__ . '/conf/articleupdate.php';
         break;
+    case 'config':
+        require __DIR__ . '/conf/config.php';
+        break;
     case 'articleadd':
         require __DIR__ . '/conf/articleadd.php';
         break;
@@ -63,7 +66,7 @@ switch ($pathArray[0]) {
         break;
     case 'newuser' :
         require  __DIR__ . '/views/usernew.php';
-
+        break;
     default:
         http_response_code(404);
         require __DIR__ . '/views/404.php';

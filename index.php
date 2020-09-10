@@ -1,12 +1,8 @@
 <?php
 $request = $_SERVER['REQUEST_URI'];
-
-
 $path = $_SERVER['PATH_INFO'];
 $path = substr($path, 1);
 $pathArray = explode('/', $path);
-
-
 switch ($pathArray[0]) {
     case 'categories' :
         require __DIR__ . '/views/index.php';
@@ -37,6 +33,12 @@ switch ($pathArray[0]) {
         break;
     case 'register' :
         require __DIR__ . '/views/register.php';
+        break;
+    case 'registerdb' :
+        require __DIR__ . '/views/registerdb.php';
+        break;
+    case 'logincheck' :
+        require __DIR__ . '/views/logincheck.php';
         break;
     default:
         http_response_code(404);

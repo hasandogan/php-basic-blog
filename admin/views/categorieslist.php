@@ -1,18 +1,12 @@
 <?php
-$link = mysqli_connect("localhost", "root", "password", "blog");
-$sql = "SELECT * FROM categories";
-$result = mysqli_query($link,$sql);
-
-
-?>
-    <!DOCTYPE html>
-    <html lang="en">
-<body id="page-top">
-<?php require 'layout/header.php';
+include 'conf/connect.php';
+require 'layout/header.php';
 require 'layout/sidebar.php';
+$query = $conn->query("SELECT * FROM categories");
+
 ?>
 
-<div id="content-wrapper" class="d-flex flex-column">
+    <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
         <?php require 'layout/topbar.php' ?>
         <div class="container-fluid">
@@ -50,19 +44,20 @@ require 'layout/sidebar.php';
                             </tfoot>
                             <tbody>
                             <?php
-                            while ($row = mysqli_fetch_array($result)) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['id'] ?></td>
-                                    <td><?php echo $row['categories'] ?></td>
-                                    <td><?php echo $row['page_title'] ?></td>
-                                    <td><?php echo $row['content'] ?></td>
-                                    <td><?php echo $row['meta_desc'] ?></td>
-                                    <td><?php echo $row['meta_key'] ?></td>
-                                    <td><a href="editcategories/<?php echo $row['id'] ?>">edit</a></td>
-                                    <td><a href="categoriesedit/delete/<?php echo $row['id'] ?>">delete</a></td>
-                                </tr>
-                                <?php
+                            if ($query->rowCount()) {
+                                foreach ($query as $row) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $row['id'] ?></td>
+                                        <td><?php echo $row['name'] ?></td>
+                                        <td><?php echo $row['page_title'] ?></td>
+                                        <td><?php echo $row['content'] ?></td>
+                                        <td><?php echo $row['meta_desc'] ?></td>
+                                        <td><?php echo $row['meta_key'] ?></td>
+                                        <td><a href="editcategories/<?php echo $row['id'] ?>">edit</a></td>
+                                        <td><a href="categoriesedit/delete/<?php echo $row['id'] ?>">delete</a></td>
+                                    </tr>
+                                <?php }
                             } ?>
                             </tbody>
                         </table>

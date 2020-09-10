@@ -9,44 +9,58 @@ $converter = explode('-', $pathArray[1]);
 $slugconverter = implode('-', $converter);
 
 if (isset($slugconverter)) {
-    $sql = "SELECT * FROM article where slug LIKE '%$slugconverter%'";
-    $query = mysqli_query($link, $sql);
-    $row = mysqli_fetch_array($query);
-    $id = $row['id'];
-    $catsql = "SELECT * FROM article_categories where articleid='$id'";
-    $catquery = mysqli_query($link, $catsql);
-    $catresult = mysqli_fetch_array($catquery);
-    $catid = $catresult['categoriesid'];
-    $articlecatsql = "SELECT * FROM  categories where id='$catid'";
-    $articlecatquery = mysqli_query($link, $articlecatsql);
-    $articlecatresult = mysqli_fetch_array($articlecatquery);
+    $articlequery = $conn->query("SELECT * FROM article where slug LIKE '%$slugconverter%'");
+    if ($query->rowCount()) {
+        foreach ($articlequery as $artrow) {
+
+        }
+    }
+    $id = $artrow['id'];
+    $catquery = $conn->query("SELECT * FROM article_categories where articleid='$id'");
+    if ($query->rowCount()) {
+        foreach ($catquery as $row) {
+        }
+    }
+    $catid = $row['categoriesid'];
+    $showcatquery = $conn->query("SELECT * FROM  categories where id='$catid'");
+
 } else {
     header('loaction:   /');
 }
-$tagsql = "SELECT * FROM tags where articleid='$id'";
-$tagresult = mysqli_query($link, $tagsql);
+
+$tagquery = $conn->query("SELECT * FROM tags where articleid='$id'");
+
 
 ?>
 
     <div class="container">
         <div class="show-article-container p-10 mt-3">
             <div class="show-article-head">
-                <img class="show-article-img" src="/admin/img/<?php echo $row['image_path'] ?> ">
+                <img class="show-article-img" src="/admin/img/<?php echo $artrow['image_path'] ?> ">
                 <div class="show-article-title-container d-inline-block pl-5 align-middle">
-                    <span class="show-article-title "><?php echo $row['title'];
+                    <span class="show-article-title "><?php echo $artrow['title'];
                         session_start();
-                        $_SESSION['title'] = $row['title'];
+                        $_SESSION['title'] = $artrow['title'];
                         ?></span>
                     <br>
                     <span class="align-left article-details"><img class="article-author-img rounded-circle"
-                                                                  src="https://robohash.org/<?php echo $row['author'] ?>">
+                                                                  src="https://robohash.org/<?php echo $artrow['author'] ?>">
                     <?php echo $row['author'] ?> </span>
                     <span class="pl-2 article-details"> 3 hours ago</span>
                     <span class="pl-2 article-details"><a
-                                href="/?id=<?php echo $articlecatresult['id'] ?>">Categories: <?php echo $articlecatresult['categories'] ?></a></span>
+                                href="/categories/<?php
+                                if ($showcatquery->rowCount()) {
+                                    foreach ($showcatquery as $categoriesrow) {
+
+                                    }
+                                }
+                                echo $categoriesrow['name'] ?> ">Categories:
+                            <?php echo $categoriesrow['name'] ?></a></span>
                     <?php
-                    while ($tag = mysqli_fetch_array($tagresult)) {
-                        echo " <span class='badge badge-secondary'>" . $tag['tag_name'] . "</span>";
+                    if ($tagquery->rowCount()) {
+                        foreach ($tagquery as $tag) {
+                            echo " <span class='badge badge-secondary'>" . $tag['tag_name'] . "</span>";
+                        }
                     }
                     ?>
                 </div>
@@ -54,7 +68,7 @@ $tagresult = mysqli_query($link, $tagsql);
             <div class="row">
                 <div class="col-sm-12">
                     <div class="article-text">
-                        <?php echo $row['content'] ?>
+                        <?php echo $artrow['content'] ?>
                     </div>
                 </div>
             </div>
@@ -64,10 +78,8 @@ $tagresult = mysqli_query($link, $tagsql);
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <?php $i = 0; ?>
                     <hr>
                     <h3><i class="pr-md-5 fa fa-comment"></i>Comments</h3>
-
                     <?php
                     if (isset($_SESSION['username'])) {
                         $username = $_SESSION['username'];
@@ -80,8 +92,9 @@ $tagresult = mysqli_query($link, $tagsql);
                                     <form action="../commentdb.php" method="post">
                                         <span class="commenter-name"></span>
                                         <input type="hidden" name="username" value="<?php echo $username; ?>">
+                                        <input type="hidden" name="articleslug" value="<?php echo $artrow['slug']; ?>">
                                         <input type="hidden" name="date" value="<?php echo date('Y-m-d'); ?>">
-                                        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                        <input type="hidden" name="id" value="<?php echo $artrow['id']; ?>">
                                         <div class="form-group">
                                             <textarea class="form-control comment-form" name="commentcontent"
                                                       rows="1"></textarea>
@@ -95,21 +108,22 @@ $tagresult = mysqli_query($link, $tagsql);
                         </div>
                     <?php } else {
                     } ?>
-                    <?php $sqlcomment = "SELECT * FROM comments where confirmed='1' and articleid='$id'";
-                    $resultcomment = mysqli_query($link, $sqlcomment);
-                    ?>
-                    <?php
-                    session_start();
-                    while ($comment = mysqli_fetch_array($resultcomment)) {
+                    <?php $commentquery = $conn->query("SELECT * FROM comments where confirmed='1' and articleid='$id'");
+                    if ($commentquery->rowCount()) {
                         ?>
-                                <img class="comment-img rounded-circle"
-                                     src="https://robohash.org/<?php echo $comment['username'] ?>">
-                                <div class="comment-container d-inline-block pl-3 align-top">
-                                    <span class="commenter-name"><?php echo $comment['username'] ?></span>
-                                    <br>
-                                    <span class="comment"><?php echo $comment['content'] ?></span>
-                                </div>
-                    <?php } ?>
+                        <?php
+                        session_start();
+                        foreach ($commentquery as $comment) {
+                            ?>
+                            <img class="comment-img rounded-circle"
+                                 src="https://robohash.org/<?php echo $comment['username'] ?>">
+                            <div class="comment-container d-inline-block pl-3 align-top">
+                                <span class="commenter-name"><?php echo $comment['username'] ?></span>
+                                <br>
+                                <span class="comment"><?php echo $comment['content'] ?></span>
+                            </div>
+                        <?php }
+                    } ?>
                 </div>
             </div>
         </div>

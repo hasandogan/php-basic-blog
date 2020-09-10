@@ -4,19 +4,25 @@ if (isset($_POST['username'])) {
     $username = $_POST['username'];
     $date = $_POST['date'];
     $id = $_POST['id'];
-
     $content = $_POST['commentcontent'];
-    $sqlslug = "SELECT * FROM article where id='$id'";
-    $slugquery = mysqli_query($link,$sqlslug);
-    $slugresult = mysqli_fetch_array($slugquery);
-    $slug  = $slugresult['slug'];
+    $query = $conn->query("SELECT * FROM article where id='$id'");
+    if ($query->rowCount()) {
+        foreach ($query as $row) {
 
-    $sql = "INSERT INTO comments (username, content, createdAt, articleid )VALUES ('$username', '$content', '$date',' $id')";
-    if (mysqli_query($link, $sql)) {
-        header('Location: /articleshow/'. $slug);
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($link);
+        }
     }
-} else {
-    header('location:  /');
+    $title = $row['slug'];
+    $query = $conn->prepare("INSERT INTO comments SET 
+    username = ?,
+     content = ?,
+    createdAt = ?,
+     articleid = ?,
+     articletitle= ?
+    ");
+
+    $insert = $query->execute(array(
+        "$username", "$content", "$date", "$id", "$title"));
+    if ($insert) {
+        header('location: articleshow/' . $title);
+    }
 }

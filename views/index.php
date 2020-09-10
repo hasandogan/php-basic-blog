@@ -21,19 +21,19 @@ require 'Layout/header.php';
             </div>
         </div>
         <?php
-        $sql = "SELECT DISTINCT tag_name FROM tags ORDER BY tag_name DESC LIMIT 50;";
-        $tagquery = mysqli_query($link, $sql);
+        $query = $conn->query("SELECT DISTINCT tag_name FROM tags ORDER BY tag_name DESC LIMIT 50;");
+        if ($query->rowCount()){
         ?>
         <div class="card my-4">
             <h5 class="card-header">Last add Tags </h5>
             <div class="card-body">
-                <?php while ($row = mysqli_fetch_array($tagquery)) {
+                <?php foreach ($query as $row){
 
                     ?>
                     <a href="/tag/<?php echo $row['tag_name'] ?>"> <span
                                 class='badge badge-secondary'><?php echo $row['tag_name'] ?></span> </a>
                     <?php
-                } ?>
+                }} ?>
             </div>
         </div>
     </div>

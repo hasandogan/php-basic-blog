@@ -6,11 +6,13 @@ $pathArray = explode('/', $path);
 $id = $pathArray[1];
 
 if (isset($id)) {
-    include '../connect.php';
-    $sql = ("SELECT * FROM article WHERE id='$id'");
-    $query = mysqli_query($link, $sql);
-    $result = mysqli_fetch_array($query);
-}else{
+    include 'conf/connect.php';
+    $query = $conn->query("SELECT * FROM article WHERE id='$id'");
+    if ($query->rowCount()) {
+        foreach ($query as $row) {
+        }
+    }
+} else {
     header('location article');
 }
 ?>
@@ -24,37 +26,38 @@ if (isset($id)) {
 <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
         <?php require 'layout/topbar.php'; ?>
-        <form action="../articleupdate/<?php echo $result['id']?>" method="post" enctype="multipart/form-data">
+        <form action="../articleupdate/<?php echo $row['id'] ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="exampleFormControlInput1">title</label>
-                <input type="text" class="form-control" value="<?php echo $result['title'] ?>" name="title" placeholder="title">
+                <input type="text" class="form-control" value="<?php echo $row['title'] ?>" name="title"
+                       placeholder="title">
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">author</label>
-                <input type="text" class="form-control" name="author" value="<?php echo $result['author'] ?>"  placeholder="author">
+                <input type="text" class="form-control" name="author" value="<?php echo $row['author'] ?>"
+                       placeholder="author">
             </div>
             <div class="form-group">
 
-                <img src="../img/<?php echo $result['image_path']?>" alt="Girl in a jacket" width="100" height="100">
+                <img src="../img/<?php echo $row['image_path'] ?>" alt="Girl in a jacket" width="100" height="100">
                 <input type="file" name="fileToUpload" id="fileToUpload">
             </div>
             <label>Select Tag</label>
             <div class="form-group">
-                <select class="form-control select2"  name="tags[]" multiple="multiple" style="width: 100%;"></select>
+                <select class="form-control select2" name="tags[]" multiple="multiple" style="width: 100%;"></select>
             </div>
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Example textarea</label>
-                <textarea class="form-control" name="content" rows="3"><?php echo $result['content']?></textarea>
+                <textarea class="form-control" name="content" rows="3"><?php echo $row['content'] ?></textarea>
             </div>
-            <?php $sql = "select * from categories ";
-            $result = mysqli_query($link, $sql);
-            ?>
+            <?php $query = $conn->query("SELECT * FROM categories") ?>
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Example select</label>
                 <select class="form-control" name="categories">
-                    <?php while ($row = mysqli_fetch_array($result)) {?>
-                        <option><?php echo $row['categories']?></option>
-                    <?php } ?>
+                    <?php if ($query->rowCount()) {
+                        foreach ($query as $row) {?>
+                    <option><?php echo $row['name'] ?></option>
+                    <?php }} ?>
                 </select>
             </div>
             <div class="form-group">
@@ -95,16 +98,18 @@ if (isset($id)) {
             integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
-<?php
-$sql = "SELECT * FROM tags where articleid='$id'";
-$tagquery = mysqli_query($link,$sql);
-$tagnamelist = [];
-while ($tagrow = mysqli_fetch_array($tagquery)) {
-   $tagname = $tagrow['tag_name'];
-    $tagnamelist[]  = $tagname;
-}
-$tagnamelist = implode("  ", $tagnamelist);
-?>
+    <?php
+    $query = $conn->query("SELECT * FROM tags where articleid='$id'");
+    $tagnamelist = [];
+    if ($query->rowCount()) {
+        foreach ($query as $tagrow) {
+            $tagname = $tagrow['tag_name'];
+            $tagnamelist[] = $tagname;
+        }
+    }
+    $tagnamelist = implode("  ", $tagnamelist);
+
+    ?>
     <script>
         $('.select2').select2({
             data: ["space", "road", "earth"],

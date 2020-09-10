@@ -1,12 +1,15 @@
 <?php
+include 'connect.php';
 require 'Layout/header.php';
 if (!isset($_SESSION['username'])) {
     header('location: index.php');
 } else {
     $username = $_SESSION['username'];
-    $sql = "SELECT * FROM user where username='$username'";
-    $result = mysqli_query($link, $sql);
-    $row = mysqli_fetch_array($result);
+    $query = $conn->query("SELECT * FROM user where username='$username'");
+    if ($query->rowCount()) {
+        foreach ($query as $row) {
+        };
+    }
 }
 ?>
 <link rel="stylesheet" href="../css/account.css">
@@ -36,11 +39,15 @@ if (!isset($_SESSION['username'])) {
                 <div class="col-md-4 user-pad text-center">
                     <h3>COMMENTS</h3>
 
-                    <?php $sql = "SELECT * FROM comments where username='$username' and confirmed='1'";
-                    $result = mysqli_query($link, $sql);
-                    $rownum = mysqli_num_rows($result);
+                    <?php
+                    $query = $conn->query("SELECT * FROM comments where username='$username' and confirmed='1'");
+                    if ($query->columnCount()){
+                        foreach ($query as $row){
+                        }
+
+                    }
                     ?>
-                    <h4><?php echo $rownum ?></h4>
+                    <h4><?php echo count($row)  ?></h4>
                 </div>
             </div>
         </div>

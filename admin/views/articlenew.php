@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php $link = mysqli_connect("localhost", "root", "password", "blog");
+<?php
+require 'layout/sidebar.php';
+require 'layout/header.php';
+include 'conf/connect.php';
+$query = $conn->query("SELECT * FROM categories");
 ?>
-<?php require 'layout/header.php' ?>
-<body id="page-top">
-<?php require 'layout/sidebar.php';
-?>
-<div id="content-wrapper" class="d-flex flex-column">
+<body>
+    <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
         <?php require 'layout/topbar.php'; ?>
         <form action="articleadd" method="post" enctype="multipart/form-data">
@@ -25,15 +24,14 @@
             <div class="form-group">
                 <select class="form-control select2" name="tags[]" multiple="multiple" style="width: 100%;"></select>
             </div>
-            <?php $sql = "select * from categories ";
-            $result = mysqli_query($link, $sql);
-            ?>
+
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Example select</label>
                 <select class="form-control" name="categories">
-                    <?php while ($row = mysqli_fetch_array($result)) {?>
-                        <option><?php echo $row['categories']?></option>
-                    <?php } ?>
+                    <?php if ($query->rowCount()){
+                        foreach ($query as $row){ ?>
+                        <option><?php echo $row['name']?></option>
+                    <?php }} ?>
                 </select>
             </div>
             <div class="form-group">
@@ -45,14 +43,9 @@
             </div>
         </form>
     </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -71,21 +64,13 @@
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
-
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
-
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
             integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
             crossorigin="anonymous"></script>
@@ -116,6 +101,6 @@
             // }
         });
     </script>
-</body>
+    </body>
 
-</html>
+    </html>

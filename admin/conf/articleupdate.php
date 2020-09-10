@@ -1,23 +1,29 @@
 <?php
-$link = mysqli_connect("localhost", "root", "password", "blog");
-
+include 'conf/connect.php';
 $path = $_SERVER['PATH_INFO'];
 $path = substr($path, 1);
 $pathArray = explode('/', $path);
-$id = $pathArray[1];
+if ($pathArray[1]== 'delete'){
+    $delete = $pathArray[1];
+}else{
+    $id = $pathArray[1];
+}
 
+if ($delete == 'delete') {
+    $query = $conn->prepare("DELETE FROM article WHERE id='$id'");
+    $insert = $query->execute();
+    if ($insert) {
+        header('location: /admin/article');
+    }
+}
 
 if (isset($_POST['categories'])) {
     $categories = $_POST['categories'];
-    $categoriesid = "SELECT * FROM categories where categories='$categories'";
-    $catresult = mysqli_query($link, $categoriesid);
-    $catrow = mysqli_fetch_array($catresult);
-    $cid = $catrow['id'];
-    $sql = "UPDATE article_categories SET categoriesid='$cid' where articleid='$id' ";
-    if (mysqli_query($link, $sql)) {
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($link);
-    }
+    $catquery = $conn->query("SELECT * FROM categories WHERE name='$categories'");
+    $cat = $catquery->fetch();
+    $cid = $cat['id'];
+    $query = $conn->query("UPDATE article_categories SET categoriesid='$cid' where articleid='$id' ");
+    $query->execute();
 }
 
 $target_dir = "img/";
@@ -36,47 +42,53 @@ if ($uploadOk == 0) {
         $_FILES = null;
     }
 }
-
-if (isset($_POST['categories'])) {
-    $categories = $_POST['categories'];
-    $sql = "SELECT * FROM categories where categories='$categories'";
-    $cateresult = mysqli_query($link, $sql);
-    $catrow = mysqli_fetch_array($cateresult);
-    $catid = $catrow['id'];
-    $articlecategories = "INSERT INTO article_categories (articleid,categoriesid)VALUES ('$id','$catid')";
-    if (mysqli_query($link, $articlecategories)) {
-        header('location: /admin/article');
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($link);
-    }
-}
-
 if (isset($id)) {
     $title = $_POST['title'];
     $author = $_POST['author'];
     $content = $_POST['content'];
     $date = date('Y-m-d H:i:s');
-    if (isset($_FILES['fileToUpload']['name']) != null) {
-        $sql = "UPDATE article SET title='$title', author='$author', content='$content', updateAt='$date',image_path='$image'  WHERE id='$id'";
+    if (isset($_FILES['fileToUpload']['name'])) {
+        $query = $conn->prepare("UPDATE article SET title=?, author=?, content=?, updateAt=?, image_path=?  WHERE id='$id'");
+        $query->bindParam(1, $title );
+        $query->bindParam(2, $author );
+        $query->bindParam(3, $content );
+        $query->bindParam(4, $date);
+        $query->bindParam(5, $image);
+        $query->execute();
     } else {
-        $sql = "UPDATE article SET title='$title', author='$author', content='$content', updateAt='$date'  WHERE id='$id'";
+        $query = $conn->prepare("UPDATE article SET title=?, author=?, content=?, updateAt=? WHERE id='$id'");
+        $query->bindParam(1, $title);
+        $query->bindParam(2, $author);
+        $query->bindParam(3, $content);
+        $query->bindParam(4, $date);
+        $query->execute();
     }
-    if (mysqli_query($link, $sql)) {
-        header('location: /admin/article');
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($link);
-    }
+
 }
-$path = $_SERVER['PATH_INFO'];
-$path = substr($path, 1);
-$pathArray = explode('/', $path);
-$delete = $pathArray[1];
-if (isset($delete)) {
-    $id = $pathArray[2];
-    $sql = "DELETE FROM article WHERE id='$id'";
-    if (mysqli_query($link, $sql)) {
-        header('location: /admin/article');
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($link);
+
+if (isset($_POST['categories'])) {
+    $categories = $_POST['categories'];
+    $query = $conn->query("SELECT * FROM categories where name='$categories'");
+    $cat = $query->fetch();
+    $cid = $cat['id'];
+    $query = $conn->prepare("INSERT INTO article_categories (articleid,categoriesid) VALUES (?,?)");
+    $query->bindParam(1, $id);
+    $query->bindParam(2, $cid);
+    $query->execute();
+
+}
+if (isset($_POST['tags'])) {
+    $tag = $_POST['tags'];
+    $count = count($tag);
+    for ($i = 0; $i < $count; $i++) {
+        $query = $conn->prepare("INSERT INTO tags (articleid,tag_name) VALUES (?,?)");
+        $query->bindParam(1, $id);
+        $query->bindParam(2, $tag[$i]);
+        $query->execute();
+
     }
+    header('location: /admin/article');
+}
+else{
+    header('location: /admin/article');
 }

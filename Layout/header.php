@@ -1,8 +1,8 @@
 <?php
 session_start();
+include 'connect.php';
 include "logincheck.php";
-$sql = 'Select * From categories';
-$result = mysqli_query($link, $sql);
+$query = $conn->query("Select * From categories");
 ?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -29,7 +29,6 @@ $result = mysqli_query($link, $sql);
 
 
     }?>
-<title></title>
 
 
 
@@ -47,11 +46,14 @@ $result = mysqli_query($link, $sql);
                 Categories
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <?php while ($row = mysqli_fetch_array($result)) { ?>
+
+                <?php
+                if ($query->rowCount() ){
+                foreach ($query as $row) {?>
                     <a class="dropdown-item"
-                       href="categories/<?php echo $row['categories'] ?>"><?php echo $row['categories']
+                       href="categories/<?php print $row['name'] ?>"><?php print $row['name']
                         ?></a>
-                <?php } ?>
+                <?php }} ?>
             </div>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"

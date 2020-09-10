@@ -1,11 +1,7 @@
 <?php
-$link = mysqli_connect("localhost", "root", "password", "blog");
-$sql = "Select * FROM admin";
-$result = mysqli_query($link, $sql);
-
-
-?>
-<?php require 'layout/header.php';
+include 'conf/connect.php';
+$query = $conn->query("SELECT * FROM admin");
+require 'layout/header.php';
 require 'layout/sidebar.php';
 require 'layout/topbar.php'
 ?>
@@ -39,17 +35,19 @@ require 'layout/topbar.php'
                         </tfoot>
                         <tbody>
                         <?php
-                        while ($row = mysqli_fetch_array($result)) {
-                            ?>
-                            <tr>
-                                <td><?php echo $row['id']; ?></td>
-                                <td><?php echo $row['username']; ?></td>
-                                <td><?php echo $row['password']; ?></td>
-                                <td><?php echo $row['user_type']; ?></td>
-                                <td><a href="editarticle/<?php echo $row['id'] ?>">edit</a></td>
-                                <td><a href="../conf/articleupdate.php?delete=<?php echo $row['id'] ?>">delete</a></td>
-                            </tr>
-                        <?php } ?>
+                        if ($query->rowCount()) {
+                            foreach ($query as $row) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $row['id']; ?></td>
+                                    <td><?php echo $row['username']; ?></td>
+                                    <td><?php echo $row['password']; ?></td>
+                                    <td><?php echo $row['user_type']; ?></td>
+                                    <td><a href="adminedit/<?php echo $row['id'] ?>">edit</a></td>
+                                    <td><a href="adminupdate/<?php echo $row['id'] ?>">delete</a></td>
+                                </tr>
+                            <?php }
+                        } ?>
                         </tbody>
                     </table>
                 </div>

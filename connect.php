@@ -1,10 +1,7 @@
 <?php
-
-$link = mysqli_connect("localhost", "root", "password", "blog");
-
-if (!$link) {
-    echo 'veritabanı hatası';
-    exit;
-
+try {
+    $conn = new PDO("mysql:host=localhost;dbname=blog", "root" ,"password");
+}catch (PDOException $e){
+    print $e->getMessage();
 }
 ?>

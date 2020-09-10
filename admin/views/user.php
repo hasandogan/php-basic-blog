@@ -1,7 +1,6 @@
 <?php
-$link = mysqli_connect("localhost", "root", "password", "blog");
-$sql = "Select * From user";
-$result = mysqli_query($link, $sql);
+include 'conf/connect.php';
+$query = $conn->query("SELECT * FROM  user");
 session_start();
 if (isset($_SESSION['user_type']) != 'admin') {
     header('location: ../');
@@ -51,9 +50,9 @@ require 'layout/sidebar.php';
                             </tfoot>
                             <tbody>
                             <?php
-                            while ($row = mysqli_fetch_array($result)) {
-
-                                ?>
+                            if ($query->rowCount()){
+                                foreach ($query as $row){
+                                    ?>
                                 <tr>
                                     <td><?php echo $row['id']; ?></td>
                                     <td><?php echo $row['firstname']; ?></td>
@@ -61,11 +60,11 @@ require 'layout/sidebar.php';
                                     <td><?php echo $row['username']; ?></td>
                                     <td><?php echo $row['email']; ?></td>
                                     <td><?php echo $row['pass']; ?></td>
-                                    <td><a href="useredit.php?id=<?php echo $row['id'] ?>">todo</a></td>
-                                    <td><a href="conf/userconf.php?id=<?php echo $row['id'] ?>">todo</a></td>
+                                    <td><a href="<?php echo $row['id'] ?>">todo</a></td>
+                                    <td><a href="<?php echo $row['id'] ?>">todo</a></td>
 
                                 </tr>
-                            <?php } ?>
+                            <?php }} ?>
                             </tbody>
                         </table>
                     </div>

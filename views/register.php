@@ -4,7 +4,15 @@ require 'Layout/header.php';
 <link rel="stylesheet" href="../css/login.css">
 <div class="login-box">
     <h2>Login</h2>
-    <form action="../registerdb.php" method="POST">
+    <?php
+    if ($_SESSION['registererror'] == 'registererror'){
+        unset($_SESSION['registererror']);
+        ?>
+        <div class="alert alert-danger" role="alert">
+            <strong>Oh Olamaz</strong> Sanırım Birşeyler Ters gitti!
+        </div>
+    <?php   } ?>
+    <form action="registerdb" method="POST">
         <div class="user-box">
             <input type="text" name="username" required="">
             <label>User Name</label>
@@ -18,7 +26,7 @@ require 'Layout/header.php';
             <label>Last Name</label>
         </div>
         <div class="user-box">
-            <input type="text" name="email" required="">
+            <input type="email" name="email" required="">
             <label>Email</label>
         </div>
         <div class="user-box">

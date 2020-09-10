@@ -1,10 +1,10 @@
 <?php
+include 'conf/connect.php';
 require 'layout/header.php';
 require 'layout/sidebar.php';
 require 'layout/topbar.php';
-$link = mysqli_connect("localhost", "root", "password", "blog");
-$sql = "Select * FROM article";
-$result = mysqli_query($link, $sql);
+
+$query = $conn->query("SELECT * FROM article");
 ?>
     <div class="container-fluid">
         <div class="card shadow mb-4">
@@ -18,6 +18,7 @@ $result = mysqli_query($link, $sql);
                         <tr>
                             <th>id</th>
                             <th>title</th>
+                            <th>slug</th>
                             <th>author</th>
                             <th>createdAt</th>
                             <th>content</th>
@@ -30,6 +31,7 @@ $result = mysqli_query($link, $sql);
                         <tr>
                             <th>id</th>
                             <th>title</th>
+                            <th>slug</th>
                             <th>author</th>
                             <th>createdAt</th>
                             <th>content</th>
@@ -40,8 +42,8 @@ $result = mysqli_query($link, $sql);
                         </tfoot>
                         <tbody>
                         <?php
-                        while ($row = mysqli_fetch_array($result)) {
-
+                        if ($query->rowCount()){
+                            foreach ($query as $row){
                             $detay = $row['content'];
                             $uzunluk = strlen($detay);
                             $limit = 50;
@@ -49,6 +51,7 @@ $result = mysqli_query($link, $sql);
                             <tr>
                                 <td><?php echo $row['id']; ?></td>
                                 <td><?php echo $row['title']; ?></td>
+                                <td><a href="/articleshow/"<?php echo $row['slug']?>><?php echo $row['slug']; ?></a></td>
                                 <td><?php echo $row['author']; ?></td>
                                 <td><?php echo $row['createdAt']; ?></td>
                                 <td><?php
@@ -61,7 +64,7 @@ $result = mysqli_query($link, $sql);
                                 <td><a href="editarticle/<?php echo $row['id'] ?>">edit</a></td>
                                 <td><a href="articleupdate/delete/<?php echo $row['id'] ?>">delete</a></td>
                             </tr>
-                        <?php } ?>
+                        <?php }} ?>
                         </tbody>
                     </table>
                 </div>

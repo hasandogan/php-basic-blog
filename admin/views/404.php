@@ -112,7 +112,6 @@
         }
 
     </style>
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -127,11 +126,11 @@
 <div id="notfound">
     <div class="notfound">
         <div class="notfound-404">
-            <h1>oh!</h1>
+            <h1>Oops!</h1>
         </div>
-        <h2>404 - Sayfa bulunamadı</h2>
-        <p>Bu Sayfa Değiştirldi Veya hiç olmadı</p>
-        <a href="/">Ana Sayfaya geri dön</a>
+        <h2>404 - Page not found</h2>
+        <p>The page you are looking for might have been removed had its name changed or is temporarily unavailable.</p>
+        <a href="#">Go To Homepage</a>
     </div>
 </div>
 

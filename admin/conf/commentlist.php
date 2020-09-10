@@ -1,15 +1,10 @@
 <?php
-$link = mysqli_connect("localhost", "root", "password", "blog");
-$sql = "SELECT * FROM comments";
-$result = mysqli_query($link, $sql);
-
-
+include 'connect.php';
 if (isset($_GET['id'])){
     $id = $_GET['id'];
         $ok = 1;
-    $sql = "UPDATE comments SET confirmed='$ok' WHERE id='$id'";
-    if(mysqli_query($link,$sql)){
-
+    $query = $conn->query( "UPDATE comments SET confirmed='$ok' WHERE id='$id'");
+    if($query->execute()){
         header('location: /admin/commentlist');
     }else{
         echo 'hatalı sql';
@@ -18,13 +13,12 @@ if (isset($_GET['id'])){
 }
 if (isset($_GET['delete'])){
     $id = $_GET['delete'];
-    $sql = "Delete FROM comments where id='$id'";
-    if($query = mysqli_query($link,$sql)){
+    $query = $conn->query( "Delete FROM comments where id='$id'");
+    if($query->execute()){
         header('location: /admin/commentlist');
     }
     else{
-        echo "Error: " . $sql . "<br>" . mysqli_error($link);
-
+        echo 'hatalı sql';
     }
 
 }
