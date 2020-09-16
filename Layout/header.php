@@ -1,14 +1,7 @@
-<?php
-session_start();
-include 'connect.php';
-include "logincheck.php";
-$query = $conn->query("Select * From categories");
-?>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="../css/styles.css">
 <link rel="stylesheet" href="../css/font-awesome.css">
-
+<link href='//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' rel='stylesheet'/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,46 +9,34 @@ $query = $conn->query("Select * From categories");
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <?php if (isset($_SERVER['PATH_INFO'])){
-        $path = $_SERVER['PATH_INFO'];
+
+    <?php
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $path = $_SERVER['REQUEST_URI'];
         $path = substr($path, 1);
         $pathArray = explode('/', $path);
         $titleConverter = explode('-', $pathArray[1]);
         $title = implode(" ", $titleConverter);
 
         echo "<title>$title</title>";
-    }else{
+    } else {
         echo "<title>Hasan Dogan Blog</title>";
 
 
-    }?>
-
+    } ?>
 
 
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/blog-home.css" rel="stylesheet">
+    <link href="/css/blog-home.css" rel="stylesheet">
+    <link href="/css/category.css" rel="stylesheet">
+
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="/">Blog</a>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Categories
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="navbar-brand"  href="/"><img src="/img/pngegg.png"  width="120" height="40"></a>
 
-                <?php
-                if ($query->rowCount() ){
-                foreach ($query as $row) {?>
-                    <a class="dropdown-item"
-                       href="categories/<?php print $row['name'] ?>"><?php print $row['name']
-                        ?></a>
-                <?php }} ?>
-            </div>
-        </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span></button>
@@ -69,7 +50,7 @@ $query = $conn->query("Select * From categories");
 
                 <?php if (isset($_SESSION['username'])){ ?>
                     <li>
-                        <a class="nav-link" href="profile">Profile</a>
+                        <a class="nav-link" href="/profile">Profile</a>
                     </li>
                     <li>
                         <a class="nav-link" href="/logout">logout</a>
@@ -88,6 +69,4 @@ $query = $conn->query("Select * From categories");
             </ul>
         </div>
     </div>
-
-
 </nav>

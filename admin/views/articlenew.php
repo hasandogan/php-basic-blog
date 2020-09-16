@@ -8,7 +8,7 @@ $query = $conn->query("SELECT * FROM categories");
     <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
         <?php require 'layout/topbar.php'; ?>
-        <form action="articleadd" method="post" enctype="multipart/form-data">
+        <form action="/admin/artice/edit/1" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="exampleFormControlInput1">title</label>
                 <input type="text" class="form-control" name="title" placeholder="title">
@@ -18,13 +18,13 @@ $query = $conn->query("SELECT * FROM categories");
                 <input type="text" class="form-control" name="author" placeholder="author">
             </div>
             <div class="form-group">
-                <input type="file" name="fileToUpload" id="fileToUpload">
+                <input type="file" name="fileToUpload">
             </div>
             <label>Select Tag</label>
             <div class="form-group">
                 <select class="form-control select2" name="tags[]" multiple="multiple" style="width: 100%;"></select>
             </div>
-
+            <input type="hidden" value="add" name="add">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Example select</label>
                 <select class="form-control" name="categories">
@@ -39,7 +39,7 @@ $query = $conn->query("SELECT * FROM categories");
                 <textarea class="form-control" name="content" rows="3"></textarea>
             </div>
             <div class="form-group">
-                <input type="submit" name="submit" id="submit" class="btn btn-info" value="Submit"/>
+                <input type="submit" name="submit"  class="btn btn-info" />
             </div>
         </form>
     </div>

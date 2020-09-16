@@ -1,10 +1,10 @@
 <?php
 include 'conf/connect.php';
 require 'layout/sidebar.php';
-$path = $_SERVER['PATH_INFO'];
+$path = $_SERVER['REQUEST_URI'];
 $path = substr($path, 1);
 $pathArray = explode('/', $path);
-$id = $pathArray[1];
+$id = $pathArray[2];
 
 if (isset($id)) {
     $query = $conn->query("SELECT * FROM categories where id='$id'");
@@ -14,7 +14,7 @@ if (isset($id)) {
     }
 } else {
 
-    header('location: admin/');
+    header('location: /admin');
 }
 ?>
     <!DOCTYPE html>
@@ -37,10 +37,11 @@ if (isset($id)) {
     </head>
 
 
-<form action="/admin/categoriesedit/edit/<?php echo $row['id'] ?>" method="post" enctype="multipart/form-data">
+<form action="/admin/conf/categories.php" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
     <div class="form-group">
         <label for="exampleFormControlInput1">categories</label>
-        <input type="text" class="form-control" name="categories" value="<?php echo $row['name'] ?>"
+        <input type="text" class="form-control" name="categoriesname" value="<?php echo $row['name'] ?>"
                placeholder="name">
     </div>
     <div class="form-group">

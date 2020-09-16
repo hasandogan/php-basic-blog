@@ -1,4 +1,5 @@
 <?php
+
 require 'Layout/header.php';
 ?>
 <link rel="stylesheet" href="../css/login.css">
@@ -13,7 +14,7 @@ require 'Layout/header.php';
             <strong>Oh Olamaz</strong> Sanırım Birşeyler Ters gitti!
         </div>
     <?php } ?>
-    <form action="logincheck" method="POST">
+    <form action="check-login" method="POST">
         <div class="user-box">
             <input type="text" name="username" required="">
             <label>Username</label>

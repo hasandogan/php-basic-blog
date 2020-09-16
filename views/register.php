@@ -12,7 +12,7 @@ require 'Layout/header.php';
             <strong>Oh Olamaz</strong> Sanırım Birşeyler Ters gitti!
         </div>
     <?php   } ?>
-    <form action="registerdb" method="POST">
+    <form action="check-register" method="POST">
         <div class="user-box">
             <input type="text" name="username" required="">
             <label>User Name</label>

@@ -1,25 +1,16 @@
 <?php
-include 'connect.php';
-if (isset($_GET['id'])){
-    $id = $_GET['id'];
-        $ok = 1;
-    $query = $conn->query( "UPDATE comments SET confirmed='$ok' WHERE id='$id'");
-    if($query->execute()){
-        header('location: /admin/commentlist');
-    }else{
-        echo 'hatalı sql';
-    }
+$id = $_GET['id'];
 
+if (isset($id)){
+    require_once '../class/Comment.php';
+    $confirmed = new Comment();
+    $confirmed->confirmed($id);
 }
 if (isset($_GET['delete'])){
+    require_once '../class/Comment.php';
     $id = $_GET['delete'];
-    $query = $conn->query( "Delete FROM comments where id='$id'");
-    if($query->execute()){
-        header('location: /admin/commentlist');
-    }
-    else{
-        echo 'hatalı sql';
-    }
+    $delete = new Comment();
+    $delete->delete($id);
 
 }
 

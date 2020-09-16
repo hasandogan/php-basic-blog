@@ -55,7 +55,7 @@ $query = $conn->query("SELECT * FROM categories");
                                         <td><?php echo $row['meta_desc'] ?></td>
                                         <td><?php echo $row['meta_key'] ?></td>
                                         <td><a href="editcategories/<?php echo $row['id'] ?>">edit</a></td>
-                                        <td><a href="categoriesedit/delete/<?php echo $row['id'] ?>">delete</a></td>
+                                        <td><a href="../admin/conf/categories.php?delete=<?php echo $row['id'] ?>">delete</a></td>
                                     </tr>
                                 <?php }
                             } ?>

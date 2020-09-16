@@ -51,7 +51,8 @@ $query = $conn->query("SELECT * FROM article");
                             <tr>
                                 <td><?php echo $row['id']; ?></td>
                                 <td><?php echo $row['title']; ?></td>
-                                <td><a href="/articleshow/"<?php echo $row['slug']?>><?php echo $row['slug']; ?></a></td>
+                                <td><a href="/articleshow/"<?php print $row['slug']?>>
+                                        <?php echo $row['slug']; ?></a></td>
                                 <td><?php echo $row['author']; ?></td>
                                 <td><?php echo $row['createdAt']; ?></td>
                                 <td><?php
@@ -62,7 +63,7 @@ $query = $conn->query("SELECT * FROM article");
                                     ?></td>
                                 <td><?php echo $row['updateAt']; ?></td>
                                 <td><a href="editarticle/<?php echo $row['id'] ?>">edit</a></td>
-                                <td><a href="articleupdate/delete/<?php echo $row['id'] ?>">delete</a></td>
+                                <td><a href="../admin/conf/article.php?delete=<?php echo $row['id'] ?>">delete</a></td>
                             </tr>
                         <?php }} ?>
                         </tbody>

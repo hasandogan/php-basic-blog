@@ -1,12 +1,12 @@
 <?php
-$request = $_SERVER['REQUEST_URI'];
+require_once __DIR__ . "/bootstrap.php";
+/**
+$request = urldecode($_SERVER['REQUEST_URI']);
 
-$path = $_SERVER['PATH_INFO'];
-$path = substr($path, 1);
+$path = substr($request, 1);
 $pathArray = explode('/', $path);
 
-
-switch ($pathArray[0]) {
+switch ($pathArray[1]) {
     case 'index' :
         require __DIR__ . '/views/index.php';
         break;
@@ -15,9 +15,6 @@ switch ($pathArray[0]) {
         break;
     case '' :
         require __DIR__ . '/views/index.php';
-        break;
-    case 'logout' :
-        require __DIR__ . '/views/logout.php';
         break;
     case 'login' :
         require __DIR__ . '/views/login.php';
@@ -33,15 +30,6 @@ switch ($pathArray[0]) {
         break;
     case 'editarticle':
         require __DIR__ . '/views/editarticle.php';
-        break;
-    case 'articleupdate':
-        require __DIR__ . '/conf/articleupdate.php';
-        break;
-    case 'config':
-        require __DIR__ . '/conf/config.php';
-        break;
-    case 'articleadd':
-        require __DIR__ . '/conf/articleadd.php';
         break;
     case 'editcategories' :
         require __DIR__ . '/views/categoriesedit.php';
@@ -67,8 +55,13 @@ switch ($pathArray[0]) {
     case 'newuser' :
         require  __DIR__ . '/views/usernew.php';
         break;
+    case 'newadmin' :
+        require __DIR__ . '/views/newadmin.php';
+        break;
     default:
         http_response_code(404);
         require __DIR__ . '/views/404.php';
         break;
 }
+
+**/

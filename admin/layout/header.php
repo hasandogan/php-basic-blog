@@ -1,8 +1,7 @@
 <?php
 session_start();
-include '../conf/config.php';
-if (isset($_SESSION['user_type']) != 'admin') {
-    header('location: ../');
+if ($_SESSION['user_type'] != 'admin') {
+    header('location: /admin/login');
 }
 ?>
 <!DOCTYPE html>

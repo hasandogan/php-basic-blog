@@ -1,6 +1,8 @@
 <?php
 require 'layout/header.php';
 require 'layout/sidebar.php';
+$name = $_SESSION['name'];
+$lastname = $_SESSION['lastname'];
 ?>
 
     <div id="content-wrapper" class="d-flex flex-column">
@@ -10,10 +12,10 @@ require 'layout/sidebar.php';
     <div class="row">
     </div>
 <?php
-if ($_SESSION['admingiris'] == 'admingiris') {
+if (isset($_SESSION['admingiris'])) {
     ?>
     <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">Tekrar Hoşgeldin! </h4>
+        <h4 class="alert-heading">Tekrar Hoşgeldin! <?php echo $name." ".$lastname ?> </h4>
         <p>Başarılı bir giriş yaptın. Harika makaleler ve diğer işlerini yapmak için harika bir gün!</p>
         <hr>
         <p class="mb-0">Her ne yapıyorsan, devam et!</p>

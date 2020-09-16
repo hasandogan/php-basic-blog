@@ -1,9 +1,36 @@
 <?php
 include 'conf/connect.php';
+
 $query = $conn->query("SELECT * FROM admin");
+
 require 'layout/header.php';
 require 'layout/sidebar.php';
-require 'layout/topbar.php'
+require 'layout/topbar.php';
+
+
+?>
+<?php
+
+if (isset($_SESSION['basarilikayit'])){ ?>
+    <div class="alert alert-success" role="alert">
+        Kayıt başarıyla Oluşturuldu!
+    </div>
+    <?php
+    unset($_SESSION['basarilikayit']);
+}
+
+?>
+
+<?php
+
+if (isset($_SESSION['basarilisilme'])){ ?>
+    <div class="alert alert-success" role="alert">
+        Kayıt Başarıyla silindi!
+    </div>
+<?php
+    unset($_SESSION['basarilisilme']);
+}
+
 ?>
     <div class="container-fluid">
         <div class="card shadow mb-4">
@@ -16,21 +43,21 @@ require 'layout/topbar.php'
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>username</th>
-                            <th>password</th>
-                            <th>user_type</th>
-                            <th>edit</th>
-                            <th>delete</th>
+                            <th>Username</th>
+                            <th>Usertype</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Delete</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>id</th>
-                            <th>username</th>
-                            <th>password</th>
-                            <th>user_type</th>
-                            <th>edit</th>
-                            <th>delete</th>
+                            <th>Username</th>
+                            <th>Usertype</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Delete</th>
                         </tr>
                         </tfoot>
                         <tbody>
@@ -41,16 +68,20 @@ require 'layout/topbar.php'
                                 <tr>
                                     <td><?php echo $row['id']; ?></td>
                                     <td><?php echo $row['username']; ?></td>
-                                    <td><?php echo $row['password']; ?></td>
                                     <td><?php echo $row['user_type']; ?></td>
-                                    <td><a href="adminedit/<?php echo $row['id'] ?>">edit</a></td>
-                                    <td><a href="adminupdate/<?php echo $row['id'] ?>">delete</a></td>
+                                    <td><?php echo $row['name']; ?></td>
+                                    <td><?php echo $row['lastname']; ?></td>
+                                    <td><a href="conf/admin.php?id=<?php echo $row['id'] ?>">delete</a></td>
                                 </tr>
                             <?php }
                         } ?>
+
                         </tbody>
+
                     </table>
+                    <a href="newadmin"> <button type="button" class="btn btn-success">Add New Admin</button></a>
                 </div>
+
             </div>
         </div>
     </div>

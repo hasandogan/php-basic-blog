@@ -26,7 +26,7 @@
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                 </div>
                                 <?php session_start();
-                                    if ($_SESSION['adminerror'] === 'adminerror'){  ?>
+                                    if (isset($_SESSION['adminerror'])){  ?>
                                         <div class="alert alert-danger" role="alert">
                                             <strong>Oh Olamaz</strong> Hatalı Bir Giriş yaptınız istersen tekrar dene!
                                         </div>
@@ -35,7 +35,7 @@
                                     }?>
 
 
-                                <form class="user" action="config" method="POST">
+                                <form class="user" action="/admin/conf/adminlogincheck.php" method="POST">
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user" name="username"
                                                id="exampleInputEmail" aria-describedby="username"
@@ -44,12 +44,6 @@
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user" name="password"
                                                placeholder="Password">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck">
-                                            <label class="custom-control-label" for="customCheck">Remember Me</label>
-                                        </div>
                                     </div>
                                     <button type="submit" name="login" class="btn btn-success">Success</button>
                                     <hr>

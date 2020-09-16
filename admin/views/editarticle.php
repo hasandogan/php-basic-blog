@@ -1,10 +1,9 @@
 <?php
 
-$path = $_SERVER['PATH_INFO'];
-$path = substr($path, 1);
+$request = urldecode($_SERVER['REQUEST_URI']);
+$path = substr($request, 1);
 $pathArray = explode('/', $path);
-$id = $pathArray[1];
-
+$id = $pathArray[2];
 if (isset($id)) {
     include 'conf/connect.php';
     $query = $conn->query("SELECT * FROM article WHERE id='$id'");
@@ -26,7 +25,8 @@ if (isset($id)) {
 <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
         <?php require 'layout/topbar.php'; ?>
-        <form action="../articleupdate/<?php echo $row['id'] ?>" method="post" enctype="multipart/form-data">
+        <form action="../conf/article.php" method="post" enctype="multipart/form-data">
+            <input type="hidden"  name="id" value="<?php echo $row['id'] ?>">
             <div class="form-group">
                 <label for="exampleFormControlInput1">title</label>
                 <input type="text" class="form-control" value="<?php echo $row['title'] ?>" name="title"
@@ -61,7 +61,7 @@ if (isset($id)) {
                 </select>
             </div>
             <div class="form-group">
-                <input type="submit" name="submit" id="submit" class="btn btn-info" value="Submit"/>
+                <input type="submit"  class="btn btn-info" />
             </div>
         </form>
     </div>

@@ -2,51 +2,22 @@
 $tag = $response['general']['tags'];
 $category = $response['general']['categories'];
 require 'Layout/header.php';
-
-include 'connect.php';
-require_once 'Controller/Filter.php';
-$categoryFilter = new Filter();
-$pathname = $categoryFilter->pathArray(1);
-
-$query = $conn->query("select * FROM categories where name LIKE '%$pathname%'");
-$catrow = $query->fetch();
-if ($_SERVER['REQUEST_URI'] == '/' . $pathArray[0] . '/' . $pathArray[1]) {
-    $id = $catrow['id'];
-    $categoryArray = $categoryFilter->Category($id);
-} else {
-    $categoryArray = $categoryFilter->Category();
-}
-
-$tags = $categoryFilter->pathArray(0);
-if ($tags == 'tag') {
-
-    $tagname = $categoryFilter->pathArray(1);
-    $categoryArray = $categoryFilter->Tag($tagname);
-}
-
 ?>
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <h1 class="my-4">Makaleler
-            </h1>
-
+            <h1 class="my-4">Makaleler</h1>
+            <div class="alert alert-dark"><?=$response['keyword'];?> için arama sonuçları.</div>
             <?php
-            if (isset($_SESSION['searchhatası'])) {
+            if (empty($response['results'])) {
                 ?>
                 <div class="alert alert-danger" role="alert">
                     <strong>Oh Olamaz</strong> Aradığınızı bulamadık
                 </div>
                 <?php
-                unset($_SESSION['searchhatası']);
             }
-            ?>
-
-
-
-            <?php
-            if ($categoryArray['totalCount'] > 0) {
-                foreach ($categoryArray['article'] as $row) {
+            if (count($response['results']) > 0) {
+                foreach ($response['results'] as $row) {
                     if (isset($row)) {
                         $detay = $row['content'];
                         $uzunluk = strlen($detay);
@@ -74,18 +45,6 @@ if ($tags == 'tag') {
                         </div>
                     <?php }
                 }
-            } else {
-                session_start();
-                $_SESSION['taghata'] = 'taghata';
-            } ?>
-            <?php
-            if (isset($_SESSION['taghata'])) {
-                ?>
-                <div class="alert alert-danger" role="alert">
-                    <strong>Oh Olamaz</strong> Aradığınızı bulamadık
-                </div>
-                <?php
-                unset($_SESSION['taghata']);
             }
             ?>
         </div>
@@ -95,7 +54,8 @@ if ($tags == 'tag') {
                 <div class="card-body">
                     <form action="search" method="post">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="search" placeholder="Search for...">
+                            <input type="text" class="form-control" value="<?= $response['keyword']; ?>" name="search"
+                                   placeholder="Search for...">
                             <span class="input-group-append">
                          <input type="submit">
                                     </span>
@@ -108,12 +68,12 @@ if ($tags == 'tag') {
             <div class="card-body">
                 <?php
 
-                foreach ($tag as $row){
+                foreach ($tag as $row) {
 
                     ?>
-                <a href="/tag/<?php echo $row['tag_name'] ?>"> <span
-                            class='badge badge-secondary'><?php echo $row['tag_name'] ?></span> </a>
-                <?php
+                    <a href="/tag/<?php echo $row['tag_name'] ?>"> <span
+                                class='badge badge-secondary'><?php echo $row['tag_name'] ?></span> </a>
+                    <?php
                 } ?>
             </div>
         </div>
@@ -125,9 +85,9 @@ if ($tags == 'tag') {
                         <?php
                         foreach ($category as $row) {
 
-                        ?>
-                        <li><a href="/categories/<?php echo $row['name']; ?>"><?php echo $row['name']; ?></a></li>
-                        <?php
+                            ?>
+                            <li><a href="/categories/<?php echo $row['name']; ?>"><?php echo $row['name']; ?></a></li>
+                            <?php
                         } ?>
 
                     </ul>

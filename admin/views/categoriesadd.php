@@ -2,7 +2,7 @@
 require 'layout/header.php';
 require 'layout/sidebar.php';
 ?>
-<form action="categoriesedit" method="post" enctype="multipart/form-data">
+<form action="../admin/conf/categories.php" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label for="exampleFormControlInput1">categories</label>
         <input type="text" class="form-control" name="categoriesname" placeholder="name">
