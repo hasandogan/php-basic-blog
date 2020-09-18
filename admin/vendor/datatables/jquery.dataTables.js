@@ -356,7 +356,7 @@
 		
 		/**
 		 * Remove a row for the table
-		 *  @param {mixed} target The Layout of the row from aoData to be deleted, or
+		 *  @param {mixed} target The adminlayout of the row from aoData to be deleted, or
 		 *    the TR element you want to delete
 		 *  @param {function|null} [callBack] Callback function
 		 *  @param {bool} [redraw=true] Redraw the table or not
@@ -476,8 +476,8 @@
 		 *    a TR node then the data source for the whole row will be returned. If given as a
 		 *    TD/TH cell node then iCol will be automatically calculated and the data for the
 		 *    cell returned. If given as an integer, then this is treated as the aoData internal
-		 *    data Layout for the row (see fnGetPosition) and the data for that row used.
-		 *  @param {int} [col] Optional column Layout that you want the data of.
+		 *    data adminlayout for the row (see fnGetPosition) and the data for that row used.
+		 *  @param {int} [col] Optional column adminlayout that you want the data of.
 		 *  @returns {array|object|string} If mRow is undefined, then the data for all rows is
 		 *    returned. If mRow is defined, just data for that row, and is iCol is
 		 *    defined, only data for the designated cell is returned.
@@ -526,7 +526,7 @@
 		 * Get an array of the TR nodes that are used in the table's body. Note that you will
 		 * typically want to use the '$' API method in preference to this as it is more
 		 * flexible.
-		 *  @param {int} [iRow] Optional row Layout for the TR element you want
+		 *  @param {int} [iRow] Optional row adminlayout for the TR element you want
 		 *  @returns {array|node} If iRow is undefined, returns an array of all TR elements
 		 *    in the table's body, or iRow is defined, just the TR element requested.
 		 *  @dtopt API
@@ -552,11 +552,11 @@
 		
 		/**
 		 * Get the array indexes of a particular cell from it's DOM element
-		 * and column Layout including hidden columns
+		 * and column adminlayout including hidden columns
 		 *  @param {node} node this can either be a TR, TD or TH in the table's body
-		 *  @returns {int} If nNode is given as a TR, then a single Layout is returned, or
-		 *    if given as a cell, an array of [row Layout, column Layout (visible),
-		 *    column Layout (all)] is given.
+		 *  @returns {int} If nNode is given as a TR, then a single adminlayout is returned, or
+		 *    if given as a cell, an array of [row adminlayout, column adminlayout (visible),
+		 *    column adminlayout (all)] is given.
 		 *  @dtopt API
 		 *  @deprecated Since v1.10
 		 *
@@ -744,8 +744,8 @@
 		
 		/**
 		 * Sort the table by a particular column
-		 *  @param {int} iCol the data Layout to sort on. Note that this will not match the
-		 *    'display Layout' if you have hidden data entries
+		 *  @param {int} iCol the data adminlayout to sort on. Note that this will not match the
+		 *    'display adminlayout' if you have hidden data entries
 		 *  @dtopt API
 		 *  @deprecated Since v1.10
 		 *
@@ -791,7 +791,7 @@
 		 * an object in the same format as the original data source. The function is
 		 * self-referencing in order to make the multi column updates easier.
 		 *  @param {object|array|string} mData Data to update the cell/row with
-		 *  @param {node|int} mRow TR element you want to update or the aoData Layout
+		 *  @param {node|int} mRow TR element you want to update or the aoData adminlayout
 		 *  @param {int} [iColumn] The column to update, give as null or undefined to
 		 *    update a whole row.
 		 *  @param {bool} [bRedraw=true] Redraw the table or not
@@ -1281,7 +1281,7 @@
 					_fnAddTr( oSettings, $(oSettings.nTBody).children('tr') );
 				}
 			
-				/* Copy the data Layout array */
+				/* Copy the data adminlayout array */
 				oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
 			
 				/* Initialisation complete - table can be drawn */
@@ -1911,7 +1911,7 @@
 			// element is contained without forcing scrolling
 			browser.bScrollOversize = inner[0].offsetWidth === 100 && outer[0].clientWidth !== 100;
 	
-			// In rtl text layout, some browsers (most, but not all) will place the
+			// In rtl text adminlayout, some browsers (most, but not all) will place the
 			// scrollbar on the left, rather than the right.
 			browser.bScrollbarLeft = Math.round( inner.offset().left ) !== 1;
 	
@@ -1994,7 +1994,7 @@
 	/**
 	 * Apply options for a column
 	 *  @param {object} oSettings dataTables settings object
-	 *  @param {int} iCol column Layout to consider
+	 *  @param {int} iCol column adminlayout to consider
 	 *  @param {object} oOptions object with sType, bVisible and bSearchable etc
 	 *  @memberof DataTable#oApi
 	 */
@@ -2154,11 +2154,11 @@
 	
 	
 	/**
-	 * Covert the Layout of a visible column to the Layout in the data array (take account
+	 * Covert the adminlayout of a visible column to the adminlayout in the data array (take account
 	 * of hidden columns)
 	 *  @param {object} oSettings dataTables settings object
-	 *  @param {int} iMatch Visible column Layout to lookup
-	 *  @returns {int} i the data Layout
+	 *  @param {int} iMatch Visible column adminlayout to lookup
+	 *  @returns {int} i the data adminlayout
 	 *  @memberof DataTable#oApi
 	 */
 	function _fnVisibleToColumnIndex( oSettings, iMatch )
@@ -2172,11 +2172,11 @@
 	
 	
 	/**
-	 * Covert the Layout of an Layout in the data array and convert it to the visible
-	 *   column Layout (take account of hidden columns)
-	 *  @param {int} iMatch Column Layout to lookup
+	 * Covert the adminlayout of an adminlayout in the data array and convert it to the visible
+	 *   column adminlayout (take account of hidden columns)
+	 *  @param {int} iMatch Column adminlayout to lookup
 	 *  @param {object} oSettings dataTables settings object
-	 *  @returns {int} i the data Layout
+	 *  @returns {int} i the data adminlayout
 	 *  @memberof DataTable#oApi
 	 */
 	function _fnColumnIndexToVisible( oSettings, iMatch )
@@ -2304,7 +2304,7 @@
 	 *  @param {array} aoColDefs The aoColumnDefs array that is to be applied
 	 *  @param {array} aoCols The aoColumns array that defines columns individually
 	 *  @param {function} fn Callback function - takes two parameters, the calculated
-	 *    column Layout and the definition for that column.
+	 *    column adminlayout and the definition for that column.
 	 *  @memberof DataTable#oApi
 	 */
 	function _fnApplyColumnDefs( oSettings, aoColDefs, aoCols, fn )
@@ -2340,7 +2340,7 @@
 							_fnAddColumn( oSettings );
 						}
 	
-						/* Integer, basic Layout */
+						/* Integer, basic adminlayout */
 						fn( aTargets[j], def );
 					}
 					else if ( typeof aTargets[j] === 'number' && aTargets[j] < 0 )
@@ -2384,7 +2384,7 @@
 	 *    DataTables will create a row automatically
 	 *  @param {array} [anTds] Array of TD|TH elements for the row - must be given
 	 *    if nTr is.
-	 *  @returns {int} >=0 if successful (Layout of new aoData entry), -1 if failed
+	 *  @returns {int} >=0 if successful (adminlayout of new aoData entry), -1 if failed
 	 *  @memberof DataTable#oApi
 	 */
 	function _fnAddData ( oSettings, aDataIn, nTr, anTds )
@@ -2454,10 +2454,10 @@
 	
 	
 	/**
-	 * Take a TR element and convert it to an Layout in aoData
+	 * Take a TR element and convert it to an adminlayout in aoData
 	 *  @param {object} oSettings dataTables settings object
 	 *  @param {node} n the TR element to find
-	 *  @returns {int} Layout if the node is found, null if not
+	 *  @returns {int} adminlayout if the node is found, null if not
 	 *  @memberof DataTable#oApi
 	 */
 	function _fnNodeToDataIndex( oSettings, n )
@@ -2467,11 +2467,11 @@
 	
 	
 	/**
-	 * Take a TD element and convert it into a column data Layout (not the visible Layout)
+	 * Take a TD element and convert it into a column data adminlayout (not the visible adminlayout)
 	 *  @param {object} oSettings dataTables settings object
 	 *  @param {int} iRow The row number the TD/TH can be found in
 	 *  @param {node} n The TD/TH element to find
-	 *  @returns {int} Layout if the node is found, -1 if not
+	 *  @returns {int} adminlayout if the node is found, -1 if not
 	 *  @memberof DataTable#oApi
 	 */
 	function _fnNodeToColumnIndex( oSettings, iRow, n )
@@ -2484,7 +2484,7 @@
 	 * Get the data for a given cell from the internal cache, taking into account data mapping
 	 *  @param {object} settings dataTables settings object
 	 *  @param {int} rowIdx aoData row id
-	 *  @param {int} colIdx Column Layout
+	 *  @param {int} colIdx Column adminlayout
 	 *  @param {string} type data get type ('display', 'type' 'filter' 'sort')
 	 *  @returns {*} Cell data
 	 *  @memberof DataTable#oApi
@@ -2533,7 +2533,7 @@
 	 * Set the value for a specific cell, into the internal data cache
 	 *  @param {object} settings dataTables settings object
 	 *  @param {int} rowIdx aoData row id
-	 *  @param {int} colIdx Column Layout
+	 *  @param {int} colIdx Column adminlayout
 	 *  @param {*} val Value to set
 	 *  @memberof DataTable#oApi
 	 */
@@ -2839,7 +2839,7 @@
 	
 	
 	 /**
-	 * Take an array of integers (Layout array) and remove a target integer (value - not
+	 * Take an array of integers (adminlayout array) and remove a target integer (value - not
 	 * the key!)
 	 *  @param {array} a Index array to target
 	 *  @param {int} iTarget value to find
@@ -2873,10 +2873,10 @@
 	 * the cached data is next requested. Also update from the data source object.
 	 *
 	 * @param {object} settings DataTables settings object
-	 * @param {int}    rowIdx   Row Layout to invalidate
+	 * @param {int}    rowIdx   Row adminlayout to invalidate
 	 * @param {string} [src]    Source to invalidate from: undefined, 'auto', 'dom'
 	 *     or 'data'
-	 * @param {int}    [colIdx] Column Layout to invalidate. If undefined the whole
+	 * @param {int}    [colIdx] Column adminlayout to invalidate. If undefined the whole
 	 *     row will be invalidated
 	 * @memberof DataTable#oApi
 	 *
@@ -2952,7 +2952,7 @@
 	 * @param {object} settings DataTables settings object
 	 * @param {node|object} TR element from which to read data or existing row
 	 *   object from which to re-read the data from the cells
-	 * @param {int} [colIdx] Optional column Layout
+	 * @param {int} [colIdx] Optional column adminlayout
 	 * @param {array|object} [d] Data source object. If `colIdx` is given then this
 	 *   parameter should also be given and will be used to write the data into.
 	 *   Only the column in question will be written
@@ -3271,14 +3271,14 @@
 	
 	/**
 	 * Draw the header (or footer) element based on the column visibility states. The
-	 * methodology here is to use the layout array from _fnDetectHeader, modified for
-	 * the instantaneous column visibility, to construct the new layout. The grid is
+	 * methodology here is to use the adminlayout array from _fnDetectHeader, modified for
+	 * the instantaneous column visibility, to construct the new adminlayout. The grid is
 	 * traversed over cell at a time in a rows x columns grid fashion, although each
 	 * cell insert can cover multiple elements in the grid - which is tracks using the
 	 * aApplied array. Cell inserts in the grid will only occur where there isn't
 	 * already a cell in that position.
 	 *  @param {object} oSettings dataTables settings object
-	 *  @param array {objects} aoSource Layout array from _fnDetectHeader
+	 *  @param array {objects} aoSource adminlayout array from _fnDetectHeader
 	 *  @param {boolean} [bIncludeHidden=false] If true then include the hidden columns in the calc,
 	 *  @memberof DataTable#oApi
 	 */
@@ -3300,7 +3300,7 @@
 			bIncludeHidden = false;
 		}
 	
-		/* Make a copy of the master layout array, but without the visible columns in it */
+		/* Make a copy of the master adminlayout array, but without the visible columns in it */
 		for ( i=0, iLen=aoSource.length ; i<iLen ; i++ )
 		{
 			aoLocal[i] = aoSource[i].slice();
@@ -3708,10 +3708,10 @@
 	
 	/**
 	 * Use the DOM source to create up an array of header cells. The idea here is to
-	 * create a layout grid (array) of rows x columns, which contains a reference
+	 * create a adminlayout grid (array) of rows x columns, which contains a reference
 	 * to the cell that that point in the grid (regardless of col/rowspan), such that
 	 * any column / row could be removed and the new grid constructed
-	 *  @param array {object} aLayout Array to store the calculated layout in
+	 *  @param array {object} aLayout Array to store the calculated adminlayout in
 	 *  @param {node} nThead The header/footer element for the table
 	 *  @memberof DataTable#oApi
 	 */
@@ -3731,13 +3731,13 @@
 	
 		aLayout.splice( 0, aLayout.length );
 	
-		/* We know how many rows there are in the layout - so prep it */
+		/* We know how many rows there are in the adminlayout - so prep it */
 		for ( i=0, iLen=nTrs.length ; i<iLen ; i++ )
 		{
 			aLayout.push( [] );
 		}
 	
-		/* Calculate a layout array */
+		/* Calculate a adminlayout array */
 		for ( i=0, iLen=nTrs.length ; i<iLen ; i++ )
 		{
 			nTr = nTrs[i];
@@ -3763,7 +3763,7 @@
 					/* Cache calculation for unique columns */
 					bUnique = iColspan === 1 ? true : false;
 	
-					/* If there is col / rowspan, copy the information into the layout grid */
+					/* If there is col / rowspan, copy the information into the adminlayout grid */
 					for ( l=0 ; l<iColspan ; l++ )
 					{
 						for ( k=0 ; k<iRowspan ; k++ )
@@ -3785,8 +3785,8 @@
 	/**
 	 * Get an array of unique th elements, one for each column
 	 *  @param {object} oSettings dataTables settings object
-	 *  @param {node} nHeader automatically detect the layout from this node - optional
-	 *  @param {array} aLayout thead/tfoot layout from _fnDetectHeader - optional
+	 *  @param {node} nHeader automatically detect the adminlayout from this node - optional
+	 *  @param {array} aLayout thead/tfoot adminlayout from _fnDetectHeader - optional
 	 *  @returns array {node} aReturn list of unique th's
 	 *  @memberof DataTable#oApi
 	 */
@@ -6100,7 +6100,7 @@
 	 * Function to run on user sort request
 	 *  @param {object} settings dataTables settings object
 	 *  @param {node} attachTo node to attach the handler to
-	 *  @param {int} colIdx column sorting Layout
+	 *  @param {int} colIdx column sorting adminlayout
 	 *  @param {boolean} [append=false] Append the requested sort to the existing
 	 *    sort if true (i.e. multi-column sort)
 	 *  @param {function} [callback] callback function
@@ -6186,7 +6186,7 @@
 	 * Attach a sort handler (click) to a node
 	 *  @param {object} settings dataTables settings object
 	 *  @param {node} attachTo node to attach the handler to
-	 *  @param {int} colIdx column sorting Layout
+	 *  @param {int} colIdx column sorting adminlayout
 	 *  @param {function} [callback] callback function
 	 *  @memberof DataTable#oApi
 	 */
@@ -7361,7 +7361,7 @@
 			} );
 		}
 	
-		// Integer is used to pick out a table by Layout
+		// Integer is used to pick out a table by adminlayout
 		if ( typeof selector === 'number' ) {
 			return [ a[ selector ] ];
 		}
@@ -7472,9 +7472,9 @@
 	
 	
 	/**
-	 * Get the current page Layout.
+	 * Get the current page adminlayout.
 	 *
-	 * @return {integer} Current page Layout (zero based)
+	 * @return {integer} Current page adminlayout (zero based)
 	 *//**
 	 * Set the current page.
 	 *
@@ -7482,7 +7482,7 @@
 	 * not throw an error, but rather reset the paging.
 	 *
 	 * @param {integer|string} action The paging action to take. This can be one of:
-	 *  * `integer` - The page Layout to jump to
+	 *  * `integer` - The page adminlayout to jump to
 	 *  * `string` - An action to take:
 	 *    * `first` - Jump to first page.
 	 *    * `next` - Jump to the next page
@@ -7509,10 +7509,10 @@
 	 * with a suitable selector.
 	 *
 	 * @return {object} Object with the following properties set:
-	 *  * `page` - Current page Layout (zero based - i.e. the first page is `0`)
+	 *  * `page` - Current page adminlayout (zero based - i.e. the first page is `0`)
 	 *  * `pages` - Total number of pages
-	 *  * `start` - Display Layout for the first record shown on the current page
-	 *  * `end` - Display Layout for the last record shown on the current page
+	 *  * `start` - Display adminlayout for the first record shown on the current page
+	 *  * `end` - Display adminlayout for the last record shown on the current page
 	 *  * `length` - Display length (number of records). Note that generally `start
 	 *    + length = end`, but this is not always true, for example if there are
 	 *    only 2 records to show on the final page, with a length of 10.
@@ -7815,12 +7815,12 @@
 	
 		var
 			search = opts.search,  // none, applied, removed
-			order  = opts.order,   // applied, current, Layout (original - compatibility with 1.9)
+			order  = opts.order,   // applied, current, adminlayout (original - compatibility with 1.9)
 			page   = opts.page;    // all, current
 	
 		if ( _fnDataSource( settings ) == 'ssp' ) {
 			// In server-side processing mode, most options are irrelevant since
-			// rows not shown don't exist and the Layout order is the applied order
+			// rows not shown don't exist and the adminlayout order is the applied order
 			// Removed is a special case - for consistency just return an empty
 			// array
 			return search === 'removed' ?
@@ -7882,7 +7882,7 @@
 	 * Rows
 	 *
 	 * {}          - no selector - use all available rows
-	 * {integer}   - row aoData Layout
+	 * {integer}   - row aoData adminlayout
 	 * {node}      - TR node
 	 * {string}    - jQuery selector to apply to the TR elements
 	 * {array}     - jQuery array of nodes, or simply an array of TR nodes
@@ -7897,8 +7897,8 @@
 			var aoData = settings.aoData;
 	
 			// Short cut - selector is a number and no options provided (default is
-			// all records, so no need to check if the Layout is in there, since it
-			// must be - dev error if the Layout doesn't exist).
+			// all records, so no need to check if the adminlayout is in there, since it
+			// must be - dev error if the adminlayout doesn't exist).
 			if ( selInt !== null && ! opts ) {
 				return [ selInt ];
 			}
@@ -7958,7 +7958,7 @@
 			// only a row. A # indicates an id any anything that follows is the id -
 			// unescaped.
 			if ( typeof sel === 'string' && sel.charAt(0) === '#' ) {
-				// get row Layout from id
+				// get row adminlayout from id
 				var rowObj = settings.aIds[ sel.replace( /^#/, '' ) ];
 				if ( rowObj !== undefined ) {
 					return [ rowObj.idx ];
@@ -8036,7 +8036,7 @@
 		} );
 	} );
 	
-	_api_registerPlural( 'rows().indexes()', 'row().Layout()', function () {
+	_api_registerPlural( 'rows().indexes()', 'row().adminlayout()', function () {
 		return this.iterator( 'row', function ( settings, row ) {
 			return row;
 		}, 1 );
@@ -8433,8 +8433,8 @@
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Columns
 	 *
-	 * {integer}           - column Layout (>=0 count from left, <0 count from right)
-	 * "{integer}:visIdx"  - visible column Layout (i.e. translate to column Layout)  (>=0 count from left, <0 count from right)
+	 * {integer}           - column adminlayout (>=0 count from left, <0 count from right)
+	 * "{integer}:visIdx"  - visible column adminlayout (i.e. translate to column adminlayout)  (>=0 count from left, <0 count from right)
 	 * "{integer}:visible" - alias for {integer}:visIdx  (>=0 count from left, <0 count from right)
 	 * "{string}:name"     - column name
 	 * "{string}"          - jQuery selector on column header nodes
@@ -8473,7 +8473,7 @@
 				return _range( columns.length );
 			}
 	
-			// Selector - Layout
+			// Selector - adminlayout
 			if ( selInt !== null ) {
 				return [ selInt >= 0 ?
 					selInt : // Count from left
@@ -8504,7 +8504,7 @@
 					case 'visIdx':
 					case 'visible':
 						var idx = parseInt( match[1], 10 );
-						// Visible Layout given, convert to column Layout
+						// Visible adminlayout given, convert to column adminlayout
 						if ( idx < 0 ) {
 							// Counting from the right
 							var visColumns = $.map( columns, function (col,i) {
@@ -8516,7 +8516,7 @@
 						return [ _fnVisibleToColumnIndex( settings, idx ) ];
 	
 					case 'name':
-						// match by name. `names` is column Layout complete and in order
+						// match by name. `names` is column adminlayout complete and in order
 						return $.map( names, function (name, i) {
 							return name === match[1] ? i : null;
 						} );
@@ -8535,7 +8535,7 @@
 			var jqResult = $( nodes )
 				.filter( s )
 				.map( function () {
-					return $.inArray( this, nodes ); // `nodes` is column Layout complete and in order
+					return $.inArray( this, nodes ); // `nodes` is column adminlayout complete and in order
 				} )
 				.toArray();
 	
@@ -8695,7 +8695,7 @@
 		return ret;
 	} );
 	
-	_api_registerPlural( 'columns().indexes()', 'column().Layout()', function ( type ) {
+	_api_registerPlural( 'columns().indexes()', 'column().adminlayout()', function ( type ) {
 		return this.iterator( 'column', function ( settings, column ) {
 			return type === 'visible' ?
 				_fnColumnIndexToVisible( settings, column ) :
@@ -8709,7 +8709,7 @@
 		}, 1 );
 	} );
 	
-	_api_register( 'column.Layout()', function ( type, idx ) {
+	_api_register( 'column.adminlayout()', function ( type, idx ) {
 		if ( this.context.length !== 0 ) {
 			var ctx = this.context[0];
 	
@@ -8772,9 +8772,9 @@
 				return a;
 			}
 			
-			// Selector - Layout
+			// Selector - adminlayout
 			if ( $.isPlainObject( s ) ) {
-				// Valid cell Layout and its in the array of selectable rows
+				// Valid cell adminlayout and its in the array of selectable rows
 				return s.column !== undefined && s.row !== undefined && $.inArray( s.row, rows ) !== -1 ?
 					[s] :
 					[];
@@ -8823,7 +8823,7 @@
 				rowSelector = null;
 			}
 			else {
-				// Cell Layout objects in first parameter
+				// Cell adminlayout objects in first parameter
 				opts = columnSelector;
 				columnSelector = null;
 			}
@@ -8918,7 +8918,7 @@
 	} );
 	
 	
-	_api_registerPlural( 'cells().indexes()', 'cell().Layout()', function () {
+	_api_registerPlural( 'cells().indexes()', 'cell().adminlayout()', function () {
 		return this.iterator( 'cell', function ( settings, row, column ) {
 			return {
 				row: row,
@@ -8969,13 +8969,13 @@
 	 *   table in the current context. Each element in the parent array represents
 	 *   a column being sorted upon (i.e. multi-sorting with two columns would have
 	 *   2 inner arrays). The inner arrays may have 2 or 3 elements. The first is
-	 *   the column Layout that the sorting condition applies to, the second is the
+	 *   the column adminlayout that the sorting condition applies to, the second is the
 	 *   direction of the sort (`desc` or `asc`) and, optionally, the third is the
-	 *   Layout of the sorting order from the `column.sorting` initialisation array.
+	 *   adminlayout of the sorting order from the `column.sorting` initialisation array.
 	 *//**
 	 * Set the ordering for the table.
 	 *
-	 * @param {integer} order Column Layout to sort upon.
+	 * @param {integer} order Column adminlayout to sort upon.
 	 * @param {string} direction Direction of the sort to be applied (`asc` or `desc`)
 	 * @returns {DataTables.Api} this
 	 *//**
@@ -9453,13 +9453,13 @@
 	
 			return this.iterator( type, function ( settings, arg1, arg2, arg3, arg4 ) {
 				// Rows and columns:
-				//  arg1 - Layout
+				//  arg1 - adminlayout
 				//  arg2 - table counter
 				//  arg3 - loop counter
 				//  arg4 - undefined
 				// Cells:
-				//  arg1 - row Layout
-				//  arg2 - column Layout
+				//  arg1 - row adminlayout
+				//  arg2 - column adminlayout
 				//  arg3 - table counter
 				//  arg4 - loop counter
 				fn.call(
@@ -9602,7 +9602,7 @@
 	
 		/**
 		 * Sorting data cache - this array is ostensibly the same length as the
-		 * number of columns (although each Layout is generated only as it is
+		 * number of columns (although each adminlayout is generated only as it is
 		 * needed), and holds the data that is used for sorting each column in the
 		 * row. We do this cache generation at the start of the sort in order that
 		 * the formatting of the sort data need be done only once for each cell
@@ -9657,7 +9657,7 @@
 	
 		/**
 		 * Index in the aoData array. This saves an indexOf lookup when we have the
-		 * object, but want to know the Layout
+		 * object, but want to know the adminlayout
 		 *  @type integer
 		 *  @default -1
 		 *  @private
@@ -9679,7 +9679,7 @@
 	 */
 	DataTable.models.oColumn = {
 		/**
-		 * Column Layout. This could be worked out on-the-fly with $.inArray, but it
+		 * Column adminlayout. This could be worked out on-the-fly with $.inArray, but it
 		 * is faster to just hold it as a variable
 		 *  @type integer
 		 *  @default null
@@ -9701,7 +9701,7 @@
 		 * Define the sorting directions that are applied to the column, in sequence
 		 * as the column is repeatedly sorted upon - i.e. the first value is used
 		 * as the sorting direction when the column if first sorted (clicked on).
-		 * Sort it again (click again) and it will move on to the next Layout.
+		 * Sort it again (click again) and it will move on to the next adminlayout.
 		 * Repeat until loop.
 		 *  @type array
 		 */
@@ -9753,7 +9753,7 @@
 		 *  @param {element} nTd The TD node that has been created
 		 *  @param {*} sData The Data for the cell
 		 *  @param {array|object} oData The data for the whole row
-		 *  @param {int} iRow The row Layout for the aoData data store
+		 *  @param {int} iRow The row adminlayout for the aoData data store
 		 *  @default null
 		 */
 		"fnCreatedCell": null,
@@ -9854,7 +9854,7 @@
 	
 		/**
 		 * Name for the column, allowing reference to the column by name as well as
-		 * by Layout (needs a lookup to work by name).
+		 * by adminlayout (needs a lookup to work by name).
 		 *  @type string
 		 */
 		"sName": null,
@@ -10000,7 +10000,7 @@
 		 * initialisation. You can define which column(s) the sort is performed
 		 * upon, and the sorting direction, with this variable. The `sorting` array
 		 * should contain an array for each column to be sorted initially containing
-		 * the column's Layout and a direction string ('asc' or 'desc').
+		 * the column's adminlayout and a direction string ('asc' or 'desc').
 		 *  @type array
 		 *  @default [[0,'asc']]
 		 *
@@ -10256,8 +10256,8 @@
 		 * array may be:
 		 *   <ul>
 		 *     <li>a string - class name will be matched on the TH for the column</li>
-		 *     <li>0 or a positive integer - column Layout counting from the left</li>
-		 *     <li>a negative integer - column Layout counting from the right</li>
+		 *     <li>0 or a positive integer - column adminlayout counting from the left</li>
+		 *     <li>a negative integer - column adminlayout counting from the right</li>
 		 *     <li>the string "_all" - all columns (i.e. assign a default)</li>
 		 *   </ul>
 		 *  @member
@@ -10528,7 +10528,7 @@
 	
 		/**
 		 * When vertical (y) scrolling is enabled, DataTables will force the height of
-		 * the table's viewport to the given height at all times (useful for layout).
+		 * the table's viewport to the given height at all times (useful for adminlayout).
 		 * However, this can look odd when filtering data down to a small data set,
 		 * and the footer is left "floating" further down. This parameter (when
 		 * enabled) will cause DataTables to collapse the table's viewport down when
@@ -10685,7 +10685,7 @@
 		 *  @type function
 		 *  @param {node} row "TR" element for the current row
 		 *  @param {array} data Raw data array for this row
-		 *  @param {int} dataIndex The Layout of this row in the internal aoData array
+		 *  @param {int} dataIndex The adminlayout of this row in the internal aoData array
 		 *
 		 *  @dtopt Callbacks
 		 *  @name DataTable.defaults.createdRow
@@ -10747,7 +10747,7 @@
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
 		 *        "footerCallback": function( tfoot, data, start, end, display ) {
-		 *          tfoot.getElementsByTagName('th')[0].innerHTML = "Starting Layout is "+start;
+		 *          tfoot.getElementsByTagName('th')[0].innerHTML = "Starting adminlayout is "+start;
 		 *        }
 		 *      } );
 		 *    } )
@@ -10907,8 +10907,8 @@
 		 *  @type function
 		 *  @param {node} row "TR" element for the current row
 		 *  @param {array} data Raw data array for this row
-		 *  @param {int} displayIndex The display Layout for the current table draw
-		 *  @param {int} displayIndexFull The Layout of the data in the full list of
+		 *  @param {int} displayIndex The display adminlayout for the current table draw
+		 *  @param {int} displayIndexFull The adminlayout of the data in the full list of
 		 *    rows (after filtering)
 		 *
 		 *  @dtopt Callbacks
@@ -11484,8 +11484,8 @@
 			 * display updates. This tokens can be placed anywhere in the string, or
 			 * removed as needed by the language requires:
 			 *
-			 * * `\_START\_` - Display Layout of the first record on the current page
-			 * * `\_END\_` - Display Layout of the last record on the current page
+			 * * `\_START\_` - Display adminlayout of the first record on the current page
+			 * * `\_END\_` - Display adminlayout of the last record on the current page
 			 * * `\_TOTAL\_` - Number of records in the table after filtering
 			 * * `\_MAX\_` - Number of records in the table without filtering
 			 * * `\_PAGE\_` - Current page number
@@ -11977,7 +11977,7 @@
 	
 		/**
 		 * Enable horizontal scrolling. When a table is too wide to fit into a
-		 * certain layout, or you have a large number of columns in the table, you
+		 * certain adminlayout, or you have a large number of columns in the table, you
 		 * can enable x-scrolling to show the table in a viewport, which can be
 		 * scrolled. This property can be `true` which will allow the table to
 		 * scroll horizontally when needed, or any CSS unit, or a number (in which
@@ -12116,7 +12116,7 @@
 		 * name / last name columns make sense to do a multi-column sort over the
 		 * two columns.
 		 *  @type array|int
-		 *  @default null <i>Takes the value of the column Layout automatically</i>
+		 *  @default null <i>Takes the value of the column adminlayout automatically</i>
 		 *
 		 *  @name DataTable.defaults.column.orderData
 		 *  @dtopt Columns
@@ -12298,8 +12298,8 @@
 		 *  @param {element} td The TD node that has been created
 		 *  @param {*} cellData The Data for the cell
 		 *  @param {array|object} rowData The data for the whole row
-		 *  @param {int} row The row Layout for the aoData data store
-		 *  @param {int} col The column Layout for aoColumns
+		 *  @param {int} row The row adminlayout for the aoData data store
+		 *  @param {int} col The column adminlayout for aoColumns
 		 *
 		 *  @name DataTable.defaults.column.createdCell
 		 *  @dtopt Columns
@@ -12335,7 +12335,7 @@
 		 * including deeply nested objects / properties. `data` can be given in a
 		 * number of different ways which effect its behaviour:
 		 *
-		 * * `integer` - treated as an array Layout for the data source. This is the
+		 * * `integer` - treated as an array adminlayout for the data source. This is the
 		 *   default that DataTables uses (incrementally increased for each column).
 		 * * `string` - read an object property from the data source. There are
 		 *   three 'special' options that can be used in the string to alter how
@@ -12393,7 +12393,7 @@
 		 * if required.
 		 *
 		 *  @type string|int|function|null
-		 *  @default null <i>Use automatically calculated column Layout</i>
+		 *  @default null <i>Use automatically calculated column adminlayout</i>
 		 *
 		 *  @name DataTable.defaults.column.data
 		 *  @dtopt Columns
@@ -12511,7 +12511,7 @@
 		 * this option can be given in a number of different ways to effect its
 		 * behaviour:
 		 *
-		 * * `integer` - treated as an array Layout for the data source. This is the
+		 * * `integer` - treated as an array adminlayout for the data source. This is the
 		 *   default that DataTables uses (incrementally increased for each column).
 		 * * `string` - read an object property from the data source. There are
 		 *   three 'special' options that can be used in the string to alter how
@@ -13186,7 +13186,7 @@
 	
 			/**
 			 * Determine if the vertical scrollbar is on the right or left of the
-			 * scrolling container - needed for rtl language layout, although not
+			 * scrolling container - needed for rtl language adminlayout, although not
 			 * all browsers move the scrollbar (Safari).
 			 *  @type boolean
 			 *  @default false
@@ -13670,7 +13670,7 @@
 		"bDrawing": false,
 	
 		/**
-		 * Draw Layout (iDraw) of the last error when parsing the returned data
+		 * Draw adminlayout (iDraw) of the last error when parsing the returned data
 		 *  @type int
 		 *  @default -1
 		 */
@@ -13684,7 +13684,7 @@
 		"_iDisplayLength": 10,
 	
 		/**
-		 * Paging start point - aiDisplay Layout
+		 * Paging start point - aiDisplay adminlayout
 		 *  @type int
 		 *  @default 0
 		 */
@@ -13788,7 +13788,7 @@
 		},
 	
 		/**
-		 * Get the display end point - aiDisplay Layout
+		 * Get the display end point - aiDisplay adminlayout
 		 *  @type function
 		 */
 		"fnDisplayEnd": function ()
@@ -13997,7 +13997,7 @@
 		 * 2. `{array|object}` Data for the row to be processed (same as the
 		 *    original format that was passed in as the data source, or an array
 		 *    from a DOM data source
-		 * 3. `{int}` Row Layout ({@link DataTable.models.oSettings.aoData}), which
+		 * 3. `{int}` Row adminlayout ({@link DataTable.models.oSettings.aoData}), which
 		 *    can be useful to retrieve the `TR` element if you need DOM interaction.
 		 *
 		 * And the following return is expected:
@@ -14014,7 +14014,7 @@
 		 *
 		 *  @example
 		 *    // The following example shows custom search being applied to the
-		 *    // fourth column (i.e. the data[3] Layout) based on two input values
+		 *    // fourth column (i.e. the data[3] adminlayout) based on two input values
 		 *    // from the end-user, matching the data in a certain range.
 		 *    $.fn.dataTable.ext.search.push(
 		 *      function( settings, data, dataIndex ) {
@@ -14119,7 +14119,7 @@
 		 *
 		 * The functions defined take two parameters:
 		 *
-		 * 1. `{int} page` The current page Layout
+		 * 1. `{int} page` The current page adminlayout
 		 * 2. `{int} pages` The number of pages in the table
 		 *
 		 * Each function is expected to return an array where each element of the
@@ -14129,7 +14129,7 @@
 		 * * `last` - Jump to last page when activated
 		 * * `previous` - Show previous page when activated
 		 * * `next` - Show next page when activated
-		 * * `{int}` - Show page of the Layout given
+		 * * `{int}` - Show page of the adminlayout given
 		 * * `{array}` - A nested array containing the above elements to add a
 		 *   containing 'DIV' element (might be useful for styling).
 		 *
@@ -14171,7 +14171,7 @@
 		 * 
 		 * The way these plug-ins work is that you create an array of the values you
 		 * wish to be ordering for the column in question and then return that
-		 * array. The data in the array much be in the Layout order of the rows in
+		 * array. The data in the array much be in the adminlayout order of the rows in
 		 * the table (not the currently ordering order!). Which order data gathering
 		 * function is run here depends on the `dt-init columns.orderDataType`
 		 * parameter that is used for the column (if any).
@@ -14180,7 +14180,7 @@
 		 *
 		 * 1. `{object}` DataTables settings object: see
 		 *    {@link DataTable.models.oSettings}
-		 * 2. `{int}` Target column Layout
+		 * 2. `{int}` Target column adminlayout
 		 *
 		 * Each function is expected to return an array:
 		 *
@@ -14192,7 +14192,7 @@
 		 *    // Ordering using `input` node values
 		 *    $.fn.dataTable.ext.order['dom-text'] = function  ( settings, col )
 		 *    {
-		 *      return this.api().column( col, {order:'Layout'} ).nodes().map( function ( td, i ) {
+		 *      return this.api().column( col, {order:'adminlayout'} ).nodes().map( function ( td, i ) {
 		 *        return $('input', td).val();
 		 *      } );
 		 *    }
@@ -14385,7 +14385,7 @@
 	
 	
 		/**
-		 * Index for what 'this' Layout API functions should use
+		 * Index for what 'this' adminlayout API functions should use
 		 *  @type int
 		 *  @deprecated Since v1.10
 		 */
@@ -15346,7 +15346,7 @@
 	 *  @event
 	 *  @param {event} e jQuery event object
 	 *  @param {object} o DataTables settings object {@link DataTable.models.oSettings}
-	 *  @param {int} column Column Layout
+	 *  @param {int} column Column adminlayout
 	 *  @param {bool} vis `false` if column now hidden, or `true` if visible
 	 */
 

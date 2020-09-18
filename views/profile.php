@@ -8,7 +8,6 @@ if (!isset($_SESSION['username'])) {
     $row = $user->profileResult($username);
 }
 
-
 ?>
 <link rel="stylesheet" href="../css/account.css">
 <div class="container">
@@ -36,13 +35,14 @@ if (!isset($_SESSION['username'])) {
             <div class="row overview">
                 <div class="col-md-4 user-pad text-center">
                     <h3>COMMENTS</h3>
+                  <strong><?=$row['totalCount']?></strong>
                 </div>
             </div>
         </div>
     </div>
-        <?php
-        foreach ($row as $value){
-        ?>
+        <?php if ($row['totalCount'] > 0){
+            foreach ($row['row'] as  $value){
+            ?>
     <div class="form-group">
         <span class="comment"><strong><a><?php echo $value['articletitle'] ?></a></strong></span>
     </div>
@@ -53,7 +53,9 @@ if (!isset($_SESSION['username'])) {
         <br>
         <span class="comment"><?php echo $value['content'] ?></span>
     </div>
-<?php} ?>
+<?php
+            }}
 
+?>
 </div>
 

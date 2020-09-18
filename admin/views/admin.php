@@ -1,16 +1,9 @@
 <?php
-include 'conf/connect.php';
-
-$query = $conn->query("SELECT * FROM admin");
-
-require 'layout/header.php';
-require 'layout/sidebar.php';
-require 'layout/topbar.php';
-
-
-?>
-<?php
-
+require 'adminlayout/header.php';
+require 'adminlayout/sidebar.php';
+require 'adminlayout/topbar.php';
+$admin = new Admin();
+$admin = $admin->list();
 if (isset($_SESSION['basarilikayit'])){ ?>
     <div class="alert alert-success" role="alert">
         Kayıt başarıyla Oluşturuldu!
@@ -18,11 +11,6 @@ if (isset($_SESSION['basarilikayit'])){ ?>
     <?php
     unset($_SESSION['basarilikayit']);
 }
-
-?>
-
-<?php
-
 if (isset($_SESSION['basarilisilme'])){ ?>
     <div class="alert alert-success" role="alert">
         Kayıt Başarıyla silindi!
@@ -30,7 +18,6 @@ if (isset($_SESSION['basarilisilme'])){ ?>
 <?php
     unset($_SESSION['basarilisilme']);
 }
-
 ?>
     <div class="container-fluid">
         <div class="card shadow mb-4">
@@ -62,8 +49,8 @@ if (isset($_SESSION['basarilisilme'])){ ?>
                         </tfoot>
                         <tbody>
                         <?php
-                        if ($query->rowCount()) {
-                            foreach ($query as $row) {
+                        if ($admin['totalCount']>0) {
+                            foreach ($admin['admin'] as $row) {
                                 ?>
                                 <tr>
                                     <td><?php echo $row['id']; ?></td>
@@ -71,7 +58,7 @@ if (isset($_SESSION['basarilisilme'])){ ?>
                                     <td><?php echo $row['user_type']; ?></td>
                                     <td><?php echo $row['name']; ?></td>
                                     <td><?php echo $row['lastname']; ?></td>
-                                    <td><a href="conf/admin.php?id=<?php echo $row['id'] ?>">delete</a></td>
+                                    <td><a href="delete-admin/<?php echo $row['id'] ?>">delete</a></td>
                                 </tr>
                             <?php }
                         } ?>
@@ -79,11 +66,11 @@ if (isset($_SESSION['basarilisilme'])){ ?>
                         </tbody>
 
                     </table>
-                    <a href="newadmin"> <button type="button" class="btn btn-success">Add New Admin</button></a>
+                    <a href="view-adminadd"> <button type="button" class="btn btn-success">Add New Admin</button></a>
                 </div>
 
             </div>
         </div>
     </div>
     </div>
-<?php include 'layout/footer.php' ?>
+<?php include 'adminlayout/footer.php' ?>

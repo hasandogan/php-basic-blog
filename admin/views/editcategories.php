@@ -1,19 +1,15 @@
 <?php
-include 'conf/connect.php';
-require 'layout/sidebar.php';
+require 'adminlayout/sidebar.php';
 $path = $_SERVER['REQUEST_URI'];
 $path = substr($path, 1);
 $pathArray = explode('/', $path);
 $id = $pathArray[2];
 
 if (isset($id)) {
-    $query = $conn->query("SELECT * FROM categories where id='$id'");
-    if ($query->rowCount()){
-        foreach ($query as $row){
-        }
-    }
+    $category = new Categories();
+    $value = $category->list($id);
+    $row = $value['category'][0];
 } else {
-
     header('location: /admin');
 }
 ?>
@@ -37,11 +33,11 @@ if (isset($id)) {
     </head>
 
 
-<form action="/admin/conf/categories.php" method="post" enctype="multipart/form-data">
+<form action="/admin/updatecategories/" method="post" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
     <div class="form-group">
         <label for="exampleFormControlInput1">categories</label>
-        <input type="text" class="form-control" name="categoriesname" value="<?php echo $row['name'] ?>"
+        <input type="text" class="form-control" name="categories" value="<?php echo $row['name'] ?>"
                placeholder="name">
     </div>
     <div class="form-group">
@@ -69,4 +65,4 @@ if (isset($id)) {
     </div>
 
 
-<?php require 'layout/footer.php' ?>
+<?php require 'Layout/footer.php' ?>

@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . "/load.php";
-session_start();
 $isUrlFount = false;
 $uri = $_SERVER['REQUEST_URI'];
 $routers = [
@@ -63,7 +62,7 @@ $routers = [
         "class" => "Filter",
         "action" => "categoryView",
         "type" => "normal",
-        "template" => "index.php"
+        "template" => "categories.php"
     ],
     "search" => [
         "url" => "search",
@@ -85,6 +84,7 @@ $routers = [
         "action" => "addComment",
         "type" => "check",
     ],
+
 ];
 foreach ($routers as $router) {
     $routerSlashed = str_replace("/", "\/", $router["url"]);

@@ -59,7 +59,6 @@ class User extends AbstractController
         if ($query->execute()) {
             header('location: /');
         } else {
-            session_start();
             $_SESSION['registererror'] = 'registererror';
             header('location: /register/');
         }
@@ -76,9 +75,9 @@ class User extends AbstractController
         $user = $query->fetch();
 
         $query = $conn->query("SELECT * FROM comments where username='$username' and confirmed='1'");
-        $row = $query->fetch();
+        $row = $query->fetchAll();
         return [
-            'row' => $row,
+            'row' => $row, 'totalCount' => $query->rowCount()
         ];
     }
 

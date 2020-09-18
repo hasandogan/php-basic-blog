@@ -1,20 +1,18 @@
 <?php
-include 'conf/connect.php';
-$query = $conn->query("SELECT * FROM  user");
-session_start();
 if (isset($_SESSION['user_type']) != 'admin') {
     header('location: ../');
+}else{
+    $user = new User();
+    $user = $user->list();
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<body id="page-top">
-<?php require 'layout/header.php';
-require 'layout/sidebar.php';
+
+<?php require 'adminlayout/header.php';
+require 'adminlayout/sidebar.php';
 ?>
 <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
-        <?php require 'layout/topbar.php' ?>
+        <?php require 'adminlayout/topbar.php' ?>
         <div class="container-fluid">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -31,7 +29,6 @@ require 'layout/sidebar.php';
                                 <th>lastname</th>
                                 <th>username</th>
                                 <th>email</th>
-                                <th>pass</th>
                                 <th>edit</th>
                                 <th>delete</th>
                             </tr>
@@ -43,15 +40,14 @@ require 'layout/sidebar.php';
                                 <th>lastname</th>
                                 <th>username</th>
                                 <th>email</th>
-                                <th>pass</th>
                                 <th>edit</th>
                                 <th>delete</th>
                             </tr>
                             </tfoot>
                             <tbody>
                             <?php
-                            if ($query->rowCount()){
-                                foreach ($query as $row){
+                            if ($user['totalCount']>0){
+                                foreach ($user['user'] as $row){
                                     ?>
                                 <tr>
                                     <td><?php echo $row['id']; ?></td>
@@ -59,7 +55,6 @@ require 'layout/sidebar.php';
                                     <td><?php echo $row['lastname']; ?></td>
                                     <td><?php echo $row['username']; ?></td>
                                     <td><?php echo $row['email']; ?></td>
-                                    <td><?php echo $row['pass']; ?></td>
                                     <td><a href="<?php echo $row['id'] ?>">todo</a></td>
                                     <td><a href="<?php echo $row['id'] ?>">todo</a></td>
 
@@ -73,4 +68,4 @@ require 'layout/sidebar.php';
             </div>
         </div>
     </div>
-<?php require 'layout/footer.php' ?>
+<?php include 'adminlayout/footer.php' ?>

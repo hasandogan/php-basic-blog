@@ -1,22 +1,18 @@
 <?php
-require 'layout/sidebar.php';
-require 'layout/header.php';
-include 'conf/connect.php';
-$query = $conn->query("SELECT * FROM categories");
+require 'adminlayout/header.php';
+require 'adminlayout/sidebar.php';
+$categories = new Categories();
+$categories = $categories->list();
 ?>
-<body>
-    <div id="content-wrapper" class="d-flex flex-column">
+<div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
-        <?php require 'layout/topbar.php'; ?>
-        <form action="/admin/artice/edit/1" method="POST" enctype="multipart/form-data">
+        <?php require 'adminlayout/topbar.php'; ?>
+        <form action="articledd" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="exampleFormControlInput1">title</label>
                 <input type="text" class="form-control" name="title" placeholder="title">
             </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">author</label>
-                <input type="text" class="form-control" name="author" placeholder="author">
-            </div>
+            <input type="hidden" name="author" value="<?php echo $_SESSION['name'] . ' ' . $_SESSION['lastname']; ?>">
             <div class="form-group">
                 <input type="file" name="fileToUpload">
             </div>
@@ -28,18 +24,19 @@ $query = $conn->query("SELECT * FROM categories");
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Example select</label>
                 <select class="form-control" name="categories">
-                    <?php if ($query->rowCount()){
-                        foreach ($query as $row){ ?>
-                        <option><?php echo $row['name']?></option>
-                    <?php }} ?>
+                    <?php if ($categories['totalCount'] > 0) {
+                        foreach ($categories['category'] as $row) { ?>
+                            <option><?php echo $row['name'] ?></option>
+                        <?php }
+                    } ?>
                 </select>
             </div>
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Example textarea</label>
-                <textarea class="form-control" name="content" rows="3"></textarea>
-            </div>
+                <textarea name="content"></textarea>
+                               </div>
             <div class="form-group">
-                <input type="submit" name="submit"  class="btn btn-info" />
+                <input type="submit" name="submit" class="btn btn-info"/>
             </div>
         </form>
     </div>
@@ -64,43 +61,7 @@ $query = $conn->query("SELECT * FROM categories");
             </div>
         </div>
     </div>
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="../js/sb-admin-2.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-            crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
-
-    <script>
-        $('.select2').select2({
-            data: ["space", "road", "earth"],
-            tags: true,
-            maximumSelectionLength: 10,
-            tokenSeparators: [',', ' '],
-            placeholder: "Select or type keywords",
-            //minimumInputLength: 1,
-            //ajax: {
-            //   url: "you url to data",
-            //   dataType: 'json',
-            //  quietMillis: 250,
-            //  data: function (term, page) {
-            //     return {
-            //         q: term, // search term
-            //    };
-            //  },
-            //  results: function (data, page) {
-            //  return { results: data.items };
-            //   },
-            //   cache: true
-            // }
-        });
-    </script>
-    </body>
-
-    </html>
+    <?php
+    require 'adminlayout/footer.php';
+    ?>

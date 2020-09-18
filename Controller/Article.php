@@ -1,5 +1,4 @@
 <?php
-require_once 'DefaultClass.php';
 
 class Article extends AbstractController
 {

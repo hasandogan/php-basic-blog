@@ -2,8 +2,15 @@
 require 'Layout/header.php';
 ?>
 <link rel="stylesheet" href="../css/login.css">
+<link rel="stylesheet" href="../css/register.css">
+<div class="👾">
+    <div class="copy">
+
+    </div>
+</div>
 <div class="login-box">
-    <h2>Login</h2>
+
+    <h2>Register</h2>
     <?php
     if ($_SESSION['registererror'] == 'registererror'){
         unset($_SESSION['registererror']);
@@ -12,6 +19,7 @@ require 'Layout/header.php';
             <strong>Oh Olamaz</strong> Sanırım Birşeyler Ters gitti!
         </div>
     <?php   } ?>
+
     <form action="check-register" method="POST">
         <div class="user-box">
             <input type="text" name="username" required="">
@@ -36,3 +44,4 @@ require 'Layout/header.php';
         <input type="submit" value="submit">
     </form>
 </div>
+

@@ -1,14 +1,18 @@
 <?php
 
-session_start();
 
 class Admin extends AbstractController
 {
-    public function login(){
+    public function show(){
 
     }
+    public function list(){
+        $conn = $this->getConn();
+        $query = $conn->query("SELECT * FROM admin");
+         $admin =  $query->fetchAll();
+         return ['admin' => $admin, 'totalCount' => $query->rowCount()];
+    }
     public function add(){
-
         $conn = $this->getConn();
         $name = $this->validateTrimmedProperty($_POST['name']);
         $lastName = $this->validateTrimmedProperty($_POST['lastname']);
@@ -26,7 +30,7 @@ class Admin extends AbstractController
             $query->bindParam(5, $lastName);
             $query->execute();
             $_SESSION['basarilikayit'] = 'basarili kayit';
-            header('location: /admin/admin');
+            header('location: /admin/view-Admin');
         }catch (Exception $exception){
             var_dump($exception->getMessage());
             exit;
@@ -39,7 +43,7 @@ class Admin extends AbstractController
             $query = $conn->prepare("DELETE FROM admin where id='$id'");
             $query->execute();
             $_SESSION['basarilisilme'] = 'basarili silme';
-            header('location: /admin/admin');
+            header('location: /admin/view-Admin');
         }catch (Exception $exception){
             var_dump($exception->getMessage());
         }

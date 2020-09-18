@@ -29,4 +29,5 @@ class Comment extends AbstractController
             header('location: article/' . $title);
         }
     }
+
 }

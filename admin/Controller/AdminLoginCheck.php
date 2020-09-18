@@ -1,6 +1,4 @@
 <?php
-require_once '../class/AbstractController.php';
-session_start();
 class AdminLoginCheck extends AbstractController
 {
     public function login(){
@@ -31,7 +29,6 @@ class AdminLoginCheck extends AbstractController
             }
         }
         public function logout(){
-
             unset($_SESSION['user_type']);
             header("Location: /admin/login");
         }

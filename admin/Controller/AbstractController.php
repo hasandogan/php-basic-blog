@@ -1,6 +1,6 @@
 <?php
 
-
+session_start();
 class AbstractController
 {
     private $conn;
@@ -49,5 +49,6 @@ class AbstractController
 
         return $property;
     }
+
 
 }

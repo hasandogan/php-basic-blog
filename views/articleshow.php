@@ -15,7 +15,6 @@ $comments = $articleShow->comments($id);
                 <img class="show-article-img" src="/img/<?php echo $articleRow['image_path'] ?> ">
                 <div class="show-article-title-container d-inline-block pl-5 align-middle">
                     <span class="show-article-title "><?php echo $articleRow['title'];
-                        session_start();
                         $_SESSION['title'] = $articleRow['title'];
                         ?></span>
                     <br>
@@ -65,7 +64,7 @@ $comments = $articleShow->comments($id);
                                         <input type="hidden" name="date" value="<?php echo date('Y-m-d'); ?>">
                                         <input type="hidden" name="id" value="<?php echo $articleRow['id']; ?>">
                                         <div class="form-group">
-                                            <textarea class="form-control comment-form" name="commentcontent"
+                                            <textarea class="form-control comment-form" required="" name="commentcontent"
                                                       rows="1"></textarea>
                                         </div>
                                         <div class="form-group">
@@ -78,7 +77,6 @@ $comments = $articleShow->comments($id);
                     <?php } else {
                     } ?>
                     <?php
-                    session_start();
                     foreach ($comments as $comment) {
                         ?>
                         <img class="comment-img rounded-circle"

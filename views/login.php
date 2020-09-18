@@ -2,8 +2,12 @@
 
 require 'Layout/header.php';
 ?>
+
 <link rel="stylesheet" href="../css/login.css">
 <link rel="stylesheet" href="../css/account.css">
+<video autoplay muted loop class="myVideo">
+    <source src="img/backgorund.mp4" type="video/mp4">
+</video>
 <div class="login-box">
     <h2>Login</h2>
     <?php
@@ -27,4 +31,3 @@ require 'Layout/header.php';
 
     </form>
 </div>
-

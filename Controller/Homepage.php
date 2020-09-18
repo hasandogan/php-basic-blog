@@ -7,9 +7,7 @@ class Homepage extends AbstractController
      */
     public function index()
     {
-        return [
-            'general' => $this->getDefaultParams()
-        ];
+        return $this->responseArray([]);
 
     }
 

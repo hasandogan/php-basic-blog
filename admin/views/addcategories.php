@@ -1,8 +1,8 @@
 <?php
-require 'layout/header.php';
-require 'layout/sidebar.php';
+require 'adminlayout/header.php';
+require 'adminlayout/sidebar.php';
 ?>
-<form action="../admin/conf/categories.php" method="post" enctype="multipart/form-data">
+<form action="addcategories" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label for="exampleFormControlInput1">categories</label>
         <input type="text" class="form-control" name="categoriesname" placeholder="name">
@@ -27,4 +27,4 @@ require 'layout/sidebar.php';
         <input type="submit">
     </div>
 
-<?php require 'layout/footer.php' ?>
+<?php require 'Layout/footer.php' ?>

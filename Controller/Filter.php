@@ -7,18 +7,7 @@ class Filter extends AbstractController
 
     }
 
-    public function pathArray($value)
-    {
-
-        $path = $_SERVER['REQUEST_URI'];
-        $path = substr($path, 1);
-        $pathArray = explode('/', $path);
-        $pathname = $pathArray[$value];
-
-        return $pathname;
-    }
-
-    public function category($id = null)
+    public function getArticleFromCategory($id = null)
     {
         $conn = $this->getConn();
 
@@ -33,10 +22,12 @@ class Filter extends AbstractController
 
             $articleIdList = implode(",", $articleIdList);
             $query = $conn->query("SELECT * FROM article where id in (" . $articleIdList . ")");
+            $category = $this->categoryList();
             if ($query != null) {
-                return ['article' => $query, 'totalCount' => $query->rowCount()];
+                return ['article' => $query->fetchAll(), 'totalCount' => $query->rowCount(), 'category' => $category];
             }
         } else {
+            $_SESSION['catEror'] = 'catError';
             $query = $conn->query("SELECT * FROM article order by id desc LIMIT 10");
             return ['article' => $query, 'totalCount' => $query->rowCount()];
         }
@@ -56,7 +47,7 @@ class Filter extends AbstractController
         }
         $articleIdList = implode(",", $articleIdList);
         $query = $conn->query("SELECT * FROM article where id in (" . $articleIdList . ")");
-        return ['article' => $query, 'totalCount' => $query->rowCount()];
+        return $this->responseArray(['article' => $query, 'totalCount' => $query->rowCount()]);
     }
 
     public function search()
@@ -84,7 +75,21 @@ class Filter extends AbstractController
     {
         $conn = $this->getConn();
         $query = $conn->query("SELECT * FROM article where id in (" . $article . ")");
-        return ['article' => $query, 'totalCount' => $query->rowCount()];
-
+        return $this->responseArray(['article' => $query, 'totalCount' => $query->rowCount()]);
     }
+    public function categoryList(){
+        $conn = $this->getConn();
+        $query = $conn->query("SELECT * FROM categories");
+        $category = $query->fetchAll();
+        return $category;
+    }
+    public function categoryView($pathname){
+        $conn = $this->getConn();
+        $query = $conn->query("select * FROM categories where name LIKE '%$pathname%'");
+        $catrow = $query->fetch();
+        return [
+            'category' => $catrow
+        ];
+    }
+
 }

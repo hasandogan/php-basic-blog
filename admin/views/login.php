@@ -25,7 +25,7 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                 </div>
-                                <?php session_start();
+                                <?php
                                     if (isset($_SESSION['adminerror'])){  ?>
                                         <div class="alert alert-danger" role="alert">
                                             <strong>Oh Olamaz</strong> Hatalı Bir Giriş yaptınız istersen tekrar dene!
@@ -35,7 +35,7 @@
                                     }?>
 
 
-                                <form class="user" action="/admin/conf/adminlogincheck.php" method="POST">
+                                <form class="user" action="login-check" method="POST">
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user" name="username"
                                                id="exampleInputEmail" aria-describedby="username"

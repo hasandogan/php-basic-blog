@@ -1,9 +1,9 @@
 <?php
-require 'layout/header.php';
-require 'layout/sidebar.php';
+require 'adminlayout/header.php';
+require 'adminlayout/sidebar.php';
 ?>
 
-<form class="user" action="conf/admin.php" method="POST">
+<form class="user" action="adminadd" method="POST">
     <div class="form-group">
         <input type="text" class="form-control form-control-user" name="username"
                id="exampleInputEmail" aria-describedby="username"
@@ -30,4 +30,4 @@ require 'layout/sidebar.php';
     <button type="submit" name="submit" class="btn btn-success">Success</button>
     <hr>
 </form>
-<?php include 'layout/footer.php' ?>
+<?php include 'Layout/footer.php' ?>

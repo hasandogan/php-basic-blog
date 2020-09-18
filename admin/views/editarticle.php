@@ -1,31 +1,26 @@
 <?php
-
 $request = urldecode($_SERVER['REQUEST_URI']);
 $path = substr($request, 1);
 $pathArray = explode('/', $path);
 $id = $pathArray[2];
 if (isset($id)) {
     include 'conf/connect.php';
-    $query = $conn->query("SELECT * FROM article WHERE id='$id'");
-    if ($query->rowCount()) {
-        foreach ($query as $row) {
-        }
-    }
+   $article =  new Article();
+   $article = $article->list($id);
+    $row =  $article['article'][0];
+
 } else {
     header('location article');
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<?php require 'layout/header.php' ?>
+<?php require 'adminlayout/header.php' ?>
 <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-<body id="page-top">
-<?php require 'layout/sidebar.php';
+<?php require 'adminlayout/sidebar.php';
 ?>
 <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
-        <?php require 'layout/topbar.php'; ?>
-        <form action="../conf/article.php" method="post" enctype="multipart/form-data">
+        <?php require 'adminlayout/topbar.php'; ?>
+        <form action="/admin/update-article" method="post" enctype="multipart/form-data">
             <input type="hidden"  name="id" value="<?php echo $row['id'] ?>">
             <div class="form-group">
                 <label for="exampleFormControlInput1">title</label>
@@ -39,23 +34,25 @@ if (isset($id)) {
             </div>
             <div class="form-group">
 
-                <img src="../img/<?php echo $row['image_path'] ?>" alt="Girl in a jacket" width="100" height="100">
+                <img src="../../img/<?php echo $row['image_path'] ?>" alt="Girl in a jacket" width="100" height="100">
                 <input type="file" name="fileToUpload" id="fileToUpload">
-            </div>
-            <label>Select Tag</label>
-            <div class="form-group">
-                <select class="form-control select2" name="tags[]" multiple="multiple" style="width: 100%;"></select>
             </div>
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Example textarea</label>
-                <textarea class="form-control" name="content" rows="3"><?php echo $row['content'] ?></textarea>
+                <textarea name="content" ><?php echo $row['content'] ?></textarea>
+
             </div>
-            <?php $query = $conn->query("SELECT * FROM categories") ?>
+            <?php
+                    $category = new Categories();
+                    $category = $category->list();
+                    $categories = $category['category'];
+
+            ?>
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Example select</label>
                 <select class="form-control" name="categories">
-                    <?php if ($query->rowCount()) {
-                        foreach ($query as $row) {?>
+                    <?php if ($category['totalCount']>0) {
+                        foreach ($categories as $row) {?>
                     <option><?php echo $row['name'] ?></option>
                     <?php }} ?>
                 </select>
@@ -87,53 +84,7 @@ if (isset($id)) {
         </div>
     </div>
 
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="../js/sb-admin-2.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
-    <?php
-    $query = $conn->query("SELECT * FROM tags where articleid='$id'");
-    $tagnamelist = [];
-    if ($query->rowCount()) {
-        foreach ($query as $tagrow) {
-            $tagname = $tagrow['tag_name'];
-            $tagnamelist[] = $tagname;
-        }
-    }
-    $tagnamelist = implode("  ", $tagnamelist);
 
-    ?>
-    <script>
-        $('.select2').select2({
-            data: ["space", "road", "earth"],
-            tags: true,
-            maximumSelectionLength: 10,
-            tokenSeparators: [',', ' '],
-            placeholder: "<?php echo $tagnamelist?>",
-            //minimumInputLength: 1,
-            //ajax: {
-            //   url: "you url to data",
-            //   dataType: 'json',
-            //  quietMillis: 250,
-            //  data: function (term, page) {
-            //     return {
-            //         q: term, // search term
-            //    };
-            //  },
-            //  results: function (data, page) {
-            //  return { results: data.items };
-            //   },
-            //   cache: true
-            // }
-        });
-    </script>
-</body>
 
-</html>
+    <?php require 'adminlayout/footer.php'?>
+

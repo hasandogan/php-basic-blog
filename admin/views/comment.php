@@ -1,13 +1,12 @@
 <?php
-include "conf/connect.php";
-include "conf/commentlist.php";
-require 'layout/header.php';
-require 'layout/sidebar.php';
-$query = $conn -> query("SELECT * FROM comments")
+require 'adminlayout/header.php';
+require 'adminlayout/sidebar.php';
+require 'adminlayout/topbar.php';
+$comment = new Comment();
+$comment = $comment->list();
 ?>
 <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
-        <?php require 'layout/topbar.php' ?>
         <div class="container-fluid">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -44,8 +43,9 @@ $query = $conn -> query("SELECT * FROM comments")
                             </tfoot>
                             <tbody>
                             <?php
-                            if ($query->rowCount()){
-                                foreach ($query as $row){
+
+                            if ($comment['totalCount']){
+                                foreach ($comment['comment'] as $row){
                                 ?>
                                 <tr>
                                     <td><?php echo $row['id']; ?></td>
@@ -55,15 +55,18 @@ $query = $conn -> query("SELECT * FROM comments")
                                     <td><a href="/articleshow/<?php echo $row['articletitle']; ?>"><?php echo $row['articletitle']; ?></a></td>
                                     <td><?php echo $row['CreatedAt']; ?></td>
                                     <td><?php if ($row['confirmed'] == 1) { ?>
-                                            <i class="fas fa-check"></i><?php } else { ?>
-                                            <i class="fas fa-times"></i>
+                                            <i  class="">✅</i><?php } else { ?>
+                                            <i class="">❗</i>
                                         <?php } ?>
                                     </td>
-                                    <td><a href="conf/commentlist.php?delete=<?php echo $row['id']; ?>">delete</a></td>
+                                    <td><a href="Delete-comment/<?php echo $row['id']; ?>">❌</a></td>
                                     <?php if ($row['confirmed'] == 0){
                                         ?>
-                                        <td><a href="conf/commentlist.php?id=<?php echo $row["id"]; ?>">confirm</a></td>
-                                   <?php }else{}?>
+                                        <td><a href="confirm-comment/<?php echo $row["id"]; ?>">confirm</a></td>
+                                   <?php }else{?>
+                                        <td><a href="confirm-comment/<?php echo $row["id"]; ?>">✅</a></td>
+
+                                   <?php  }?>
                                 </tr>
                             <?php  }} ?>
                             </tbody>
@@ -73,4 +76,4 @@ $query = $conn -> query("SELECT * FROM comments")
             </div>
         </div>
     </div>
-<?php require 'Layout/footer.php';
+<?php include 'adminlayout/footer.php' ?>
