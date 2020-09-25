@@ -1,5 +1,11 @@
 <?php
 
+use Doctrine\DBAL\DriverManager;
+use src\entity\Tags;
+use src\repository\ArticleRepository;
+use src\repository\ArticleCategoriesRepository;
+use src\repository\TagsRepository;
+
 class Filter extends AbstractController
 {
     public function view()
@@ -9,87 +15,126 @@ class Filter extends AbstractController
 
     public function getArticleFromCategory($id = null)
     {
-        $conn = $this->getConn();
+        if ($id != null) {
+            /** @var ArticleCategoriesRepository $pathquery */
 
-        $pathquery = $conn->query("SELECT * FROM article_categories where categoriesid='$id' ORDER BY id DESC LIMIT 10");
-        $pathquery = $pathquery->fetchAll();
-        if ($pathquery != null) {
-            $articleIdList = [];
-            foreach ($pathquery as $catrow) {
-                $articleId = $catrow['articleid'];
-                $articleIdList[] = $articleId;
-            }
+            $pathquery = $this->getEntityManager()->getRepository(\src\entity\ArticleCategories::class);
+            $pathquery = $pathquery->getArticleCategories($id);
+            if ($pathquery != null) {
+                $articleIdList = [];
+                foreach ($pathquery as $catrow) {
+                    $articleId = $catrow['articleid'];
+                    $articleIdList[] = $articleId;
+                }
+                $articleIdList = implode(",", $articleIdList);
+                /** @var ArticleRepository $result */
 
-            $articleIdList = implode(",", $articleIdList);
-            $query = $conn->query("SELECT * FROM article where id in (" . $articleIdList . ")");
-            $category = $this->categoryList();
-            if ($query != null) {
-                return ['article' => $query->fetchAll(), 'totalCount' => $query->rowCount(), 'category' => $category];
+                $result = $this->getEntityManager()->getRepository(\src\entity\Article::class);
+                $result = $result->getArticleFindById($articleIdList);
+                $category = $this->categoryList();
+                if ($result != null) {
+                    return ['article' => $result,
+                        'category' => $category,
+
+                    ];
+                }
             }
         } else {
             $_SESSION['catEror'] = 'catError';
-            $query = $conn->query("SELECT * FROM article order by id desc LIMIT 10");
-            return ['article' => $query, 'totalCount' => $query->rowCount()];
+            /** @var ArticleRepository $query */
+
+            $query = $this->getEntityManager()->getRepository(\src\entity\Article::class);
+            $query = $query->getArticle();
+            return [
+                'article' => $query,
+            ];
+
         }
     }
 
 
     public function tag($tagname)
     {
-        $conn = $this->getConn();
-        $query = $conn->query("SELECT * FROM tags where tag_name LIKE '%$tagname%'");
-        if ($query->rowCount()) {
-            $articleIdList = [];
-            foreach ($query as $tagrow) {
-                $articleId = $tagrow['articleid'];
-                $articleIdList[] = $articleId;
-            }
+        /** @var TagsRepository $query */
+        $query = $this->getEntityManager()->getRepository(Tags::class);
+        $query = $query->getTagFindByName($tagname);
+        $articleIdList = [];
+        foreach ($query as $tagrow) {
+            $articleId = $tagrow['articleid'];
+            $articleIdList[] = $articleId;
         }
         $articleIdList = implode(",", $articleIdList);
-        $query = $conn->query("SELECT * FROM article where id in (" . $articleIdList . ")");
-        return $this->responseArray(['article' => $query, 'totalCount' => $query->rowCount()]);
+        /** @var ArticleRepository $result */
+
+        $result = $this->getEntityManager()->getRepository(\src\entity\Article::class);
+       $result = $result->getArticleFindById($articleIdList);
+
+        $resultCount = count($result);
+        return ['article' => $result,
+            'category' => $query,
+            'totalCount' => $resultCount,
+            'general' => $this->getDefaultParams()
+
+        ];
     }
 
     public function search()
     {
-        $conn = $this->getConn();
         if (isset($_POST['search'])) {
+            /** @var ArticleRepository $query */
+
             $search = $_POST['search'];
-            $query = $conn->query("SELECT * FROM article WHERE id LIKE '%".$search."%' OR title LIKE '%".$search."%' OR content LIKE '%".$search."%'");
-            if ($query->rowCount() > 0) {
+            $query = $this->getEntityManager()->getRepository(\src\entity\Article::class);
+            $query = $query->getArticleForSearch($search);
+
+
+            $count = count($query);
+            if ($count > 0) {
                 return [
-                    'results' => $query->fetchAll(),
-                    'keyword'=> $search,
+                    'results' => $query,
+                    'keyword' => $search,
                     'general' => $this->getDefaultParams()
                 ];
             }
         }
         return [
             'results' => [],
-            'keyword'=> $search,
+            'keyword' => $search,
             'general' => $this->getDefaultParams()
         ];
     }
 
     public function searchView($article)
     {
-        $conn = $this->getConn();
-        $query = $conn->query("SELECT * FROM article where id in (" . $article . ")");
-        return $this->responseArray(['article' => $query, 'totalCount' => $query->rowCount()]);
-    }
-    public function categoryList(){
-        $conn = $this->getConn();
-        $query = $conn->query("SELECT * FROM categories");
-        $category = $query->fetchAll();
-        return $category;
-    }
-    public function categoryView($pathname){
-        $conn = $this->getConn();
-        $query = $conn->query("select * FROM categories where name LIKE '%$pathname%'");
-        $catrow = $query->fetch();
-        return [
-            'category' => $catrow
+        /** @var ArticleRepository $article */
+
+        $article = $this->getEntityManager()->getRepository(\src\entity\Article::class);
+       $article = $article->getArticleFindById($article);
+       $count = count($article);
+       return [
+            'article' => $article,
+            'totalCount' => $count
         ];
     }
+
+    public function categoryList()
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $query = $queryBuilder->select('c')->from(\src\entity\Categories::class, 'c');
+        return ['category' => $query->getQuery()->getResult()];
+    }
+
+    public function categoryView($pathname)
+    {
+        /** @var \src\repository\CategoriesRepository $result */
+
+        $result = $this->getEntityManager()->getRepository(\src\entity\Categories::class);
+        $result = $result->getCategoryFindName($pathname);
+        return [
+            'result' => $result,
+            'general' => $this->getDefaultParams()
+        ];
+    }
+
 
 }

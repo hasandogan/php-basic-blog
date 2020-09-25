@@ -18,7 +18,7 @@ require 'Layout/header.php';
             <strong>Oh Olamaz</strong> Sanırım Birşeyler Ters gitti!
         </div>
     <?php } ?>
-    <form action="check-login" method="POST">
+    <form action="logincheck" method="POST">
         <div class="user-box">
             <input type="text" name="username" required="">
             <label>Username</label>

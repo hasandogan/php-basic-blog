@@ -3,31 +3,23 @@
 class Comment extends AbstractController
 {
 
-    public function addComment (){
-        $conn = $this->getConn();
-
+    public function addComment()
+    {
         $username = $_POST['username'];
-        $date = $_POST['date'];
         $id = $_POST['id'];
         $content = $_POST['commentcontent'];
+        $title = $_POST['slug'];
+        $date = new DateTime('now');
+        $comment = new \src\entity\Comments();
+        $em = $this->getEntityManager();
+        $comment->setUsername($username);
+        $comment->setCreatedat($date);
+        $comment->setContent($content);
+        $comment->setArticleid($id);
+        $comment->setArticletitle($title);
+        $em->persist($comment);
+        $em->flush();
+        header('location: /article/'.$title);
 
-        $query = $conn->query("SELECT * FROM article where id='$id'");
-        $row = $query->fetch();
-        $title = $row['slug'];
-        $query = $conn->prepare("INSERT INTO comments SET 
-            username = ?,
-             content = ?,
-            createdAt = ?,
-             articleid = ?,
-             articletitle= ?
-            ");
-
-        $insert = $query->execute(array(
-
-            "$username", "$content", "$date", "$id", "$title"));
-        if ($insert) {
-            header('location: article/' . $title);
-        }
     }
-
 }

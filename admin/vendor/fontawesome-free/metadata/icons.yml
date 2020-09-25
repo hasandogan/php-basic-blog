@@ -4426,7 +4426,7 @@ comment-alt:
     - '4.4'
     - 5.0.0
     - 5.10.1
-  label: Alternate Comment
+  label: Alternate CommentController
   search:
     terms:
       - bubble
@@ -4448,7 +4448,7 @@ comment-alt:
 comment-dollar:
   changes:
     - 5.3.0
-  label: Comment Dollar
+  label: CommentController Dollar
   search:
     terms:
       - bubble
@@ -4473,7 +4473,7 @@ comment-dollar:
 comment-dots:
   changes:
     - 5.0.9
-  label: Comment Dots
+  label: CommentController Dots
   search:
     terms:
       - bubble
@@ -4521,7 +4521,7 @@ comment-medical:
 comment-slash:
   changes:
     - 5.0.9
-  label: Comment Slash
+  label: CommentController Slash
   search:
     terms:
       - bubble
@@ -10248,7 +10248,7 @@ hospital-symbol:
 hospital-user:
   changes:
     - 5.7.0
-  label: Hospital with User
+  label: Hospital with UserController
   search:
     terms:
       - covid-19
@@ -10408,7 +10408,7 @@ house-damage:
 house-user:
   changes:
     - 5.13.0
-  label: House User
+  label: House UserController
   search:
     terms:
       - covid-19
@@ -19956,7 +19956,7 @@ user:
     - 5.0.0
     - 5.0.3
     - 5.0.11
-  label: User
+  label: UserController
   search:
     terms:
       - account
@@ -19976,7 +19976,7 @@ user-alt:
     - 5.0.0
     - 5.0.3
     - 5.0.11
-  label: Alternate User
+  label: Alternate UserController
   search:
     terms:
       - account
@@ -19993,7 +19993,7 @@ user-alt:
 user-alt-slash:
   changes:
     - 5.0.11
-  label: Alternate User Slash
+  label: Alternate UserController Slash
   search:
     terms:
       - account
@@ -20010,7 +20010,7 @@ user-alt-slash:
 user-astronaut:
   changes:
     - 5.0.11
-  label: User Astronaut
+  label: UserController Astronaut
   search:
     terms:
       - avatar
@@ -20026,7 +20026,7 @@ user-astronaut:
 user-check:
   changes:
     - 5.0.11
-  label: User Check
+  label: UserController Check
   search:
     terms:
       - accept
@@ -20045,7 +20045,7 @@ user-circle:
     - 5.0.11
     - 5.11.0
     - 5.11.1
-  label: User Circle
+  label: UserController Circle
   search:
     terms:
       - account
@@ -20063,7 +20063,7 @@ user-circle:
 user-clock:
   changes:
     - 5.0.11
-  label: User Clock
+  label: UserController Clock
   search:
     terms:
       - alert
@@ -20077,7 +20077,7 @@ user-clock:
 user-cog:
   changes:
     - 5.0.11
-  label: User Cog
+  label: UserController Cog
   search:
     terms:
       - admin
@@ -20091,7 +20091,7 @@ user-cog:
 user-edit:
   changes:
     - 5.0.11
-  label: User Edit
+  label: UserController Edit
   search:
     terms:
       - edit
@@ -20107,7 +20107,7 @@ user-edit:
 user-friends:
   changes:
     - 5.0.11
-  label: User Friends
+  label: UserController Friends
   search:
     terms:
       - group
@@ -20122,7 +20122,7 @@ user-friends:
 user-graduate:
   changes:
     - 5.0.11
-  label: User Graduate
+  label: UserController Graduate
   search:
     terms:
       - cap
@@ -20139,7 +20139,7 @@ user-graduate:
 user-injured:
   changes:
     - 5.4.0
-  label: User Injured
+  label: UserController Injured
   search:
     terms:
       - cast
@@ -20156,7 +20156,7 @@ user-lock:
   changes:
     - 5.0.11
     - 5.9.0
-  label: User Lock
+  label: UserController Lock
   search:
     terms:
       - admin
@@ -20193,7 +20193,7 @@ user-md:
 user-minus:
   changes:
     - 5.0.11
-  label: User Minus
+  label: UserController Minus
   search:
     terms:
       - delete
@@ -20206,7 +20206,7 @@ user-minus:
 user-ninja:
   changes:
     - 5.0.11
-  label: User Ninja
+  label: UserController Ninja
   search:
     terms:
       - assassin
@@ -20240,7 +20240,7 @@ user-plus:
     - 5.0.0
     - 5.0.3
     - 5.0.11
-  label: User Plus
+  label: UserController Plus
   search:
     terms:
       - add
@@ -20259,7 +20259,7 @@ user-secret:
     - 5.0.0
     - 5.0.3
     - 5.0.11
-  label: User Secret
+  label: UserController Secret
   search:
     terms:
       - clothing
@@ -20277,7 +20277,7 @@ user-secret:
 user-shield:
   changes:
     - 5.0.11
-  label: User Shield
+  label: UserController Shield
   search:
     terms:
       - admin
@@ -20292,7 +20292,7 @@ user-shield:
 user-slash:
   changes:
     - 5.0.11
-  label: User Slash
+  label: UserController Slash
   search:
     terms:
       - ban
@@ -20305,7 +20305,7 @@ user-slash:
 user-tag:
   changes:
     - 5.0.11
-  label: User Tag
+  label: UserController Tag
   search:
     terms:
       - avatar
@@ -20321,7 +20321,7 @@ user-tag:
 user-tie:
   changes:
     - 5.0.11
-  label: User Tie
+  label: UserController Tie
   search:
     terms:
       - avatar
@@ -20340,7 +20340,7 @@ user-times:
     - 5.0.0
     - 5.0.3
     - 5.0.11
-  label: Remove User
+  label: Remove UserController
   search:
     terms:
       - archive

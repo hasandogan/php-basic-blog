@@ -1,36 +1,47 @@
 <?php
+
 class AdminLoginCheck extends AbstractController
 {
-    public function login(){
+    public function login()
+    {
 
     }
-    public function loginCheck (){
-        $conn = $this->getConn();
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $md5password =  md5($password);
 
-        if ($username && $password) {
+    public function loginCheck()
+    {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $md5password = md5($password);
+        $em = $this->getEntityManager();
+        if ($username && $md5password) {
 
-                $query = $conn->query("SELECT * FROM admin WHERE username='$username' and  password='$md5password'");
-                $row = $query->fetch();
+            $query = $this->getEntityManager()->getRepository(\src\entity\Admin::class);
+            /** @var \src\repository\AdminRepository $result */
+            $result = $query->adminLoginCheck($username,$md5password);
 
-                if ( $row !== false){
-                    $_SESSION['user_type'] = $row['user_type'];
-                    $_SESSION['name'] = $row['name'];
-                    $_SESSION['lastname'] = $row['lastname'];
+            if (count($result)>0) {
+
+                /** @var \src\entity\Admin $row */
+                foreach ($result as $row) {
+                    $_SESSION['user_type'] = $row->getUserType();
+                    $_SESSION['name'] = $row->getName();
+                    $_SESSION['lastname'] = $row->getLastName();
                     $_SESSION['admingiris'] = 'admingiris';
-                    header('location: /admin/');
 
-                } else {
-                    $_SESSION['adminerror'] = 'adminerror';
-                    header('location: /admin/login');
                 }
+                header('location: /admin/');
+
+            } else {
+                $_SESSION['adminerror'] = 'adminerror';
+                header('location: /admin/login');
             }
         }
-        public function logout(){
-            unset($_SESSION['user_type']);
-            header("Location: /admin/login");
-        }
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['user_type']);
+        header("Location: /admin/login");
+    }
 
 }

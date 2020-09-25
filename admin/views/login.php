@@ -34,7 +34,6 @@
                                     unset($_SESSION['adminerror']);
                                     }?>
 
-
                                 <form class="user" action="login-check" method="POST">
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user" name="username"

@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="../css/styles.css">
 <link rel="stylesheet" href="../css/font-awesome.css">
 <link href='//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css' rel='stylesheet'/>
@@ -22,19 +23,19 @@
     } else {
         echo "<title>Hasan Dogan Blog</title>";
 
-
     } ?>
 
 
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/blog-home.css" rel="stylesheet">
     <link href="/css/category.css" rel="stylesheet">
+
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="opacity:75%">
     <div class="container">
-        <a class="navbar-brand"  href="/"><img src="/img/pngegg.png"  width="120" height="40"></a>
+        <a class="navbar-brand" href="/"><img src="/img/pngegg.png" width="120" height="40"></a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">

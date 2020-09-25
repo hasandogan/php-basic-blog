@@ -4,8 +4,9 @@ if (!isset($_SESSION['username'])) {
     header('location: index.php');
 } else {
     $username = $_SESSION['username'];
-    $user = new User();
+    $user = new UserController();
     $row = $user->profileResult($username);
+
 }
 
 ?>
@@ -35,23 +36,25 @@ if (!isset($_SESSION['username'])) {
             <div class="row overview">
                 <div class="col-md-4 user-pad text-center">
                     <h3>COMMENTS</h3>
-                  <strong><?=$row['totalCount']?></strong>
+                  <strong><?php echo count($row['row'])?></strong>
                 </div>
             </div>
         </div>
     </div>
-        <?php if ($row['totalCount'] > 0){
+        <?php if (count($row['row']) > 0){
+            /** @var \src\entity\Comments $value */
+
             foreach ($row['row'] as  $value){
             ?>
     <div class="form-group">
-        <span class="comment"><strong><a><?php echo $value['articletitle'] ?></a></strong></span>
+        <span class="comment"><strong><a><?php echo $value->getArticletitle(); ?></a></strong></span>
     </div>
     <img class="comment-img rounded-circle"
-         src="https://robohash.org/<?php echo $value['username'] ?>" alt="">
+         src="https://robohash.org/<?php echo $value->getUsername(); ?>" alt="">
     <div class="comment-container d-inline-block pl-3 align-top">
-        <span class="commenter-name"><?php echo $value['username'] ?></span>
+        <span class="commenter-name"><?php echo $value->getUsername() ?></span>
         <br>
-        <span class="comment"><?php echo $value['content'] ?></span>
+        <span class="comment"><?php echo $value->getContent() ?></span>
     </div>
 <?php
             }}

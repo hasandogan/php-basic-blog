@@ -6,9 +6,9 @@ $pathArray = explode('/', $path);
 $id = $pathArray[2];
 
 if (isset($id)) {
-    $category = new Categories();
+    $category = new CategoriesController();
     $value = $category->list($id);
-    $row = $value['category'][0];
+    $row = $value['category'];
 } else {
     header('location: /admin');
 }
@@ -28,36 +28,32 @@ if (isset($id)) {
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
         <link href="../css/sb-admin-2.css" rel="stylesheet">
         <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-
-
     </head>
-
-
 <form action="/admin/updatecategories/" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
+    <input type="hidden" name="id" value="<?php echo $row->getId() ?>">
     <div class="form-group">
         <label for="exampleFormControlInput1">categories</label>
-        <input type="text" class="form-control" name="categories" value="<?php echo $row['name'] ?>"
+        <input type="text" class="form-control" name="categories" value="<?php echo $row->getName() ?>"
                placeholder="name">
     </div>
     <div class="form-group">
         <label for="exampleFormControlInput1">pagetitle</label>
-        <input type="text" class="form-control" name="pagetitle" value="<?php echo $row['page_title'] ?>"
+        <input type="text" class="form-control" name="pagetitle" value="<?php echo $row->getPageTitle() ?>"
                placeholder="pagetitle">
     </div>
     <div class="form-group">
         <label for="exampleFormControlInput1">content</label>
-        <input type="text" class="form-control" name="content" value="<?php echo $row['content'] ?>"
+        <input type="text" class="form-control" name="content" value="<?php echo $row->getContent() ?>"
                placeholder="content">
     </div>
     <div class="form-group">
         <label for="exampleFormControlInput1">metadesc</label>
-        <input type="text" class="form-control" name="metadesc" value="<?php echo $row['meta_desc'] ?>"
+        <input type="text" class="form-control" name="metadesc" value="<?php echo $row->getMetaDesc() ?>"
                placeholder="metadesc">
     </div>
     <div class="form-group">
         <label for="exampleFormControlInput1">metakey</label>
-        <input type="text" class="form-control" name="metakey" value="<?php echo $row['meta_key'] ?>"
+        <input type="text" class="form-control" name="metakey" value="<?php echo $row->getMetaKey() ?>"
                placeholder="metakey">
     </div>
     <div class="form-group">

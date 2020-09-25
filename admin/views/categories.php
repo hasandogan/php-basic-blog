@@ -1,8 +1,8 @@
 <?php
 require 'adminlayout/header.php';
 require 'adminlayout/sidebar.php';
-$categories = new Categories();
-$categories = $categories->list();
+$categories = new CategoriesController();
+$category = $categories->list();
 if (isset($_SESSION['basarilikayit'])){ ?>
     <div class="alert alert-success" role="alert">
         Kayıt başarıyla Oluşturuldu!
@@ -63,18 +63,18 @@ if (isset($_SESSION['basariliguncelleme'])){ ?>
                             </tfoot>
                             <tbody>
                             <?php
-                            if ($categories['totalCount']>0){
-                                foreach ($categories['category'] as $row) {
+                            if (count($category['category'])>0){
+                                foreach ($category['category'] as $row) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $row['id'] ?></td>
-                                        <td><?php echo $row['name'] ?></td>
-                                        <td><?php echo $row['page_title'] ?></td>
-                                        <td><?php echo $row['content'] ?></td>
-                                        <td><?php echo $row['meta_desc'] ?></td>
-                                        <td><?php echo $row['meta_key'] ?></td>
-                                        <td><a href="view-edit-categories/<?php echo $row['id'] ?>">edit</a></td>
-                                        <td><a href="deletecategories/<?php echo $row['id'] ?>">delete</a></td>
+                                        <td><?php echo $row->getId() ?></td>
+                                        <td><?php echo $row->getName() ?></td>
+                                        <td><?php echo $row->getPageTitle() ?></td>
+                                        <td><?php echo $row->getContent() ?></td>
+                                        <td><?php echo $row->getMetaDesc() ?></td>
+                                        <td><?php echo $row->getMetaKey() ?></td>
+                                        <td><a href="view-edit-categories/<?php echo $row->getId() ?>">edit</a></td>
+                                        <td><a href="deletecategories/<?php echo $row->getId() ?>">delete</a></td>
                                     </tr>
                                 <?php
                             }} ?>

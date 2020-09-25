@@ -1,18 +1,20 @@
 <?php
+session_start();
+require_once __DIR__ . "../../vendor/autoload.php";
 require_once __DIR__ . "/load.php";
 $isUrlFount = false;
 $uri = $_SERVER['REQUEST_URI'];
 $routers = [
     "homepage" => [
         "url" => "^/$",
-        "class" => "Homepage",
+        "class" => "HomepageController",
         "action" => "index",
         "type" => "normal",
         "template" => "index.php"
- ],
+    ],
     "index" => [
         "url" => "^/admin/$",
-        "class" => "Homepage",
+        "class" => "HomepageController",
         "action" => "index",
         "type" => "normal",
         "template" => "index.php"
@@ -34,130 +36,130 @@ $routers = [
 
     "editarticle" => [
         "url" => "/editarticle/(\d+)",
-        "class" => "Article",
+        "class" => "ArticleController",
         "action" => "show",
         "type" => "normal",
-        "template" =>"editarticle.php"
+        "template" => "editarticle.php"
     ],
     "articleadd" => [
         "url" => "/articledd",
-        "class" => "Article",
+        "class" => "ArticleController",
         "action" => "add",
         "type" => "check",
     ],
     "articlenew" => [
         "url" => "/articlenew",
-        "class" => "Article",
+        "class" => "ArticleController",
         "action" => "show",
         "type" => "normal",
-        "template" =>"articlenew.php"
+        "template" => "articlenew.php"
     ],
     "article" => [
         "url" => "/article",
-        "class" => "Article",
+        "class" => "ArticleController",
         "action" => "show",
         "type" => "normal",
-        "template" =>"article.php"
+        "template" => "article.php"
     ],
     "update-article" => [
         "url" => "/update-article",
-        "class" => "Article",
+        "class" => "ArticleController",
         "action" => "update",
         "type" => "check",
     ],
     "delete-article" => [
         "url" => "/delete-article/(\d+)",
-        "class" => "Article",
+        "class" => "ArticleController",
         "action" => "delete",
         "type" => "check",
     ],
     "categories" => [
         "url" => "/categories",
-        "class" => "Categories",
+        "class" => "CategoriesController",
         "action" => "show",
         "type" => "normal",
         "template" => "categories.php"
     ],
     "categoriesView" => [
         "url" => "/view-add-categories",
-        "class" => "Categories",
+        "class" => "CategoriesController",
         "action" => "show",
         "type" => "normal",
         "template" => "addcategories.php"
     ],
     "categoriesadd" => [
         "url" => "/addcategories",
-        "class" => "Categories",
+        "class" => "CategoriesController",
         "action" => "add",
         "type" => "normal",
     ],
     "update-categories" => [
         "url" => "/updatecategories",
-        "class" => "Categories",
+        "class" => "CategoriesController",
         "action" => "update",
         "type" => "normal",
     ],
     "delete-categories" => [
         "url" => "/deletecategories/(\d+)",
-        "class" => "Categories",
+        "class" => "CategoriesController",
         "action" => "delete",
         "type" => "check",
     ],
     "edit-categories" => [
         "url" => "/view-edit-categories",
-        "class" => "Categories",
+        "class" => "CategoriesController",
         "action" => "show",
         "type" => "normal",
         "template" => "editcategories.php"
     ],
     "Viewcomment" => [
         "url" => "/view-comment",
-        "class" => "comment",
+        "class" => "commentController",
         "action" => "show",
         "type" => "normal",
         "template" => "comment.php"
     ],
     "confirmComment" => [
         "url" => "/confirm-comment/(\d+)",
-        "class" => "comment",
+        "class" => "commentController",
         "action" => "confirmed",
         "type" => "check",
     ],
     "deleteComment" => [
         "url" => "/Delete-comment/(\d+)",
-        "class" => "comment",
+        "class" => "commentController",
         "action" => "delete",
         "type" => "check",
     ],
     "admin" => [
         "url" => "/view-Admin",
-        "class" => "Admin",
+        "class" => "AdminController",
         "action" => "show",
         "type" => "check",
         "template" => "admin.php"
     ],
     "view-add-Admin" => [
         "url" => "/view-adminadd",
-        "class" => "Admin",
+        "class" => "AdminController",
         "action" => "show",
         "type" => "normal",
         "template" => "newadmin.php"
     ],
-    "add-Admin" => [
+    "add-AdminController" => [
         "url" => "/adminadd",
-        "class" => "Admin",
+        "class" => "AdminController",
         "action" => "add",
         "type" => "check",
     ],
-    "delete-Admin" => [
+    "delete-AdminController" => [
         "url" => "/delete-admin/(\d+)",
-        "class" => "Admin",
+        "class" => "AdminController",
         "action" => "delete",
         "type" => "check",
     ],
-    "view-User" => [
+    "view-UserController" => [
         "url" => "/view-user",
-        "class" => "User",
+        "class" => "UserController",
         "action" => "show",
         "type" => "normal",
         "template" => "user.php"
@@ -170,12 +172,10 @@ $routers = [
     ],
 
 
-
-
 ];
 foreach ($routers as $router) {
     $routerSlashed = str_replace("/", "\/", $router["url"]);
-    $result = preg_match("/" . $routerSlashed. "/", $uri, $matches);
+    $result = preg_match("/" . $routerSlashed . "/", $uri, $matches);
     if ($result == 1) {
         unset($matches[0]);
         if (count($matches) > 0) {

@@ -3,16 +3,18 @@ require 'adminlayout/header.php';
 require 'adminlayout/sidebar.php';
 $name = $_SESSION['name'];
 $lastname = $_SESSION['lastname'];
-$comment = new Comment();
+$comment = new CommentController();
 $comment = $comment->list();
-$article = new Article();
+$article = new ArticleController();
 $article = $article->list();
-$user = new User();
+$user = new UserController();
 $user = $user->list();
-$admin = new Admin();
+$admin = new AdminController();
 $admin = $admin->list();
-$categories = new Categories();
+$categories = new CategoriesController();
 $categories = $categories->list();
+
+
 ?>
 
 <?php require 'adminlayout/topbar.php'; ?>
@@ -33,36 +35,6 @@ if (isset($_SESSION['admingiris'])) {
 ?>
     <div class="card-group">
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Onaylanan yorum
-                                sayısı
-                            </div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= ceil($comment['mood']) ?>
-                                        %
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2">
-                                        <div class="progress-bar bg-info" role="progressbar"
-                                             style="width: <?= $comment['mood'] ?>%" aria-valuenow="50"
-                                             aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -70,7 +42,7 @@ if (isset($_SESSION['admingiris'])) {
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Toplam Yorum
                                 Sayısı
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $comment['totalCount'] ?></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo count($comment['comment']) ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -86,7 +58,7 @@ if (isset($_SESSION['admingiris'])) {
                         <div class="col mr-3">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Toplam Makale Sayısı
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $article['totalCount'] ?></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo count($article['article']) ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-pager fa-2x text-gray-300"></i>
@@ -100,9 +72,10 @@ if (isset($_SESSION['admingiris'])) {
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-3">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Toplam Kullanıcı  Sayısı
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Toplam Kullanıcı
+                                Sayısı
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $user['totalCount'] ?></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo count($user['user']) ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-users-cog fa-2x text-gray-300"></i>
@@ -116,9 +89,10 @@ if (isset($_SESSION['admingiris'])) {
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-3">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Toplam Yönetici Sayısı
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Toplam Yönetici
+                                Sayısı
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $admin['totalCount'] ?></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo count($admin['admin']) ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-fw fa-chart-area fa-2x text-gray-300"></i>
@@ -132,9 +106,10 @@ if (isset($_SESSION['admingiris'])) {
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-3">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Toplam Kategory Sayısı
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Toplam Kategory
+                                Sayısı
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $categories['totalCount'] ?></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo count($categories['category']) ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="far fa-copy fa-2x text-gray-300"></i>

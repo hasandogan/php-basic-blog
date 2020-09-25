@@ -2,7 +2,7 @@
 require 'adminlayout/header.php';
 require 'adminlayout/sidebar.php';
 require 'adminlayout/topbar.php';
-$admin = new Admin();
+$admin = new AdminController();
 $admin = $admin->list();
 if (isset($_SESSION['basarilikayit'])){ ?>
     <div class="alert alert-success" role="alert">
@@ -49,16 +49,16 @@ if (isset($_SESSION['basarilisilme'])){ ?>
                         </tfoot>
                         <tbody>
                         <?php
-                        if ($admin['totalCount']>0) {
+                        if (count($admin)) {
                             foreach ($admin['admin'] as $row) {
                                 ?>
                                 <tr>
-                                    <td><?php echo $row['id']; ?></td>
-                                    <td><?php echo $row['username']; ?></td>
-                                    <td><?php echo $row['user_type']; ?></td>
-                                    <td><?php echo $row['name']; ?></td>
-                                    <td><?php echo $row['lastname']; ?></td>
-                                    <td><a href="delete-admin/<?php echo $row['id'] ?>">delete</a></td>
+                                    <td><?php echo $row->getId(); ?></td>
+                                    <td><?php echo $row->getUserName(); ?></td>
+                                    <td><?php echo $row->getUserType(); ?></td>
+                                    <td><?php echo $row->getName(); ?></td>
+                                    <td><?php echo $row->getLastName(); ?></td>
+                                    <td><a href="delete-admin/<?php echo $row->getId(); ?>">delete</a></td>
                                 </tr>
                             <?php }
                         } ?>

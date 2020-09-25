@@ -1,51 +1,53 @@
 <?php
-require_once __DIR__ . "/load.php";
+session_start();
+require_once "vendor/autoload.php";
+require_once "load.php";
 $isUrlFount = false;
 $uri = $_SERVER['REQUEST_URI'];
 $routers = [
     "homepage" => [
         "url" => "^/$",
-        "class" => "Homepage",
+        "class" => "HomepageController",
         "action" => "index",
         "type" => "normal",
         "template" => "index.php"
     ],
     "article_show" => [
         "url" => "article/([a-z0-9-?&]+)",
-        "class" => "Article",
+        "class" => "ArticleController",
         "action" => "show",
         "type" => "normal",
         "template" => "articleshow.php"
     ],
     "check-login" => [
-        "url" => "check-login",
-        "class" => "User",
+        "url" => "logincheck",
+        "class" => "UserController",
         "action" => "logincheck",
         "type" => "check",
     ],
     "login" => [
         "url" => "login",
-        "class" => "User",
+        "class" => "UserController",
         "action" => "login",
         "type" => "normal",
         "template" => "/login.php"
     ],
     "profile" => [
         "url" => "profile",
-        "class" => "User",
+        "class" => "UserController",
         "action" => "profile",
         "type" => "normal",
         "template" => "/profile.php"
     ],
     "check-register" => [
         "url" => "check-register",
-        "class" => "User",
+        "class" => "UserController",
         "action" => "registerCheck",
         "type" => "check"
     ],
     "register" => [
         "url" => "register",
-        "class" => "User",
+        "class" => "UserController",
         "action" => "register",
         "type" => "normal",
         "template" => "/register.php"
@@ -73,19 +75,19 @@ $routers = [
     ],
     "logout" => [
         "url" => "logout",
-        "class" => "User",
+        "class" => "UserController",
         "action" => "logout",
         "type" => "check",
-        "template" => "logout.php"
+
     ],
     "comment" => [
         "url" => "comment",
-        "class" => "Comment",
+        "class" => "CommentController",
         "action" => "addComment",
         "type" => "check",
-    ],
-
+    ]
 ];
+
 foreach ($routers as $router) {
     $routerSlashed = str_replace("/", "\/", $router["url"]);
     $result = preg_match("/" . $routerSlashed. "/", $uri, $matches);
@@ -124,5 +126,3 @@ foreach ($routers as $router) {
         }
     }
 }
-
-

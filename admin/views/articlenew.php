@@ -1,7 +1,7 @@
 <?php
 require 'adminlayout/header.php';
 require 'adminlayout/sidebar.php';
-$categories = new Categories();
+$categories = new CategoriesController();
 $categories = $categories->list();
 ?>
 <div id="content-wrapper" class="d-flex flex-column">
@@ -24,9 +24,11 @@ $categories = $categories->list();
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Example select</label>
                 <select class="form-control" name="categories">
-                    <?php if ($categories['totalCount'] > 0) {
+
+                    <?php
+                    if (count($categories['category']) > 0) {
                         foreach ($categories['category'] as $row) { ?>
-                            <option><?php echo $row['name'] ?></option>
+                            <option><?php echo $row->getName() ?></option>
                         <?php }
                     } ?>
                 </select>

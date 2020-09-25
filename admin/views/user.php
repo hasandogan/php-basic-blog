@@ -2,7 +2,7 @@
 if (isset($_SESSION['user_type']) != 'admin') {
     header('location: ../');
 }else{
-    $user = new User();
+    $user = new UserController();
     $user = $user->list();
 }
 ?>
@@ -46,17 +46,17 @@ require 'adminlayout/sidebar.php';
                             </tfoot>
                             <tbody>
                             <?php
-                            if ($user['totalCount']>0){
+                            if (count($user['user'])){
                                 foreach ($user['user'] as $row){
                                     ?>
                                 <tr>
-                                    <td><?php echo $row['id']; ?></td>
-                                    <td><?php echo $row['firstname']; ?></td>
-                                    <td><?php echo $row['lastname']; ?></td>
-                                    <td><?php echo $row['username']; ?></td>
-                                    <td><?php echo $row['email']; ?></td>
-                                    <td><a href="<?php echo $row['id'] ?>">todo</a></td>
-                                    <td><a href="<?php echo $row['id'] ?>">todo</a></td>
+                                    <td><?php echo $row->getId(); ?></td>
+                                    <td><?php echo $row->getUserName(); ?></td>
+                                    <td><?php echo $row->getLastName(); ?></td>
+                                    <td><?php echo $row->getUserName(); ?></td>
+                                    <td><?php echo $row->getEmail(); ?></td>
+                                    <td><a href="<?php echo $row->getId() ?>">todo</a></td>
+                                    <td><a href="<?php echo $row->getId() ?>">todo</a></td>
 
                                 </tr>
                             <?php }} ?>

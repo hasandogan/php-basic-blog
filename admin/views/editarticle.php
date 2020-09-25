@@ -4,11 +4,9 @@ $path = substr($request, 1);
 $pathArray = explode('/', $path);
 $id = $pathArray[2];
 if (isset($id)) {
-    include 'conf/connect.php';
-   $article =  new Article();
+   $article =  new ArticleController();
    $article = $article->list($id);
     $row =  $article['article'][0];
-
 } else {
     header('location article');
 }
@@ -21,39 +19,40 @@ if (isset($id)) {
     <div id="content">
         <?php require 'adminlayout/topbar.php'; ?>
         <form action="/admin/update-article" method="post" enctype="multipart/form-data">
-            <input type="hidden"  name="id" value="<?php echo $row['id'] ?>">
+            <input type="hidden"  name="id" value="<?php echo $row->getId() ?>">
             <div class="form-group">
                 <label for="exampleFormControlInput1">title</label>
-                <input type="text" class="form-control" value="<?php echo $row['title'] ?>" name="title"
+                <input type="text" class="form-control" value="<?php echo $row->getTitle() ?>" name="title"
                        placeholder="title">
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">author</label>
-                <input type="text" class="form-control" name="author" value="<?php echo $row['author'] ?>"
+                <input type="text" class="form-control" name="author" value="<?php echo $row->getAuthor() ?>"
                        placeholder="author">
             </div>
             <div class="form-group">
 
-                <img src="../../img/<?php echo $row['image_path'] ?>" alt="Girl in a jacket" width="100" height="100">
+                <img src="../../img/<?php echo $row->getImagePath() ?>" alt="Girl in a jacket" width="100" height="100">
                 <input type="file" name="fileToUpload" id="fileToUpload">
             </div>
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Example textarea</label>
-                <textarea name="content" ><?php echo $row['content'] ?></textarea>
+                <textarea name="content" ><?php echo $row->getContent() ?></textarea>
 
             </div>
             <?php
-                    $category = new Categories();
+                    $category = new CategoriesController();
                     $category = $category->list();
                     $categories = $category['category'];
-
             ?>
             <div class="form-group">
                 <label for="exampleFormControlSelect1">Example select</label>
                 <select class="form-control" name="categories">
-                    <?php if ($category['totalCount']>0) {
+                    <?php
+                    /** @var \src\entity\Categories $row */
+                    if (count($category)>0) {
                         foreach ($categories as $row) {?>
-                    <option><?php echo $row['name'] ?></option>
+                    <option><?php echo $row->getName() ?></option>
                     <?php }} ?>
                 </select>
             </div>

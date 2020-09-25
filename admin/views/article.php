@@ -2,8 +2,10 @@
 require 'adminlayout/header.php';
 require 'adminlayout/sidebar.php';
 require 'adminlayout/topbar.php';
-$article = new Article();
-$article = $article->list();
+$list = new ArticleController();
+$article = $list->list();
+$articles = $article['article'];
+
 if (isset($_SESSION['basarilikayit'])){ ?>
     <div class="alert alert-success" role="alert">
         Kayıt başarıyla Oluşturuldu!
@@ -66,19 +68,33 @@ if (isset($_SESSION['basariliguncelleme'])){ ?>
                         <tbody>
                         <?php
 
-                        if ($article['totalCount']>0){
+                        if (count($articles)>0){
+                            /** @var \src\entity\Article $row */
+
                             foreach ($article['article'] as $row){
-                            $detay = $row['content'];
+                                $date = $row->getCreatedat();
+                                $dateTime = $date->format('Y-m-d H:i:s');
+                                $timeAgo = $list->timeAgo(strtotime($dateTime));
+                                $updateTime = $row->getUpdateat();
+                                if (isset($updateTime)){
+                                    $updateDateTime = $updateTime->format('Y-m-d H:i:s');
+                                    $timeAgoUpdate = $list->timeAgo(strtotime($updateDateTime));
+                                }else{
+                                    $timeAgoUpdate = 'Henüz Güncellenmedi';
+                                }
+
+
+                            $detay = $row->getContent();
                             $uzunluk = strlen($detay);
                             $limit = 10;
                             ?>
                             <tr>
-                                <td><?php echo $row['id']; ?></td>
-                                <td><?php echo $row['title']; ?></td>
-                                <td><a href="/article/<?= $row['slug']?>">
-                                        <?php echo $row['slug']; ?></a></td>
-                                <td><?php echo $row['author']; ?></td>
-                                <td><?php echo $row['createdAt']; ?></td>
+                                <td><?php echo $row->getId(); ?></td>
+                                <td><?php echo $row->getTitle(); ?></td>
+                                <td><a href="/article/<?= $row->getSlug()?>">
+                                        <?php echo $row->getSlug(); ?></a></td>
+                                <td><?php echo $row->getAuthor(); ?></td>
+                                <td><?php echo $timeAgo; ?></td>
                                 <td><?php
                                     if ($uzunluk > $limit) {
                                         $detay = Strip_tags($detay);
@@ -86,9 +102,9 @@ if (isset($_SESSION['basariliguncelleme'])){ ?>
                                     }
                                     echo $detay;
                                     ?></td>
-                                <td><?php echo $row['updateAt']; ?></td>
-                                <td><a href="editarticle/<?php echo $row['id'] ?>">edit</a></td>
-                                <td><a href="delete-article/<?php echo $row['id'] ?>">delete</a></td>
+                                <td><?php echo $timeAgoUpdate; ?></td>
+                                <td><a href="editarticle/<?php echo $row->getId() ?>">edit</a></td>
+                                <td><a href="delete-article/<?php echo $row->getId() ?>">delete</a></td>
                             </tr>
                         <?php }} ?>
                         </tbody>

@@ -1,8 +1,5 @@
 <?php
-include 'connect.php';
-$tag = $response['general']['tags'];
-$category = $response['general']['categories'];
-
+$article = new HomepageController();
 $categoryFilter = new Filter();
 $pathname = $categoryFilter->getPathName(1);
 $categoryArray = $categoryFilter->getArticleFromCategory();
@@ -10,11 +7,17 @@ $tags = $categoryFilter->getPathName(0);
 if ($tags == 'tag') {
     $tagname = $categoryFilter->getPathName(1);
     $categoryArray = $categoryFilter->Tag($tagname);
+    if (count($categoryArray['article'])>0){
+
+    }else{
+        $_SESSION['taghata'] = 'taghata';
+    }
 }else{
     $categoryArray = $categoryFilter->getArticleFromCategory();
 }
 $tag = $response['general']['tags'];
 $category = $response['general']['categories'];
+
 require 'Layout/header.php';
 
 ?>
@@ -42,19 +45,22 @@ require 'Layout/header.php';
             }
             ?>
             <?php
-            if ($categoryArray['totalCount'] > 0) {
+            if (count($categoryArray) > 0) {
                 foreach ($categoryArray['article'] as $row) {
-                    if (isset($row)) {
-                        $detay = $row['content'];
+                    /** @var \src\entity\Article $row */
+                        $detay = $row->getContent();
                         $uzunluk = strlen($detay);
                         $limit = 150;
+                        $date = $row->getCreatedat();
+                    $datetime = $date->format('Y-m-d H:i:s');
+                    $timeAgo = $categoryFilter->timeAgo(strtotime($datetime));
                         ?>
                         <div class="card mb-4">
-                            <img class="card-img-top" src="/img/<?php echo $row['image_path'] ?>" width="300"
+                            <img class="card-img-top" src="/img/<?php echo $row->getImagePath()?>" width="300"
                                  height="350"
                                  alt="Card image cap">
                             <div class="card-body">
-                                <h2 class="card-title"><?php echo $row['title'] ?></h2>
+                                <h2 class="card-title"><?php echo $row->getTitle() ?></h2>
                                 <p class="card-text"><?php
                                     if ($uzunluk > $limit) {
                                         $detay = Strip_tags($detay);
@@ -64,16 +70,16 @@ require 'Layout/header.php';
                                     ?>
                                 </p>
 
-                                <a href="/article/<?php echo $row['slug']; ?>" class="btn btn-primary">Devamını Oku
+                                <a href="/article/<?php echo $row->getSlug(); ?>" class="btn btn-primary">Devamını Oku
                                     &rarr;</a>
 
                             </div>
                             <div class="card-footer text-muted">
-                                <?php echo "Yayınlanma Tarihi " . $row['createdAt']; ?>
+                                <?php echo "Yayınlanma Tarihi " . $timeAgo ?>
                             </div>
                         </div>
                     <?php }
-                }
+
             } else {
                 $_SESSION['taghata'] = 'taghata';
             } ?>
@@ -92,7 +98,7 @@ require 'Layout/header.php';
             <div class="card my-4">
                 <h5 class="card-header">Search</h5>
                 <div class="card-body">
-                    <form action="search" method="post">
+                    <form action="/search" method="post">
                         <div class="input-group">
                             <input type="text" class="form-control" name="search" placeholder="Search for...">
                             <span class="input-group-append">
@@ -107,9 +113,10 @@ require 'Layout/header.php';
             <div class="card-body">
                 <?php
                 foreach ($tag as $row) {
+
                     ?>
-                    <a href="/tag/<?php echo $row['tag_name'] ?>"> <span
-                                class='badge badge-secondary'><?php echo $row['tag_name'] ?></span> </a>
+                    <a href="/tag/<?php echo $row['tagname'] ?>"> <span
+                                class='badge badge-secondary'><?php echo $row['tagname'] ?></span> </a>
                     <?php
                 } ?>
             </div>
@@ -124,7 +131,7 @@ require 'Layout/header.php';
 
                             ?>
                             <li>
-                                <a href="categories/<?php echo $row['name']; ?>"><strong><?php echo $row['name']; ?></strong></a>
+                                <a href="/categories/<?php echo $row['name']; ?>"><strong><?php echo $row['name']; ?></strong></a>
                             </li>
                             <?php
                         } ?>

@@ -1,56 +1,49 @@
 <?php
-session_start();
+require_once "bootstrap.php";
 
 class AbstractController
 {
-    private $conn;
+
+    public $entityManager;
 
     /**
      * AbstractController constructor.
      */
     public function __construct()
     {
-        $this->connect();
-
+        $connection =  new Connection\Connection();
+        $this->entityManager = $connection->entityManager;
     }
 
     /**
-     * @return mixed
+     * @return \Doctrine\ORM\EntityManager
      */
-    public function getConn()
+    public function getEntityManager()
     {
-        return $this->conn;
+        return $this->entityManager;
     }
-
-    /**
-     * @param mixed $conn
-     */
-    private function setConn($conn)
-    {
-        $this->conn = $conn;
-    }
-
 
     public function getDefaultParams()
     {
-        $query = $this->getConn()->query("SELECT DISTINCT tag_name FROM tags ORDER BY tag_name DESC LIMIT 15;");
-        $tags = $query->fetchAll();
-        $categoryQuery = $this->getConn()->query("SELECT * FROM categories");
-        $categories = $categoryQuery->fetchAll();
+        $querBuilder = $this->entityManager->createQueryBuilder();
+        $query = $querBuilder->select('DISTINCT t.tagname')
+            ->from(\src\entity\Tags::class, 't')
+            ->orderBy('t.tagname', 'DESC')
+            ->setMaxResults(15);
+        $tags = $query->getQuery()->getArrayResult();
 
-        return ['categories' => $categories, 'tags' => $tags];
-    }
+        $querBuilder = $this->entityManager->createQueryBuilder();
+        $categoryQuery = $querBuilder->select('c')
+            ->from(\src\entity\Categories::class, 'c');
+        $categories = $categoryQuery->getQuery()->getArrayResult();
+        $tagCount = count($tags);
+        if ($tagCount>0){
+            return ['categories' => $categories, 'tags' => $tags, 'tagCount'=> $tagCount];
 
-    public function connect()
-    {
-        try {
-            $this->setConn(new PDO("mysql:host=localhost;dbname=blog", "root", "password"));
-            $this->getConn()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            print $e->getMessage();
-            exit;
         }
+
     }
+
 
     public function responseArray(array $array)
     {
@@ -68,4 +61,31 @@ class AbstractController
 
         return $pathname;
     }
+
+    public function timeAgo($time)
+    {
+        $time_difference = time() - $time;
+
+        if ($time_difference < 1) {
+            return 'less than 1 second ago';
+        }
+        $condition = array(12 * 30 * 24 * 60 * 60 => 'Yıl',
+            30 * 24 * 60 * 60 => 'Ay',
+            24 * 60 * 60 => 'Gün',
+            60 * 60 => 'Saat',
+            60 => 'Dakika',
+            1 => 'Saniye'
+        );
+
+        foreach ($condition as $secs => $str) {
+            $d = $time_difference / $secs;
+
+            if ($d >= 1) {
+                $t = round($d);
+                return ' ' . $t . ' ' . $str . ' önce';
+            }
+        }
+    }
+
+
 }

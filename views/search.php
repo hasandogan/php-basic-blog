@@ -17,30 +17,36 @@ require 'Layout/header.php';
                 <?php
             }
             if (count($response['results']) > 0) {
+                /** @var \src\entity\Article $row */
+
                 foreach ($response['results'] as $row) {
                     if (isset($row)) {
-                        $detay = $row['content'];
+                        $detay = $row->getContent();
                         $uzunluk = strlen($detay);
                         $limit = 150;
                         ?>
                         <div class="card mb-4">
-                            <img class="card-img-top" src="/img/<?php echo $row['image_path'] ?>" width="400"
+                            <img class="card-img-top" src="/img/<?php echo $row->getImagePath(); ?>" width="400"
                                  height="400"
                                  alt="Card image cap">
                             <div class="card-body">
-                                <h2 class="card-title"><?php echo $row['title'] ?></h2>
+                                <h2 class="card-title"><?php echo $row->getTitle() ?></h2>
                                 <p class="card-text"><?php
                                     if ($uzunluk > $limit) {
                                         $detay = substr($detay, 0, $limit);
                                     }
                                     echo $detay;
+                                    $article = new ArticleController();
+                                    $date = $row->getCreatedat();
+                                    $datetime = $date->format('Y-m-d H:i:s');
+                                    $timeAgo = $article->timeAgo(strtotime($datetime));
                                     ?>
                                 </p>
-                                <a href="/article/<?php echo $row['slug'] ?>" class="btn btn-primary">Devamını Oku
+                                <a href="/article/<?php echo $row->getSlug() ?>" class="btn btn-primary">Devamını Oku
                                     &rarr;</a>
                             </div>
                             <div class="card-footer text-muted">
-                                <?php echo "Yayınlanma Tarihi " . $row['createdAt']; ?>
+                                <?php echo "Yayınlanma Tarihi " .$timeAgo; ?>
                             </div>
                         </div>
                     <?php }
@@ -67,12 +73,10 @@ require 'Layout/header.php';
             <h5 class="card-header">Last add Tags </h5>
             <div class="card-body">
                 <?php
-
                 foreach ($tag as $row) {
-
                     ?>
-                    <a href="/tag/<?php echo $row['tag_name'] ?>"> <span
-                                class='badge badge-secondary'><?php echo $row['tag_name'] ?></span> </a>
+                    <a href="/tag/<?php echo $row['tagname']?>"> <span
+                                class='badge badge-secondary'><?php echo $row['tagname'] ?></span> </a>
                     <?php
                 } ?>
             </div>
@@ -84,7 +88,6 @@ require 'Layout/header.php';
                     <ul class="list-unstyled">
                         <?php
                         foreach ($category as $row) {
-
                             ?>
                             <li><a href="/categories/<?php echo $row['name']; ?>"><?php echo $row['name']; ?></a></li>
                             <?php
