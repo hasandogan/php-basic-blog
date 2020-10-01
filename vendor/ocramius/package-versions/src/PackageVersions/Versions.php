@@ -35,6 +35,7 @@ final class Versions
   'doctrine/reflection' => '1.2.1@55e71912dfcd824b2fdd16f2d9afe15684cfce79',
   'ocramius/package-versions' => '1.5.1@1d32342b8c1eb27353c8887c366147b4c2da673c',
   'psr/container' => '1.0.0@b7ce3b176482dbbc1245ebf52b181af44c2cf55f',
+  'symfony/asset' => 'v5.1.6@ef0bcafce1c14bbf49838b01e990a8bfafd071eb',
   'symfony/console' => 'v5.1.5@186f395b256065ba9b890c0a4e48a91d598fa2cf',
   'symfony/polyfill-ctype' => 'v1.18.1@1c302646f6efc070cd46856e600e5e0684d6b454',
   'symfony/polyfill-intl-grapheme' => 'v1.18.1@b740103edbdcc39602239ee8860f0f45a8eb9aa5',
@@ -46,7 +47,7 @@ final class Versions
   'symfony/string' => 'v5.1.5@0de4cc1e18bb596226c06a82e2e7e9bc6001a63a',
   'symfony/yaml' => 'v2.8.52@02c1859112aa779d9ab394ae4f3381911d84052b',
   'twig/twig' => 'v3.0.5@9b76b1535483cdf4edf01bb787b0217b62bd68a5',
-  '__root__' => '4.0.x-dev@a89efd88b62296e37a7dbcc2b90c343b1d12d874',
+  '__root__' => '6.0.x-dev@381c80e46ec80536f7542c92d186eab2977ed576',
 );
 
     private function __construct()

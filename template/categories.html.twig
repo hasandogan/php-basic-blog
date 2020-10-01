@@ -1,0 +1,58 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ pathname }}{% endblock %}
+{% block body %}
+        <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="my-4">Makaleler</h1>
+                <div class="alert alert-dark">{{pathname}} için arama sonuçları.</div>
+
+                {% for article in articles.article %}
+                    <div class="card mb-4">
+                        <img class="card-img-top" src="/img/{{ article.imagePath }}" width="400"
+                             height="400"
+                             alt="Card image cap">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ article.title }}</h2>
+                            <p class="card-text">
+                                {{ (article.content|striptags)[0:120] }}..
+                            </p>
+                            <a href="/article/{{ article.slug }}" class="btn btn-primary">Devamını Oku
+                                &rarr;</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <?php echo "Yayınlanma Tarihi " . $timeAgo; ?>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4">
+                <div class="card my-4">
+                    <h5 class="card-header">Search</h5>
+                    <div class="card-body">
+                        <form action="search" method="post">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="" name="search"
+                                       placeholder="Search for...">
+                                <span class="input-group-append">
+                         <input type="submit">
+                                    </span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="single category">
+                        <h3 class="side-title">Category</h3>
+                        <ul class="list-unstyled">
+                            {% for category in general.categories %}
+                                <li><a href="/categories/{{ category.name }}">{{ category.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

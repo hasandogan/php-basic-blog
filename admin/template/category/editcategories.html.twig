@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<form action="/admin/updatecategories/" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{{ category.0.id }}">
+    <div class="form-group">
+        <label for="exampleFormControlInput1">categories</label>
+        <input type="text" class="form-control" name="categories" value="{{ category.0.name }}"
+               placeholder="name">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">pagetitle</label>
+        <input type="text" class="form-control" name="pagetitle" value="{{ category.0.pagetitle }}"
+               placeholder="pagetitle">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">metadesc</label>
+        <input type="text" class="form-control" name="metadesc" value="{{ category.0.metadesc }}"
+               placeholder="metadesc">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">metakey</label>
+        <input type="text" class="form-control" name="metakey" value="{{ category.0.metaKey }}"
+               placeholder="metakey">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">content</label>
+        <textarea id="summernote" name="content">{{ category.0.content }}</textarea>
+    </div>
+    <div class="form-group">
+        <input type="submit">
+    </div>
+
+    {% endblock %}

@@ -78,7 +78,7 @@ address-book:
     terms:
       - contact
       - directory
-      - adminlayout
+      - template
       - little black book
       - rolodex
   styles:

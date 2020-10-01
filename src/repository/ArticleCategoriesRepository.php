@@ -12,16 +12,15 @@ class ArticleCategoriesRepository extends EntityRepository
     public function getArticleCategories($id)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
-        $pathquery = $queryBuilder->select('ac')
+        $pathQuery = $queryBuilder->select('ac')
             ->from(\src\entity\ArticleCategories::class, 'ac')
             ->where($queryBuilder->expr()->like('ac.categoriesid', ':categoriesid'))
             ->setParameter(':categoriesid', '%' . $id . '%')
             ->orderBy('ac.categoriesid', 'DESC')
             ->setMaxResults(10);
-        return $pathquery->getQuery()->getArrayResult();
+        return $pathQuery->getQuery()->getArrayResult();
 
     }
-
 
 
 }

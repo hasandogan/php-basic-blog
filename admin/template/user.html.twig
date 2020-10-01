@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Articles</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>firstname</th>
+                                <th>lastname</th>
+                                <th>username</th>
+                                <th>email</th>
+                                <th>edit</th>
+                                <th>delete</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>id</th>
+                                <th>firstname</th>
+                                <th>lastname</th>
+                                <th>username</th>
+                                <th>email</th>
+                                <th>edit</th>
+                                <th>delete</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {%  for value in user %}
+                                <tr>
+                                    <td>{{value.id}}</td>
+                                    <td>{{value.firstname}}</td>
+                                    <td>{{value.lastname}}</td>
+                                    <td>{{value.username}}</td>
+                                    <td>{{value.email}}</td>
+                                    <td><a href="<?php echo $row->getId() ?>">todo</a></td>
+                                    <td><a href="<?php echo $row->getId() ?>">todo</a></td>
+
+                                </tr>
+                   {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="btn btn-success"><a href="newuser">Add New User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

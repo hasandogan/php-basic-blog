@@ -2185,10 +2185,10 @@ var helpers = {
 	},
 
 	/**
-	 * Returns value at the given `adminlayout` in array if defined, else returns `defaultValue`.
-	 * @param {Array} value - The array to lookup for value at `adminlayout`.
-	 * @param {number} index - The adminlayout in `value` to lookup for value.
-	 * @param {*} defaultValue - The value to return if `value[adminlayout]` is undefined.
+	 * Returns value at the given `template` in array if defined, else returns `defaultValue`.
+	 * @param {Array} value - The array to lookup for value at `template`.
+	 * @param {number} index - The template in `value` to lookup for value.
+	 * @param {*} defaultValue - The value to return if `value[template]` is undefined.
 	 * @returns {*}
 	 */
 	valueAtIndexOrDefault: function(value, index, defaultValue) {
@@ -3100,7 +3100,7 @@ var helpers_options = {
 	 * @param {object} [context] - If defined and the current value is a function, the value
 	 * is called with `context` as first argument and the result becomes the new input.
 	 * @param {number} [index] - If defined and the current value is an array, the value
-	 * at `adminlayout` become the new input.
+	 * at `template` become the new input.
 	 * @param {object} [info] - object to return information about resolution in
 	 * @param {boolean} [info.cacheable] - Will be set to `false` if option is not cacheable.
 	 * @since 2.7.0
@@ -3869,8 +3869,8 @@ helpers$1.extend(DatasetController.prototype, {
 
 	/**
 	 * Returns a set of predefined style properties that should be used to represent the dataset
-	 * or the data if the adminlayout is specified
-	 * @param {number} index - data adminlayout
+	 * or the data if the template is specified
+	 * @param {number} index - data template
 	 * @return {IStyleInterface} style object
 	 */
 	getStyle: function(index) {
@@ -4951,7 +4951,7 @@ var controller_bar = core_datasetController.extend({
 
 	/**
 	 * Returns the stacks based on groups and bar visibility.
-	 * @param {number} [last] - The dataset adminlayout
+	 * @param {number} [last] - The dataset template
 	 * @returns {string[]} The list of stack IDs
 	 * @private
 	 */
@@ -4992,10 +4992,10 @@ var controller_bar = core_datasetController.extend({
 	},
 
 	/**
-	 * Returns the stack adminlayout for the given dataset based on groups and bar visibility.
-	 * @param {number} [datasetIndex] - The dataset adminlayout
+	 * Returns the stack template for the given dataset based on groups and bar visibility.
+	 * @param {number} [datasetIndex] - The dataset template
 	 * @param {string} [name] - The stack name to find
-	 * @returns {number} The stack adminlayout
+	 * @returns {number} The stack template
 	 * @private
 	 */
 	getStackIndex: function(datasetIndex, name) {
@@ -5390,7 +5390,7 @@ core_defaults._set('doughnut', {
 
 			for (i = 0, ilen = (chart.data.datasets || []).length; i < ilen; ++i) {
 				meta = chart.getDatasetMeta(i);
-				// toggle visibility of adminlayout if exists
+				// toggle visibility of template if exists
 				if (meta.data[index]) {
 					meta.data[index].hidden = !meta.data[index].hidden;
 				}
@@ -5453,7 +5453,7 @@ var controller_doughnut = core_datasetController.extend({
 		'hoverBorderWidth',
 	],
 
-	// Get adminlayout of the dataset in relation to the visible datasets. This allows determining the inner and outer radius correctly
+	// Get template of the dataset in relation to the visible datasets. This allows determining the inner and outer radius correctly
 	getRingIndex: function(datasetIndex) {
 		var ringIndex = 0;
 
@@ -6794,7 +6794,7 @@ function getDistanceMetricForAxis(axis) {
 
 function indexMode(chart, e, options) {
 	var position = getRelativePosition(e, chart);
-	// Default axis for adminlayout mode is 'x' to match old behaviour
+	// Default axis for template mode is 'x' to match old behaviour
 	options.axis = options.axis || 'x';
 	var distanceMetric = getDistanceMetricForAxis(options.axis);
 	var items = options.intersect ? getIntersectItems(chart, position) : getNearestItems(chart, position, false, distanceMetric);
@@ -6855,9 +6855,9 @@ var core_interaction = {
 		label: indexMode,
 
 		/**
-		 * Returns items at the same adminlayout. If the options.intersect parameter is true, we only return items if we intersect something
-		 * If the options.intersect mode is false, we find the nearest item and return the items at the same adminlayout as that item
-		 * @function Chart.Interaction.modes.adminlayout
+		 * Returns items at the same template. If the options.intersect parameter is true, we only return items if we intersect something
+		 * If the options.intersect mode is false, we find the nearest item and return the items at the same template as that item
+		 * @function Chart.Interaction.modes.template
 		 * @since v2.4.0
 		 * @param {Chart} chart - the chart we are returning items from
 		 * @param {Event} e - the event we are find things at
@@ -6890,7 +6890,7 @@ var core_interaction = {
 
 		/**
 		 * @function Chart.Interaction.modes.x-axis
-		 * @deprecated since version 2.4.0. Use adminlayout mode and intersect == true
+		 * @deprecated since version 2.4.0. Use template mode and intersect == true
 		 * @todo remove at version 3
 		 * @private
 		 */
@@ -7064,7 +7064,7 @@ function updateDims(chartArea, params, layout) {
 	var newWidth, newHeight;
 
 	if (layout.size) {
-		// this adminlayout was already counted for, lets first reduce old size
+		// this template was already counted for, lets first reduce old size
 		chartArea[layout.pos] -= layout.size;
 	}
 	layout.size = layout.horizontal ? box.height : box.width;
@@ -7085,7 +7085,7 @@ function updateDims(chartArea, params, layout) {
 		chartArea.w = newWidth;
 		chartArea.h = newHeight;
 
-		// return true if chart area changed in adminlayout's direction
+		// return true if chart area changed in template's direction
 		return layout.horizontal ? newWidth !== chartArea.w : newHeight !== chartArea.h;
 	}
 }
@@ -7192,30 +7192,30 @@ core_defaults._set('global', {
 
 /**
  * @interface ILayoutItem
- * @prop {string} position - The position of the item in the chart adminlayout. Possible values are
+ * @prop {string} position - The position of the item in the chart template. Possible values are
  * 'left', 'top', 'right', 'bottom', and 'chartArea'
  * @prop {number} weight - The weight used to sort the item. Higher weights are further away from the chart area
  * @prop {boolean} fullWidth - if true, and the item is horizontal, then push vertical boxes down
- * @prop {function} isHorizontal - returns true if the adminlayout item is horizontal (ie. top or bottom)
+ * @prop {function} isHorizontal - returns true if the template item is horizontal (ie. top or bottom)
  * @prop {function} update - Takes two parameters: width and height. Returns size of item
  * @prop {function} getPadding -  Returns an object with padding on the edges
  * @prop {number} width - Width of item. Must be valid after update()
  * @prop {number} height - Height of item. Must be valid after update()
- * @prop {number} left - Left edge of the item. Set by adminlayout system and cannot be used in update
- * @prop {number} top - Top edge of the item. Set by adminlayout system and cannot be used in update
- * @prop {number} right - Right edge of the item. Set by adminlayout system and cannot be used in update
- * @prop {number} bottom - Bottom edge of the item. Set by adminlayout system and cannot be used in update
+ * @prop {number} left - Left edge of the item. Set by template system and cannot be used in update
+ * @prop {number} top - Top edge of the item. Set by template system and cannot be used in update
+ * @prop {number} right - Right edge of the item. Set by template system and cannot be used in update
+ * @prop {number} bottom - Bottom edge of the item. Set by template system and cannot be used in update
  */
 
-// The adminlayout service is very self explanatory.  It's responsible for the adminlayout within a chart.
-// Scales, Legends and Plugins all rely on the adminlayout service and can easily register to be placed anywhere they need
-// It is this service's responsibility of carrying out that adminlayout.
+// The template service is very self explanatory.  It's responsible for the template within a chart.
+// Scales, Legends and Plugins all rely on the template service and can easily register to be placed anywhere they need
+// It is this service's responsibility of carrying out that template.
 var core_layouts = {
 	defaults: {},
 
 	/**
 	 * Register a box to a chart.
-	 * A box is simply a reference to an object that requires adminlayout. eg. Scales, Legend, Title.
+	 * A box is simply a reference to an object that requires template. eg. Scales, Legend, Title.
 	 * @param {Chart} chart - the chart to use
 	 * @param {ILayoutItem} item - the item to add to be layed out
 	 */
@@ -7243,7 +7243,7 @@ var core_layouts = {
 	/**
 	 * Remove a layoutItem from a chart
 	 * @param {Chart} chart - the chart to remove the box from
-	 * @param {ILayoutItem} layoutItem - the item to remove from the adminlayout
+	 * @param {ILayoutItem} layoutItem - the item to remove from the template
 	 */
 	removeBox: function(chart, layoutItem) {
 		var index = chart.boxes ? chart.boxes.indexOf(layoutItem) : -1;
@@ -7390,7 +7390,7 @@ var platform_basic = {
 	}
 };
 
-var platform_dom = "/*\n * DOM element rendering detection\n * https://davidwalsh.name/detect-node-insertion\n */\n@keyframes chartjs-render-animation {\n\tfrom { opacity: 0.99; }\n\tto { opacity: 1; }\n}\n\n.chartjs-render-monitor {\n\tanimation: chartjs-render-animation 0.001s;\n}\n\n/*\n * DOM element resizing detection\n * https://github.com/marcj/css-element-queries\n */\n.chartjs-size-monitor,\n.chartjs-size-monitor-expand,\n.chartjs-size-monitor-shrink {\n\tposition: absolute;\n\tdirection: ltr;\n\tleft: 0;\n\ttop: 0;\n\tright: 0;\n\tbottom: 0;\n\toverflow: hidden;\n\tpointer-events: none;\n\tvisibility: hidden;\n\tz-adminlayout: -1;\n}\n\n.chartjs-size-monitor-expand > div {\n\tposition: absolute;\n\twidth: 1000000px;\n\theight: 1000000px;\n\tleft: 0;\n\ttop: 0;\n}\n\n.chartjs-size-monitor-shrink > div {\n\tposition: absolute;\n\twidth: 200%;\n\theight: 200%;\n\tleft: 0;\n\ttop: 0;\n}\n";
+var platform_dom = "/*\n * DOM element rendering detection\n * https://davidwalsh.name/detect-node-insertion\n */\n@keyframes chartjs-render-animation {\n\tfrom { opacity: 0.99; }\n\tto { opacity: 1; }\n}\n\n.chartjs-render-monitor {\n\tanimation: chartjs-render-animation 0.001s;\n}\n\n/*\n * DOM element resizing detection\n * https://github.com/marcj/css-element-queries\n */\n.chartjs-size-monitor,\n.chartjs-size-monitor-expand,\n.chartjs-size-monitor-shrink {\n\tposition: absolute;\n\tdirection: ltr;\n\tleft: 0;\n\ttop: 0;\n\tright: 0;\n\tbottom: 0;\n\toverflow: hidden;\n\tpointer-events: none;\n\tvisibility: hidden;\n\tz-template: -1;\n}\n\n.chartjs-size-monitor-expand > div {\n\tposition: absolute;\n\twidth: 1000000px;\n\theight: 1000000px;\n\tleft: 0;\n\ttop: 0;\n}\n\n.chartjs-size-monitor-shrink > div {\n\tposition: absolute;\n\twidth: 200%;\n\theight: 200%;\n\tleft: 0;\n\ttop: 0;\n}\n";
 
 var platform_dom$1 = /*#__PURE__*/Object.freeze({
 __proto__: null,
@@ -9670,7 +9670,7 @@ helpers$1.extend(Chart.prototype, /** @lends Chart */ {
 	},
 
 	/**
-	 * Updates the chart adminlayout unless a plugin returns `false` to the `beforeLayout`
+	 * Updates the chart template unless a plugin returns `false` to the `beforeLayout`
 	 * hook, in which case, plugins will not be called on `afterLayout`.
 	 * @private
 	 */
@@ -9728,7 +9728,7 @@ helpers$1.extend(Chart.prototype, /** @lends Chart */ {
 	},
 
 	/**
-	 * Updates dataset at adminlayout unless a plugin returns `false` to the `beforeDatasetUpdate`
+	 * Updates dataset at template unless a plugin returns `false` to the `beforeDatasetUpdate`
 	 * hook, in which case, plugins will not be called on `afterDatasetUpdate`.
 	 * @private
 	 */
@@ -9905,7 +9905,7 @@ helpers$1.extend(Chart.prototype, /** @lends Chart */ {
 	},
 
 	/**
-	 * Draws dataset at adminlayout unless a plugin returns `false` to the `beforeDatasetDraw`
+	 * Draws dataset at template unless a plugin returns `false` to the `beforeDatasetDraw`
 	 * hook, in which case, plugins will not be called on `afterDatasetDraw`.
 	 * @private
 	 */
@@ -9950,7 +9950,7 @@ helpers$1.extend(Chart.prototype, /** @lends Chart */ {
 
 	/**
 	 * Get the single element that was clicked on
-	 * @return An object containing the dataset adminlayout and element adminlayout of the matching element. Also contains the rectangle that was draw
+	 * @return An object containing the dataset template and element template of the matching element. Also contains the rectangle that was draw
 	 */
 	getElementAtEvent: function(e) {
 		return core_interaction.modes.single(this, e);
@@ -11569,7 +11569,7 @@ var Scale = core_element.extend({
 
 		me.afterUpdate();
 
-		// TODO(v3): remove minSize as a public property and return value from all adminlayout boxes. It is unused
+		// TODO(v3): remove minSize as a public property and return value from all template boxes. It is unused
 		// make maxWidth and maxHeight private
 		return me.minSize;
 	},
@@ -11959,17 +11959,17 @@ var Scale = core_element.extend({
 	},
 
 	/**
-	 * Used to get the value to display in the tooltip for the data at the given adminlayout
-	 * @param adminlayout
+	 * Used to get the value to display in the tooltip for the data at the given template
+	 * @param template
 	 * @param datasetIndex
 	 */
 	getLabelForIndex: helpers$1.noop,
 
 	/**
-	 * Returns the location of the given data point. Value can either be an adminlayout or a numerical value
+	 * Returns the location of the given data point. Value can either be an template or a numerical value
 	 * The coordinate (0, 0) is at the upper-left corner of the canvas
 	 * @param value
-	 * @param adminlayout
+	 * @param template
 	 * @param datasetIndex
 	 */
 	getPixelForValue: helpers$1.noop,
@@ -11982,7 +11982,7 @@ var Scale = core_element.extend({
 	getValueForPixel: helpers$1.noop,
 
 	/**
-	 * Returns the location of the tick at the given adminlayout
+	 * Returns the location of the tick at the given template
 	 * The coordinate (0, 0) is at the upper-left corner of the canvas
 	 */
 	getPixelForTick: function(index) {
@@ -12179,7 +12179,7 @@ var Scale = core_element.extend({
 			}
 
 			if (i === me.zeroLineIndex && options.offset === offsetGridLines) {
-				// Draw the first adminlayout specially
+				// Draw the first template specially
 				lineWidth = gridLines.zeroLineWidth;
 				lineColor = gridLines.zeroLineColor;
 				borderDash = gridLines.zeroLineBorderDash || [];
@@ -12605,7 +12605,7 @@ var scale_category = core_scale.extend({
 		me._valueRange = Math.max(ticks.length - (offset ? 0 : 1), 1);
 	},
 
-	// Used to get data value locations.  Value can either be an adminlayout or a numerical value
+	// Used to get data value locations.  Value can either be an template or a numerical value
 	getPixelForValue: function(value, index, datasetIndex) {
 		var me = this;
 		var valueCategory, labels, idx;
@@ -12614,8 +12614,8 @@ var scale_category = core_scale.extend({
 			value = me.chart.data.datasets[datasetIndex].data[index];
 		}
 
-		// If value is a data object, then adminlayout is the adminlayout in the data array,
-		// not the adminlayout of the scale. We need to change that.
+		// If value is a data object, then template is the template in the data array,
+		// not the template of the scale. We need to change that.
 		if (!isNullOrUndef$1(value)) {
 			valueCategory = me.isHorizontal() ? value.x : value.y;
 		}
@@ -12649,7 +12649,7 @@ var scale_category = core_scale.extend({
 	}
 });
 
-// INTERNAL: static default options, registered in src/adminlayout.js
+// INTERNAL: static default options, registered in src/template.js
 var _defaults = defaultConfig;
 scale_category._defaults = _defaults;
 
@@ -13062,7 +13062,7 @@ var scale_linear = scale_linearbase.extend({
 	}
 });
 
-// INTERNAL: static default options, registered in src/adminlayout.js
+// INTERNAL: static default options, registered in src/template.js
 var _defaults$1 = defaultConfig$1;
 scale_linear._defaults = _defaults$1;
 
@@ -13365,7 +13365,7 @@ var scale_logarithmic = core_scale.extend({
 	}
 });
 
-// INTERNAL: static default options, registered in src/adminlayout.js
+// INTERNAL: static default options, registered in src/template.js
 var _defaults$2 = defaultConfig$2;
 scale_logarithmic._defaults = _defaults$2;
 
@@ -13478,11 +13478,11 @@ function fitWithPointLabels(scale) {
 	// Solution:
 	//
 	// We assume the radius of the polygon is half the size of the canvas at first
-	// at each adminlayout we check if the text overlaps.
+	// at each template we check if the text overlaps.
 	//
-	// Where it does, we store that angle and that adminlayout.
+	// Where it does, we store that angle and that template.
 	//
-	// After finding the largest adminlayout and angle we calculate how much we need to remove
+	// After finding the largest template and angle we calculate how much we need to remove
 	// from the shape radius to move the point inwards by that x.
 	//
 	// We average the left and right distances to get the maximum shape radius that can fit in the box
@@ -13636,7 +13636,7 @@ function drawRadiusLine(scale, gridLineOpts, radius, index) {
 		// Draw circular arcs between the points
 		ctx.arc(scale.xCenter, scale.yCenter, radius, 0, Math.PI * 2);
 	} else {
-		// Draw straight lines connecting each adminlayout
+		// Draw straight lines connecting each template
 		pointPosition = scale.getPointPosition(0, radius);
 		ctx.moveTo(pointPosition.x, pointPosition.y);
 
@@ -13918,7 +13918,7 @@ var scale_radialLinear = scale_linearbase.extend({
 	_drawTitle: helpers$1.noop
 });
 
-// INTERNAL: static default options, registered in src/adminlayout.js
+// INTERNAL: static default options, registered in src/template.js
 var _defaults$3 = defaultConfig$3;
 scale_radialLinear._defaults = _defaults$3;
 
@@ -14088,7 +14088,7 @@ function lookup(table, key, value) {
  * Linearly interpolates the given source `value` using the table items `skey` values and
  * returns the associated `tkey` value. For example, interpolate(table, 'time', 42, 'pos')
  * returns the position for a timestamp equal to 42. If value is out of bounds, values at
- * adminlayout [0, 1] or [n - 1, n] are used for the interpolation.
+ * template [0, 1] or [n - 1, n] are used for the interpolation.
  */
 function interpolate$1(table, skey, sval, tkey) {
 	var range = lookup(table, skey, sval);
@@ -14677,7 +14677,7 @@ var scale_time = core_scale.extend({
 	}
 });
 
-// INTERNAL: static default options, registered in src/adminlayout.js
+// INTERNAL: static default options, registered in src/template.js
 var _defaults$4 = defaultConfig$4;
 scale_time._defaults = _defaults$4;
 

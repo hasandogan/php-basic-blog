@@ -1,12 +1,13 @@
 <?php
+
 namespace src\entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="src\repository\CategoriesRepository")
  * @ORM\Table(name="categories")
  */
-
 class Categories
 {
     /**

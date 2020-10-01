@@ -5,20 +5,20 @@ class UserController extends AbstractController
 {
     public function login()
     {
-
+        return null;
     }
 
     public function logincheck()
     {
-        $username = $_POST['username'];
+        $userName = $_POST['username'];
         $pass = $_POST['password'];
-        if ($username && $pass) {
+        if ($userName && $pass) {
             $password = md5($pass);
             /** @var \src\repository\UserRepository $query */
            $query = $this->getEntityManager()->getRepository(\src\entity\User::class);
-            $query = $query->loginForUserCheck($username,$password);
+            $query = $query->loginForUserCheck($userName,$password);
             if (count($query) > 0) {
-                $_SESSION['username'] = $username;
+                $_SESSION['username'] = $userName;
                 header('location: /');
             } else {
                 header('location: /login');
@@ -44,31 +44,21 @@ class UserController extends AbstractController
 
     public function registerCheck()
     {
-        $firstname = $_POST['firstname'];
-        $lastname = $_POST['lastname'];
-        $username = $_POST['username'];
+        $firstName = $_POST['firstname'];
+        $lastName = $_POST['lastname'];
+        $userName = $_POST['username'];
         $pass = $_POST['pass'];
         $email = $_POST['email'];
         $password = md5($pass);
         $em = $this->getEntityManager();
         $user = new \src\entity\User();
-        $user->setFirstname($firstname);
-        $user->setLastname($lastname);
-        $user->setUsername($username);
+        $user->setFirstname($firstName);
+        $user->setLastname($lastName);
+        $user->setUsername($userName);
         $user->setPass($password);
         $user->setEmail($email);
         $em->persist($user);
         $em->flush();
-        /**
-         * $ndewusere = $em->find(\src\entity\UserController::class,);
-         * $user->setFirstname($firstname);
-         * $user->setLastname($lastname);
-         * $user->setUsername($username);
-         * $user->setPass($password);
-         * $user->setEmail($email);
-         * $em->persist($user);
-         * $em->flush();
-         **/
         if ($user->getId() > 0) {
             header('location: /');
         } else {
@@ -80,22 +70,21 @@ class UserController extends AbstractController
     public function profile()
     {
 
-
     }
 
-    public function profileResult($username)
+    public function profileResult()
     {
-        $username = $_SESSION['username'];
+        $userName = $_SESSION['username'];
         /** @var \src\repository\UserRepository $query */
        $query = $this->getEntityManager()->getRepository(\src\entity\User::class);
-       $query = $query->profileResult($username);
+       $result = $query->profileResult($userName);
 
         /** @var \src\repository\CommentRepository $commentRepository */
         $commentRepository = $this->getEntityManager()->getRepository(\src\entity\Comments::class);
         /** @var \src\entity\Comments $row */
-        $row = $commentRepository->getConfirmedComment($username);
+        $row = $commentRepository->getConfirmedComment($userName);
         return [
-            'row' => $row, 'user' => $query
+            'row' => $row, 'user' => $result
         ];
     }
 

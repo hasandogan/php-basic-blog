@@ -1,6 +1,7 @@
 <?php
 
 namespace src\entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,7 +23,7 @@ class Tags
     private $articleid;
 
     /**
-     * @ORM\Column(type="string", name="tagname")
+     * @ORM\Column(type="string")
      */
     private $tagname;
 
@@ -70,7 +71,7 @@ class Tags
      */
     public function setTagName($tagname)
     {
-        $this->$tagname = $tagname;
+        $this->tagname = $tagname;
 
         return $this;
     }

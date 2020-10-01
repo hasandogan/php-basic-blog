@@ -18,11 +18,11 @@ class Filter extends AbstractController
         if ($id != null) {
             /** @var ArticleCategoriesRepository $pathquery */
 
-            $pathquery = $this->getEntityManager()->getRepository(\src\entity\ArticleCategories::class);
-            $pathquery = $pathquery->getArticleCategories($id);
-            if ($pathquery != null) {
+            $pathQuery = $this->getEntityManager()->getRepository(\src\entity\ArticleCategories::class);
+            $pathResult = $pathQuery->getArticleCategories($id);
+            if ($pathResult != null) {
                 $articleIdList = [];
-                foreach ($pathquery as $catrow) {
+                foreach ($pathResult as $catrow) {
                     $articleId = $catrow['articleid'];
                     $articleIdList[] = $articleId;
                 }
@@ -56,8 +56,8 @@ class Filter extends AbstractController
     public function tag($tagname)
     {
         /** @var TagsRepository $query */
-        $query = $this->getEntityManager()->getRepository(Tags::class);
-        $query = $query->getTagFindByName($tagname);
+        $queryRepository = $this->getEntityManager()->getRepository(Tags::class);
+        $query = $queryRepository->getTagFindByName($tagname);
         $articleIdList = [];
         foreach ($query as $tagrow) {
             $articleId = $tagrow['articleid'];
@@ -67,13 +67,14 @@ class Filter extends AbstractController
         /** @var ArticleRepository $result */
 
         $result = $this->getEntityManager()->getRepository(\src\entity\Article::class);
-       $result = $result->getArticleFindById($articleIdList);
+        $articleResult = $result->getArticleFindById($articleIdList);
 
-        $resultCount = count($result);
-        return ['article' => $result,
+        $resultCount = count($articleResult);
+        return [
+            'article' => $result,
             'category' => $query,
             'totalCount' => $resultCount,
-            'general' => $this->getDefaultParams()
+            'general' => $this->responseArray()
 
         ];
     }
@@ -82,26 +83,16 @@ class Filter extends AbstractController
     {
         if (isset($_POST['search'])) {
             /** @var ArticleRepository $query */
-
             $search = $_POST['search'];
             $query = $this->getEntityManager()->getRepository(\src\entity\Article::class);
             $query = $query->getArticleForSearch($search);
-
-
+            var_dump();
             $count = count($query);
             if ($count > 0) {
-                return [
-                    'results' => $query,
-                    'keyword' => $search,
-                    'general' => $this->getDefaultParams()
-                ];
+                return $this->responseArray(['result' => $query, 'keyword' => $search,]);
             }
         }
-        return [
-            'results' => [],
-            'keyword' => $search,
-            'general' => $this->getDefaultParams()
-        ];
+        return $this->responseArray(['keyword' => $search,]);
     }
 
     public function searchView($article)
@@ -109,9 +100,9 @@ class Filter extends AbstractController
         /** @var ArticleRepository $article */
 
         $article = $this->getEntityManager()->getRepository(\src\entity\Article::class);
-       $article = $article->getArticleFindById($article);
-       $count = count($article);
-       return [
+        $article = $article->getArticleFindById($article);
+        $count = count($article);
+        return [
             'article' => $article,
             'totalCount' => $count
         ];
@@ -124,16 +115,15 @@ class Filter extends AbstractController
         return ['category' => $query->getQuery()->getResult()];
     }
 
-    public function categoryView($pathname)
+    public function categoryView()
     {
+        $pathname = $this->getPathName(1);
         /** @var \src\repository\CategoriesRepository $result */
-
-        $result = $this->getEntityManager()->getRepository(\src\entity\Categories::class);
-        $result = $result->getCategoryFindName($pathname);
-        return [
-            'result' => $result,
-            'general' => $this->getDefaultParams()
-        ];
+        $query = $this->getEntityManager()->getRepository(\src\entity\Categories::class);
+        $result = $query->getCategoryFindName($pathname);
+        $cid = $result[0]->getId();
+        $articles = $this->getArticleFromCategory($cid);
+        return $this->responseArray(['articles' => $articles, 'pathname'=> $pathname]);
     }
 
 

@@ -10,9 +10,10 @@ class HomepageController extends AbstractController
     public function index()
     {
 
-        return [
-            'general' => $this->getDefaultParams()
-        ];
+        /** @var \src\repository\ArticleRepository $articleRepository */
+        $articleRepository = $this->getEntityManager()->getRepository(\src\entity\Article::class);
+        $articles = $articleRepository->getArticle(10);
+        return $this->responseArray(['articles'=>$articles]);
     }
 
 

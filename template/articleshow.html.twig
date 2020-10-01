@@ -1,0 +1,96 @@
+{% extends "base.html.twig" %}
+   {% block title %} {{ article.article.title }}{% endblock %}
+{% block body %}
+
+    <div class="container">
+        <div class="show-article-container p-10 mt-3">
+            <div class="show-article-head">
+                <img class="show-article-img" alt="" src="/img/{{ article.article.imagePath }} ">
+                <div class="show-article-title-container d-inline-block pl-5 align-middle">
+                    <span class="show-article-title ">{{ article.article.title }}</span>
+                    <br>
+                    <span class="align-left article-details"><img class="article-author-img rounded-circle"
+                                                                  src="https://robohash.org/{{ article.article.imagePath }}">
+            {{ article.article.getAuthor }} </span>
+                    <span class="pl-2 article-details">{{ article.article.createdAt|date }}</span>
+                    <span class="pl-2 article-details"><a
+                                href="/categories/{{ article.categories.name }}">Categories:{{ article.categories.name }}</a></span>
+                    {% for tag in article.tags %}
+                        <span class='badge badge-secondary'>{{ tag.tagname }}</span>
+                    {% endfor %}
+                </div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="article-text">
+                        {% autoescape false %}
+                            {{ article.article.content|raw }}
+                        {% endautoescape %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
+        <h3>{{ comment|length }} Comment...</h3>
+
+        <section class="content-item" id="comments">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                        {% if session.username != null %}
+                            <div class="comment-area">
+                                <form action="/comment" method="post">
+                                    <div class="comment-head">
+                                        <h3 class="pull-left">New Comment</h3>
+                                        <button type="submit" class="btn btn-normal pull-right">Submit</button>
+                                    </div>
+                                    <div class="comment-content">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="comment-image">
+                                                    <img class="img-responsive"
+                                                         src="https://robohash.org/{{ session.username }}" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <textarea class="form-control" name="commentcontent" id="message"
+                                                          placeholder="Your message"
+                                                          required=""></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="username" value="{{ session.username }}">
+                                    <input type="hidden" name="id" value="{{ article.article.id }}">
+                                    <input type="hidden" name="slug" value="{{ article.article.slug }}">
+                                </form>
+                            </div>
+                        {% endif %}
+                        {% for item in comment %}
+                            <div class="media">
+                                <a class="pull-left" href="#"><img class="media-object"
+                                                                   src="https://robohash.org/{{ item.username }}"
+                                                                   alt=""></a>
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{ item.username }}</h4>
+                                    <p>{{ item.content }}</p>
+                                    <ul class="list-unstyled list-inline media-detail pull-left">
+                                        <li><i class="fa fa-calendar"></i>{{ item.createdAt|date }}</li>
+                                    </ul>
+                                    <ul class="list-unstyled list-inline media-detail pull-right">
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

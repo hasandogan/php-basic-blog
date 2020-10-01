@@ -1,8 +1,10 @@
 <?php
+
 namespace src\entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use src\repository\ArticleRepository;
+
 /**
  * @ORM\Entity(repositoryClass="src\repository\ArticleRepository")
  * @ORM\Table(name="article")

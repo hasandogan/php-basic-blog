@@ -10,7 +10,18 @@ class ArticleController extends AbstractController
      */
     public function show($slug)
     {
-        return $slug;
+        $em = $this->getEntityManager();
+        $query = $em->getRepository(\src\entity\Article::class);
+        /** @var ArticleRepository $query */
+        $article = $query->findCompleteArticleDataArray($slug);
+        $cid = $article['article']->getId();
+        $comment = $em->getRepository(\src\entity\Comments::class);
+        /** @var CommentRepository $comments */
+        $comments = $comment->findArticleComments($cid);
+        return [
+            'article' => $article,
+            'comment' => $comments
+        ];
     }
 
     public function result($slug)
@@ -18,7 +29,7 @@ class ArticleController extends AbstractController
         if (!isset($slug)) {
             header('location:   /');
         }
-        /** @var ArticleRepository  $articleRepository */
+        /** @var ArticleRepository $articleRepository */
         $articleRepository = $this->getEntityManager()->getRepository(\src\entity\Article::class);
 
         return $articleRepository->findCompleteArticleDataArray($slug);
@@ -26,7 +37,7 @@ class ArticleController extends AbstractController
 
     public function comments($id)
     {
-        /** @var CommentRepository  $commentQuery */
+        /** @var CommentRepository $commentQuery */
         $commentQuery = $this->getEntityManager()->getRepository(\src\entity\Comments::class);
         return $commentQuery->findArticleComments($id);
     }

@@ -33,6 +33,7 @@ class ComposerStaticInit7f6bdc85029c217c626afbd075b8ec7b
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\String\\' => 25,
             'Symfony\\Component\\Console\\' => 26,
+            'Symfony\\Component\\Asset\\' => 24,
         ),
         'P' => 
         array (
@@ -99,6 +100,10 @@ class ComposerStaticInit7f6bdc85029c217c626afbd075b8ec7b
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Symfony\\Component\\Asset\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/asset',
         ),
         'Psr\\Container\\' => 
         array (

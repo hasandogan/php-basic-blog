@@ -5,6 +5,7 @@ namespace src\repository;
 use Doctrine\ORM\EntityRepository;
 use src\entity\Article;
 use src\entity\Categories;
+use src\entity\Tags;
 
 class ArticleRepository extends EntityRepository
 {
@@ -20,37 +21,37 @@ class ArticleRepository extends EntityRepository
             ->orderBy('a.slug', 'DESC')
             ->getQuery()
             ->getOneOrNullResult();
-        $id = $article->getId();
+        $articleId = $article->getId();
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder = $queryBuilder->select('c')
             ->from(\src\entity\ArticleCategories::class, 'c')
             ->where($queryBuilder->expr()->eq('c.articleid', ':articleid'))
             ->setMaxResults(1)
-            ->setParameter(':articleid', $id);
+            ->setParameter(':articleid', $articleId);
         $articleCategory = $queryBuilder->getQuery()->getOneOrNullResult();
-        $id =$articleCategory->getCategoriesId();
+        $id = $articleCategory->getCategoriesId();
         if ($articleCategory !== null) {
             $category = $this->getEntityManager()
                 ->getRepository(Categories::class)->find($id);
         }
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
-        $tags = $queryBuilder->select('t')->select('t')
-            ->from(\src\entity\Tags::class, 't')
-            ->where($queryBuilder->expr()->eq('t.articleid', ':articleid'))
-            ->setParameter(':articleid', $id)
-            ->getQuery()
-            ->getResult();
-        if (count($tags) > 0) {
+        $em = $this->getEntityManager();
+        $query = $em->createQueryBuilder();
+        $query = $query->select('t')
+            ->from(Tags::class, 't')
+            ->where(
+                $query
+                    ->expr()
+                    ->eq('t.articleid', ':articleid'))
+            ->setParameter(':articleid', $articleId);
+        $result = $query->getQuery()->getResult();
+        if (count($result) > 0) {
             $tagArray = [];
-            foreach ($tags as $tag) {
+            foreach ($result as $tag) {
                 $tagArray[] = $tag;
             }
         }
-        $rowArray = [];
-        $rowArray[] = $article;
-        $rowArray[] = $category;
-        $rowArray[] = $tagArray;
-        return $rowArray;
+
+        return ['article' => $article, 'categories' => $category, 'tags' => $tagArray];
     }
 
     public function getArticleFindById($articleIdList)
@@ -65,24 +66,26 @@ class ArticleRepository extends EntityRepository
         return $result = $query->getQuery()->getResult();
     }
 
-    public function getArticle()
+    public function getArticle($limit)
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $query = $queryBuilder
             ->select('arc')
             ->from(\src\entity\Article::class, 'arc')
             ->orderBy('arc.id', 'DESC')
-            ->setMaxResults(10);
+            ->setMaxResults($limit);
         return $query->getQuery()->getResult();
     }
-    public function getArticleForSearch($search){
-        $queryBuilder = $this->entityManager->createQueryBuilder();
+
+    public function getArticleForSearch($search)
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $query = $queryBuilder->select('s')
             ->from(\src\entity\Article::class, 's')
             ->where($queryBuilder->expr()->like('s.title', ':search'))
             ->orWhere($queryBuilder->expr()->like('s.content', ':search'))
             ->orWhere($queryBuilder->expr()->like('s.slug', ':search'))
             ->setParameter(':search', '%' . $search . '%');
-        return  $result = $query->getQuery()->getResult();
+        return $result = $query->getQuery()->getResult();
     }
 }

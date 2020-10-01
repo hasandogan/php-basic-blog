@@ -1,6 +1,9 @@
 <?php
+
 namespace src\entity;
+
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Entity(repositoryClass="\src\repository\ArticleCategoriesRepository")
  * @ORM\Table(name="article_categories")

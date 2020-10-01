@@ -5,6 +5,8 @@ namespace src\repository;
 
 use AbstractController;
 use Doctrine\ORM\EntityRepository;
+use src\entity\Comments;
+use function Doctrine\ORM\QueryBuilder;
 
 class CommentRepository extends EntityRepository
 {
@@ -39,6 +41,21 @@ class CommentRepository extends EntityRepository
         $queryBuilder = $queryBuilder->select('c')
             ->from(\src\entity\Comments::class, 'c')
             ->orderBy('c.id', 'DESC');
-      return  $comment = $queryBuilder->getQuery()->getResult();
+        return $comment = $queryBuilder->getQuery()->getResult();
     }
+
+    public function commentLike($id)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQueryBuilder();;
+        $query = $query->select('c')
+            ->from(Comments::class, 'c')
+            ->where($query->expr()->eq('c.id', ':id'))
+            ->setParameter(':id' ,$id);
+        $query->getQuery()->getResult();
+        /** @var Comments $query */
+        $cid = $query->getId();
+        return ['catid' =>  $cid];
+    }
+
 }

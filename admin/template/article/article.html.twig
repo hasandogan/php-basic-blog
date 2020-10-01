@@ -1,0 +1,63 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="h3 mb-2 text-gray-800">Article</h1>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Article</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>title</th>
+                            <th>slug</th>
+                            <th>author</th>
+                            <th>createdAt</th>
+                            <th>content</th>
+                            <th>updateAt</th>
+                            <th>edit</th>
+                            <th>delete</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>id</th>
+                            <th>title</th>
+                            <th>slug</th>
+                            <th>author</th>
+                            <th>createdAt</th>
+                            <th>content</th>
+                            <th>updateAt</th>
+                            <th>edit</th>
+                            <th>delete</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+
+                        {% for article in article %}
+                            <tr>
+                                <td>{{ article.id }}</td>
+                                <td>{{ article.title }}</td>
+                                <td><a href="/article/{{ article.slug }}">
+                                        {{ article.slug }}</a></td>
+                                <td>{{ article.author }}</td>
+                                <td>{{ article.createdAt|date }}</td>
+                                <td> {{ (article.content|striptags)[0:120] }}..</td>
+                                <td>{{ article.updateAt|date }}</td>
+                                <td><a href="editarticle/{{ article.id }}">edit</a></td>
+                                <td><a href="delete-article/{{ article.id }}">delete</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <a href="articlenew">
+                    <button type="button" class="btn btn-success">Add New Article</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

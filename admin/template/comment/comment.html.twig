@@ -1,0 +1,73 @@
+{% extends "../base.html.twig"%}
+{% block body %}
+<div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Comments</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>username</th>
+                                <th>content</th>
+                                <th>articleid</th>
+                                <th>article-slug</th>
+                                <th>createdAt</th>
+                                <th>confirmed</th>
+                                <th>delete</th>
+                                <th>confirm</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>id</th>
+                                <th>username</th>
+                                <th>content</th>
+                                <th>articleid</th>
+                                <th>article-slug</th>
+                                <th>createdAt</th>
+                                <th>confirmed</th>
+                                <th>delete</th>
+                                <th>confirm</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                                        {%  for value in comment %}
+                                    <tr>
+                                        <td>{{value.id}}</td>
+                                        <td>{{ value.username }}</td>
+                                        <td>{{value.content}}</td>
+                                        <td>{{value.articleid}}</td>
+
+                                        <td>
+                                            <a href="/article/{{value.articletitle}}">{{value.articletitle}}</a>
+                                        </td>
+                                        <td>{{value.creadetAt|date}}</td>
+                                        <td>{%  if value.confirmed == 1 %}
+                                                <i class="fa fa-check"></i>
+                                            {% else %}
+                                                <i class="fas fa-times"></i>
+                                            <?php } ?>
+                                        </td>
+                                                {% endif %}
+                                        <td><a href="Delete-comment/{{value.id}}">delete</a></td>
+                                        {%  if value.confirmed == 0 %}
+                                            <td><a href="confirm-comment/{{value.id}}">confirm</a></td>
+                                        {% else %}
+                                            <td>Already confirmed</td>
+                                        {% endif %}
+                                    </tr>
+                          {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<form action="addcategories" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="exampleFormControlInput1">categories</label>
+        <input type="text" class="form-control" name="categoriesname" placeholder="name">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">pagetitle</label>
+        <input type="text" class="form-control" name="pagetitle" placeholder="pagetitle">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1">metadesc</label>
+        <input type="text" class="form-control" name="metadesc" placeholder="metadesc">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">metakey</label>
+        <input type="text" class="form-control" name="metakey" placeholder="metakey">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlInput1">content</label>
+        <textarea id="summernote" name="content" placeholder="content"></textarea>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn-success">submit</button>
+    </div>
+{% endblock %}

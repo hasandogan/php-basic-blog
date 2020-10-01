@@ -10,14 +10,14 @@ $routers = [
         "class" => "HomepageController",
         "action" => "index",
         "type" => "normal",
-        "template" => "index.php"
+        "template" => "index.html.twig"
     ],
     "article_show" => [
         "url" => "article/([a-z0-9-?&]+)",
         "class" => "ArticleController",
         "action" => "show",
         "type" => "normal",
-        "template" => "articleshow.php"
+        "template" => "articleshow.html.twig"
     ],
     "check-login" => [
         "url" => "logincheck",
@@ -30,14 +30,14 @@ $routers = [
         "class" => "UserController",
         "action" => "login",
         "type" => "normal",
-        "template" => "/login.php"
+        "template" => "login.html.twig"
     ],
     "profile" => [
         "url" => "profile",
         "class" => "UserController",
-        "action" => "profile",
+        "action" => "profileResult",
         "type" => "normal",
-        "template" => "/profile.php"
+        "template" => "/profile.html.twig"
     ],
     "check-register" => [
         "url" => "check-register",
@@ -50,28 +50,28 @@ $routers = [
         "class" => "UserController",
         "action" => "register",
         "type" => "normal",
-        "template" => "/register.php"
+        "template" => "/register.html.twig"
     ],
     "tag" => [
         "url" => "tag/([a-z0-9-?&]+)",
         "class" => "Filter",
         "action" => "tag",
         "type" => "normal",
-        "template" => "index.php"
+        "template" => "index.html.twig"
     ],
     "category" => [
         "url" => "categories/([a-z0-9-?&]+)",
         "class" => "Filter",
         "action" => "categoryView",
         "type" => "normal",
-        "template" => "categories.php"
+        "template" => "categories.html.twig"
     ],
     "search" => [
         "url" => "search",
         "class" => "Filter",
         "action" => "search",
         "type" => "normal",
-        "template" => "search.php"
+        "template" => "search.html.twig"
     ],
     "logout" => [
         "url" => "logout",
@@ -85,12 +85,21 @@ $routers = [
         "class" => "CommentController",
         "action" => "addComment",
         "type" => "check",
-    ]
+    ],
+    "page" => [
+        "url" => "/page/(\d+)",
+        "class" => "ArticleController",
+        "action" => "pagination",
+        "type" => "check",
+        "template" => "index.html.twig"
+    ],
+
 ];
 
 foreach ($routers as $router) {
+
     $routerSlashed = str_replace("/", "\/", $router["url"]);
-    $result = preg_match("/" . $routerSlashed. "/", $uri, $matches);
+    $result = preg_match("/" . $routerSlashed . "/", $uri, $matches);
     if ($result == 1) {
         unset($matches[0]);
         if (count($matches) > 0) {
@@ -102,23 +111,35 @@ foreach ($routers as $router) {
                 $actionName = $router['action'];
                 $response = call_user_func_array(array($className, $actionName), $matches);
                 $templateFile = $router['template'];
-                $templateFilePath = __DIR__ . "/views/" . $templateFile;
+                $templateFilePath = __DIR__ . "/template/" . $templateFile;
+                $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . "/template/");
+                $twig = new \Twig\Environment($loader, [
+                    'debug' => true,
+                ]);
+                $twig->addGlobal('session', $_SESSION);
+                $twig->addExtension(new \Twig\Extension\DebugExtension());
+                if ($response != null) {
+
+                    echo $twig->render($templateFile, $response);
+                } else {
+                    echo $twig->render($templateFile);
+                }
                 if (!file_exists($templateFilePath)) {
                     echo "404";
                     exit;
                 }
-                require_once $templateFilePath;
             } else if ($router["type"] == "check") {
                 $className = new $router['class'];
                 $actionName = $router['action'];
                 $response = call_user_func_array(array($className, $actionName), $matches);
                 $templateFile = $router['template'];
-                $templateFilePath = __DIR__ . "/views/" . $templateFile;
+                $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . "/template/");
+                $twig = new \Twig\Environment($loader, []);
+                echo $twig->render($router['template'], $response);
                 if (!file_exists($templateFilePath)) {
                     echo "404";
                     exit;
                 }
-                require_once $templateFilePath;
             }
         } catch (\Exception $exception) {
             var_dump($exception->getMessage());

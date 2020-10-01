@@ -36,7 +36,7 @@ class UserRepository extends EntityRepository
         $em = $this->getEntityManager();
         $queryBuilder = $em->createQueryBuilder();
         $queryBuilder = $queryBuilder->select('u')->from(\src\entity\User::class, 'u');
-      return  $user = $queryBuilder->getQuery()->getResult();
+        return $user = $queryBuilder->getQuery()->getResult();
 
     }
 }
